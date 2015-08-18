@@ -41,7 +41,6 @@ public class DeviceInfoIQ extends IQ {
     /**锁定成功标志*/
     private String isLocked;
 
-
     /**设备厂商*/
     private String manufacturer;
 
