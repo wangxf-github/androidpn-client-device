@@ -39,12 +39,12 @@ public class DeviceInfoIQProvider implements IQProvider {
                 if ("wifiMac".equals(parser.getName())) {
                     deviceInfoIQ.setWifiMac(parser.nextText());
                 }
-                if ("longitude".equals(parser.getName())) {
-                    deviceInfoIQ.setLongitude(parser.nextText());
-                }
-                if ("latitude".equals(parser.getName())) {
-                    deviceInfoIQ.setLatitude(parser.nextText());
-                }
+//                if ("longitude".equals(parser.getName())) {
+//                    deviceInfoIQ.setLongitude(parser.nextText());
+//                }
+//                if ("latitude".equals(parser.getName())) {
+//                    deviceInfoIQ.setLatitude(parser.nextText());
+//                }
                 if ("reqFlag".equals(parser.getName())) {
                     deviceInfoIQ.setReqFlag(parser.nextText());
                 }
