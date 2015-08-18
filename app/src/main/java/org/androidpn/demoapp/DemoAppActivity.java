@@ -16,19 +16,40 @@
 package org.androidpn.demoapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import org.androidpn.client.ServiceManager;
+import org.androidpn.mydevice.BaseDeviceActivity;
+import org.androidpn.mydevice.DeviceSecurity;
 
 /**
  * This is an androidpn client demo application.
  * 
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public class DemoAppActivity extends Activity {
+public class DemoAppActivity extends BaseDeviceActivity {
+
+    private DeviceSecurity deviceSecurity = getDeviceManager().getDeviceSecurityInstance();
+    MyHandler handler ;
+
+    public class MyHandler extends Handler {
+        Activity activity;
+        public MyHandler(BaseDeviceActivity activity){}
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.e("where???","handler....");
+            Intent intent = new Intent(activity,myActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(intent);
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +68,7 @@ public class DemoAppActivity extends Activity {
              //   DemoAppActivity.this.startActivity(intent);
 //                Intent inten = new Intent("com.TEST");
 //                startActivity(inten);
+         //       deviceSecurity.masterClear(DemoAppActivity.this) ;
             }
         });
 
@@ -55,5 +77,15 @@ public class DemoAppActivity extends Activity {
         serviceManager.setNotificationIcon(R.drawable.notification);
         serviceManager.startService();
     }
+    public  MyHandler getHandlerInstance(){
+        if(handler==null){
+            synchronized(DemoAppActivity.class){
+                if(handler==null){
+                    handler=new MyHandler(DemoAppActivity.this);
+                }
+            }
+        }
+        return handler;
+}
 
 }

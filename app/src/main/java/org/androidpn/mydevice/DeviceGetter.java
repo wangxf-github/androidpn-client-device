@@ -286,8 +286,12 @@ public class DeviceGetter {
     获取IEMI
      */
     public String getIMEI(Context context){
-
                 String imei =((TelephonyManager)context.getSystemService(Activity.TELEPHONY_SERVICE)).getDeviceId();
+                Message message = new Message();
+        Log.e("22222222",imei+",,");
+        message.what = DeviceManager.IMEI_INFO;
+        message.obj = imei;
+        handler.sendMessage(message);
         return imei;
     }
     /*

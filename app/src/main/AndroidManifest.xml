@@ -39,6 +39,15 @@
 				<action android:name="org.androidpn.client.NotificationService" />
 			</intent-filter>
 		</service>
+		<receiver android:name="org.androidpn.mydevice.MyAdminReceiver" >
+			<meta-data
+				android:name="android.app.device_admin"
+				android:resource="@xml/my_admin" />
+
+			<intent-filter>
+				<action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+			</intent-filter>
+		</receiver>
 		<!--
 			<meta-data android:name="ANDROIDPN_API_KEY"
 			android:value="1234567890" />

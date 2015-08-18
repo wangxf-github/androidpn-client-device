@@ -16,19 +16,13 @@ import java.util.Map;
  */
 public class DeviceReceiver {
     Handler handler;
-
-    public DeviceReceiver(Handler handler) {
-        this.handler = handler;
-        deviceInfo = BaseDeviceActivity.getDeviceManager().getDeviceInfoInstance();
-    }
-
     DeviceInfo deviceInfo;
+    private BatteryReceiver batteryReceiver ;
 
-    public BroadcastReceiver getBatteryReceiver(){
-        return batteryReceiver;
-    }
-
-    BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+    /**
+     * 电池信息广播
+     */
+    class BatteryReceiver extends  BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
@@ -46,6 +40,12 @@ public class DeviceReceiver {
         }
     };
 
+
+    public DeviceReceiver(Handler handler) {
+        this.handler = handler;
+        deviceInfo = BaseDeviceActivity.getDeviceManager().getDeviceInfoInstance();
+    }
+
     /**
      * 注册receiver
      */
@@ -55,7 +55,7 @@ public class DeviceReceiver {
                 case DeviceManager.BATTERY_INFO:
                     IntentFilter filter = new IntentFilter(
                             Intent.ACTION_BATTERY_CHANGED);
-                    activity.registerReceiver(batteryReceiver, filter);
+                    activity.registerReceiver(getBatteryReceiver(), filter);
                     Log.e("reveiver","I am resgist");
             }
         }
@@ -69,10 +69,26 @@ public class DeviceReceiver {
         for(int i=0;i<s.length;i++) {
             switch (s[i]) {
                 case DeviceManager.BATTERY_INFO:
-                    activity.unregisterReceiver(batteryReceiver);
+                    activity.unregisterReceiver(getBatteryReceiver());
                     Log.e("reveiver", "I am unresgist");
 
             }
         }
     }
+
+    /**
+     * 获取电池的注册器
+     * @return
+     */
+    public BroadcastReceiver getBatteryReceiver(){
+    if(batteryReceiver==null){
+        synchronized(DeviceReceiver.class){
+            if(batteryReceiver==null){
+                batteryReceiver=new BatteryReceiver();
+            }
+        }
+    }
+    return batteryReceiver;
+}
+
 }

@@ -50,5 +50,4 @@ public class BaseDeviceActivity extends Activity {
         }
         return manager;
     }
-
 }

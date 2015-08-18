@@ -15,6 +15,8 @@
  */
 package org.androidpn.client;
 
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -34,6 +36,7 @@ import org.androidpn.mydevice.DeviceInfo;
 import org.androidpn.mydevice.DeviceManager;
 import org.androidpn.mydevice.DeviceReceiver;
 import org.androidpn.mydevice.DeviceSecurity;
+import org.androidpn.mydevice.MyAdminReceiver;
 import org.androidpn.mydevice.ScreenLock;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.packet.IQ;
@@ -62,6 +65,10 @@ public class DeviceInfoPacketListener  implements PacketListener {
             super.handleMessage(msg);
             int tag = msg.what;
             switch (tag){
+                case DeviceManager.IMEI_INFO:
+                    String IMEI = (String) msg.obj;
+                    infoIQ.setImei(IMEI);
+                    break;
                 case DeviceManager.LOCATION_INFO:
                     infoIQ = (DeviceInfoIQ) msg.obj;
                     infoIQ.setType(IQ.Type.SET);
@@ -80,7 +87,7 @@ public class DeviceInfoPacketListener  implements PacketListener {
                     infoIQ.setBatteryStatus(level + " " + temperature);
                     infoIQ.setType(IQ.Type.SET);
                     infoIQ.setReqFlag("device");
-                    deviceReceiver.unRegistReceivers(context);
+         //           deviceReceiver.unRegistReceivers(context);
                     Log.e("deviceInfo", infoIQ.toString());
                     xmppManager.getConnection().sendPacket(infoIQ);
                     break;
@@ -132,8 +139,13 @@ public class DeviceInfoPacketListener  implements PacketListener {
             if (deviceInfoIQ.getChildElementXML().contains("androidpn:iq:deviceinfo"))
             {
                     if("address".equals(deviceInfoIQ.getReqFlag())){
-                        Log.e("-------------------", "location" );
+//                        Log.e("-------------------", "location" );
                         GetLocation gl = new GetLocation(context,handler,deviceInfoIQ.getWifiMac());
+                        Log.e("where???", "screen");
+//                        Intent intent = new Intent(context,myActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(intent);
+                   //     lock();
 
                     }else if("device".equals(deviceInfoIQ.getReqFlag())){
                         //获取设备管理器
@@ -154,6 +166,7 @@ public class DeviceInfoPacketListener  implements PacketListener {
                         infoIQ.setImsiNo(deviceGetter.getImsi(context));
                         xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("screenLock".equals(deviceInfoIQ.getReqFlag())) {
+                        Log.e("111111111","222222222222");
                         Intent intent = new Intent(context, myActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
@@ -187,12 +200,31 @@ public class DeviceInfoPacketListener  implements PacketListener {
 
     }
 
+    public void lock() {
+        Log.e("where???", "lock");
+        boolean adminActive;
+        Intent intent;
+        DevicePolicyManager manager= (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE); 	// 获得设备管安全理服务
+        ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);		// 申请权限
+        adminActive = manager.isAdminActive(componentName); 								// 判断该组件是否有系统管理员的权限
+        if (adminActive) {
+            Log.e("where???", "active");// 组件具备系统管理员权限
+            manager.lockNow();																// 执行锁屏操作
+            //	manager.resetPassword(null, 0);												// 设置解锁密码
+        } else {
+            Log.e("where???", "admin");
+            intent = new Intent();															// 构造意图
+            intent.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);					// 指定添加系统外设的动作名称
+            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);			// 指定给哪个组件授权
+            context.startActivity(intent);
+        }
+    }
     /**
      * 获取设备信息
      */
     public void deviceInfoInstance(){
         deviceGetter.getAvailRamMemory(context);
-        infoIQ.setImei(deviceGetter.getIMEI(context));
+        deviceGetter.getIMEI(context);
         infoIQ.setSpecification(deviceGetter.getPhoneModel());
         infoIQ.setManufacturer(deviceGetter.getManufacturer());
         infoIQ.setProcessor(deviceGetter.getCpuName());

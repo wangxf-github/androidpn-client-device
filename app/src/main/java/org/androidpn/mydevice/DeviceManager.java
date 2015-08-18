@@ -10,7 +10,7 @@ public class DeviceManager {
 
     public static final int BATTERY_INFO =1;
     public static final int AvailRamMemory_INFO = 2;
-    public static final int IEMI_INFO = 3;
+    public static final int IMEI_INFO = 3;
     public static final int LOCATION_INFO = 4;
 
 
