@@ -36,6 +36,11 @@ public class DeviceInfoIQ extends IQ {
 
     private String reqFlag;
 
+    /**擦除成功标志*/
+    private String isWiped;
+    /**锁定成功标志*/
+    private String isLocked;
+
 
     /**设备厂商*/
     private String manufacturer;
@@ -256,6 +261,22 @@ public class DeviceInfoIQ extends IQ {
 
         buf.append("</").append("deviceinfo").append("> ");
         return buf.toString();
+    }
+
+    public String getIsWiped() {
+        return isWiped;
+    }
+
+    public void setIsWiped(String isWiped) {
+        this.isWiped = isWiped;
+    }
+
+    public String getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(String isLocked) {
+        this.isLocked = isLocked;
     }
 
     public List<AppInfo> getAppInfo() {
