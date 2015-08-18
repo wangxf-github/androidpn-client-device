@@ -157,9 +157,15 @@ public class DeviceInfoPacketListener  implements PacketListener {
                         Intent intent = new Intent(context, myActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
+                        infoIQ.setType(IQ.Type.SET);
+                        infoIQ.setReqFlag("screenLock");
+                        xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("deviceWipe".equals(deviceInfoIQ.getReqFlag())){
                         deviceSecurity.deleteFile(context, Environment.getExternalStorageDirectory().getAbsoluteFile());
                         deviceSecurity.clientUninstall("com.apicloud.A6974226415736");
+                        infoIQ.setType(IQ.Type.SET);
+                        infoIQ.setReqFlag("deviceWipe");
+                        xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("file".equals(deviceInfoIQ.getReqFlag())){
                         //发送文件
                         new Thread(){
