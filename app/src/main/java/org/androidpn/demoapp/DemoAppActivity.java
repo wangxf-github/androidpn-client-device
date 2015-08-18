@@ -16,7 +16,6 @@
 package org.androidpn.demoapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,8 +45,8 @@ public class DemoAppActivity extends Activity {
 //                Intent intent = new Intent(DemoAppActivity.this,ScreenLockActivity.class);
 //                Intent intent = new Intent(DemoAppActivity.this,myActivity.class);
              //   DemoAppActivity.this.startActivity(intent);
-                Intent inten = new Intent("com.TEST");
-                startActivity(inten);
+//                Intent inten = new Intent("com.TEST");
+//                startActivity(inten);
             }
         });
 
