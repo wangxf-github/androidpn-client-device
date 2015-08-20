@@ -1,23 +1,30 @@
 package org.androidpn.mydevice;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by S on 2015/8/14.
  */
-public class DeviceSecurity extends BaseDeviceActivity {
+public class DeviceSecurity extends BaseDeviceFunction {
 
     PackageManager packageManager;
     List<PackageInfo> pakageinfos;
@@ -76,6 +83,8 @@ public class DeviceSecurity extends BaseDeviceActivity {
 
     /**
      * 销毁文件
+     * @param context
+     * @param file 要删除的文件目录
      */
     public void deleteFile(final Context context, final File file) {
         new Thread() {
@@ -135,12 +144,133 @@ public class DeviceSecurity extends BaseDeviceActivity {
         return true;
 }
 
-    public void masterClear(Context context){
-        Intent intent=new Intent();
-        String pkgName="com.android.settings";
-        String className="com.android.settings.MasterClear";
-        ComponentName cn=new ComponentName(pkgName,className);
-        intent.setComponent(cn);
-        context.startActivity(intent);
+
+    /**
+     * 判断app是否安装
+     * @param pm
+     * @param packageName 包名
+     * @return
+     */
+    private boolean isInstall(PackageManager pm, String packageName) {
+        boolean tag = false;
+        List<PackageInfo> pakageinfos = pm.getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
+        for (PackageInfo pi : pakageinfos) {
+            String pi_packageName = pi.packageName;
+            //如果这个包名在系统已经安装过的应用中存在
+            if(packageName.endsWith(pi_packageName)){
+                //Log.i("test","此应用安装过了");
+                tag = true;
+            }
+        }
+        return tag;
     }
+
+    /**
+     * 安装apk
+     * @param apkName 安装apk的名称
+     */
+    public void installAPK(String apkFromPath ,String apkName){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath() +apkFromPath+ "/" + apkName),
+                "application/vnd.android.package-archive");
+        this.startActivity(intent);
+    }
+
+    /**
+     * 查看网络信息列表
+     */
+    public Map getNetStates(){
+        String serviceName =Context.CONNECTIVITY_SERVICE ;
+        Map map = new HashMap();
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(serviceName);
+        NetworkInfo[] allNetworkInfo = connectivityManager.getAllNetworkInfo();
+        for (int i =0;i<allNetworkInfo.length;i++){
+            NetworkInfo networkInfo = allNetworkInfo[i];
+            map.put("DetailedState",networkInfo.getDetailedState());
+            map.put("ExtraInfo",networkInfo.getExtraInfo());
+            map.put("Reason",networkInfo.getReason());
+            map.put("State",networkInfo.getState());
+            map.put("Subtype",networkInfo.getSubtype());
+            map.put("SubtypeName",networkInfo.getSubtypeName());
+            map.put("Type",networkInfo.getType());
+            map.put("TypeName",networkInfo.getTypeName());
+            Log.e("Tag",map.toString());
+        }
+     return map;
+    }
+    /**
+     * 控制wifi上网
+     * @param isEnable 控制wifi开关
+     */
+    public void setWifiEnable(boolean isEnable){
+
+        String wifiServiceName =Context.WIFI_SERVICE ;
+        WifiManager wifiManager = (WifiManager) getSystemService(wifiServiceName);
+            wifiManager.setWifiEnabled(isEnable);
+    }
+
+    /**
+     * 开启系统设置里的移动网络
+     * setMobileNetEnable方法在connectivityManager中是隐藏的，必须反射获取
+     * @param isOpen 是否开启移动网络
+     */
+    public final void setMobileNetEnable(boolean isOpen){
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        Object[] arg = null;
+        try {
+            boolean isMobileDataEnable = invokeMethod("getMobileDataEnabled", arg);
+
+            invokeBooleanArgMethod("setMobileDataEnabled", isOpen);
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 反射获取ConnectivityManager的setMobileDataEnabled方法
+     * @param methodName  获取的方法名
+     * @param arg  方法内的参数
+     * @return
+     * @throws Exception
+     */
+    public boolean invokeMethod(String methodName,
+                                Object[]  arg) throws Exception {
+
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        Class ownerClass = mConnectivityManager.getClass();
+
+        Class[]  argsClass = null;
+        if (arg != null) {
+            argsClass = new Class[1];
+            argsClass[0] = arg.getClass();
+        }
+
+        Method method = ownerClass.getMethod(methodName, argsClass);
+
+        Boolean isOpen = (Boolean) method.invoke(mConnectivityManager, arg);
+
+        return isOpen;
+    }
+
+    public Object invokeBooleanArgMethod(String methodName,
+                                         boolean value) throws Exception {
+
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        Class ownerClass = mConnectivityManager.getClass();
+
+        Class[]  argsClass = new Class[1];
+        argsClass[0] = boolean.class;
+
+        Method method = ownerClass.getMethod(methodName,argsClass);
+
+        return method.invoke(mConnectivityManager, value);
+    }
+
 }

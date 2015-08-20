@@ -6,6 +6,7 @@ import android.app.KeyguardManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.hardware.Camera;
@@ -36,27 +37,22 @@ import java.util.UUID;
 /**
  * Created by S on 2015/7/20.
  */
-public class DeviceGetter {
+public class DeviceGetter extends BaseDeviceFunction{
 
-    private int[] s ;
     Handler handler ;
     BroadcastReceiver batteryReceiver;
     DeviceInfo deviceInfo;
     DeviceManager deviceManager;
-    DeviceReceiver deviceReceiver;
-    int[] registers;
+
     public DeviceGetter(Handler handler) {
         this.handler = handler;
         initData();
     }
 
     public void initData(){
-        batteryReceiver = MainActivity.getDeviceManager().getDeviceReceiverInstance(handler).getBatteryReceiver();
-        deviceManager = MainActivity.getDeviceManager();
-        deviceReceiver = deviceManager.getDeviceReceiverInstance(handler);
+        deviceManager =getDeviceManagerInstance();
+        batteryReceiver = deviceManager.getBatteryReceiver(handler);
         deviceInfo =deviceManager.getDeviceInfoInstance();
-        registers =new int[]{DeviceManager.BATTERY_INFO};
-        deviceInfo.setRegisters(registers);
     }
     //手机型号
     public String getPhoneModel() {
@@ -267,7 +263,8 @@ public class DeviceGetter {
 获取电池信息
  */
     public void getBatteryInfo(Context activity){
-        deviceReceiver.registReceivers(activity,deviceInfo.getRegisters());
+        String[]  action = {Intent.ACTION_BATTERY_CHANGED};
+        deviceManager.registReceivers(activity,batteryReceiver, action);
     }
 
     /**

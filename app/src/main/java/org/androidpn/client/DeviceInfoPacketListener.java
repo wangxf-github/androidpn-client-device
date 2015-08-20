@@ -15,34 +15,23 @@
  */
 package org.androidpn.client;
 
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.telephony.TelephonyManager;
+import android.os.Bundle;
 import android.util.Log;
 
-import org.androidpn.demoapp.myActivity;
+import org.androidpn.demoapp.ScreenLockActivity;
+import org.androidpn.mydevice.BaseDeviceFunction;
 import org.androidpn.mydevice.DeviceGetter;
-import org.androidpn.mydevice.DeviceInfo;
+import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
-import org.androidpn.mydevice.DeviceReceiver;
+import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
+import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
 import org.androidpn.mydevice.DeviceSecurity;
-import org.androidpn.mydevice.MyAdminReceiver;
-import org.androidpn.mydevice.ScreenLock;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Packet;
-
-import java.util.Map;
 
 import mylocation.GetLocation;
 import update.Client;
@@ -53,112 +42,48 @@ import update.Client;
  *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public class DeviceInfoPacketListener  implements PacketListener {
+public class DeviceInfoPacketListener extends BaseDeviceFunction implements PacketListener {
 
     private DeviceInfoIQ infoIQ = null;
-    private DeviceInfo deviceInfo;
+    private XmppManager xmppManager;
+    DeviceHandler handler = new DeviceHandler(xmppManager,infoIQ);
+    private DeviceManager deviceManager;
+    private DeviceGetter deviceGetter ;
+    private DeviceSecurity deviceSecurity;
+    private BatteryReceiver batteryReceiver ;
+    private BootReceiver bootReceiver;
 
-    //异步getLocation
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int tag = msg.what;
-            switch (tag){
-                case DeviceManager.IMEI_INFO:
-                    String IMEI = (String) msg.obj;
-                    infoIQ.setImei(IMEI);
-                    break;
-                case DeviceManager.LOCATION_INFO:
-                    infoIQ = (DeviceInfoIQ) msg.obj;
-                    infoIQ.setType(IQ.Type.SET);
-                    Log.e("location", msg.obj.toString());
-                    infoIQ.setReqFlag("address");
-                    xmppManager.getConnection().sendPacket(infoIQ);
-                    break;
-                case DeviceManager.AvailRamMemory_INFO:
-                    infoIQ.setRamSize(msg.obj.toString());
-                    break;
-                case DeviceManager.BATTERY_INFO:
-                    Map map = (Map)msg.obj;
-                    String level = (String) map.get("level");
-                    String temperature = (String) map.get("temperature");
-                    //TODO添加电池信息
-                    infoIQ.setBatteryStatus(level + " " + temperature);
-                    infoIQ.setType(IQ.Type.SET);
-                    infoIQ.setReqFlag("device");
-         //           deviceReceiver.unRegistReceivers(context);
-                    Log.e("deviceInfo", infoIQ.toString());
-                    xmppManager.getConnection().sendPacket(infoIQ);
-                    break;
-
-            }
-
-        }
-    };
-    private DeviceManager deviceManager = new DeviceManager();
-    private DeviceGetter deviceGetter = deviceManager.getDeviceGetterInstance(handler);
-    private DeviceReceiver deviceReceiver = deviceManager.getDeviceReceiverInstance(handler);
-    private DeviceSecurity deviceSecurity = deviceManager.getDeviceSecurityInstance();
-    private TelephonyManager telephonyManager;
-    private ScreenLock screenLock;
-    private WifiManager wifiManager;
-
-    private ConnectivityManager connectivityManager;
-
-    private LocationManager lm;
-
-    private LocationListener mLocationListener;
 
     private static final String LOGTAG = LogUtil
             .makeLogTag(DeviceInfoPacketListener.class);
 
-    private final XmppManager xmppManager;
-
     private Context context;
 
-    private boolean looperFlag = false;
 
     public DeviceInfoPacketListener(XmppManager xmppManager,Context context) {
         this.xmppManager = xmppManager;
         this.context = context;
     }
 
-//
 
     @Override
     public void processPacket(Packet packet) {
         Log.d(LOGTAG, "NotificationPacketListener.processPacket()...");
         Log.d(LOGTAG, "packet.toXML()=" + packet.toXML());
-        screenLock = deviceManager.getDeviceScreenLockInstance();
-        if(infoIQ == null)
-            infoIQ = new DeviceInfoIQ();
+        initDatas();
         if (packet instanceof DeviceInfoIQ) {
             DeviceInfoIQ deviceInfoIQ = (DeviceInfoIQ) packet;
 
             if (deviceInfoIQ.getChildElementXML().contains("androidpn:iq:deviceinfo"))
             {
                     if("address".equals(deviceInfoIQ.getReqFlag())){
-//                        Log.e("-------------------", "location" );
+                        Log.e("-------------------", "location" );
+                        //获取地理位置
                         GetLocation gl = new GetLocation(context,handler,deviceInfoIQ.getWifiMac());
-                        Log.e("where???", "screen");
-//                        Intent intent = new Intent(context,myActivity.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        context.startActivity(intent);
-                   //     lock();
-
                     }else if("device".equals(deviceInfoIQ.getReqFlag())){
-                        //获取设备管理器
-                        deviceInfo = deviceManager.getDeviceInfoInstance();
                         //获取设备信息
                         deviceInfoInstance();
-//                        xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("validate".equals(deviceInfoIQ.getReqFlag())) {
-//                        deviceSecurity.deleteFile(context,Environment.getExternalStorageDirectory().getAbsoluteFile());
-//                        deviceSecurity.clientUninstall("");
-//                        List appInfos = deviceSecurity.getApp(context);
-//                        infoIQ.setAppInfo(appInfos);
-//                        xmppManager.getConnection().sendPacket(infoIQ);
                         infoIQ.setType(IQ.Type.SET);
                         infoIQ.setReqFlag("validate");
                         infoIQ.setDeviceOS(deviceGetter.getVersion()[3] + " " + deviceGetter.getVersion()[1]);
@@ -166,17 +91,22 @@ public class DeviceInfoPacketListener  implements PacketListener {
                         infoIQ.setImsiNo(deviceGetter.getImsi(context));
                         xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("screenLock".equals(deviceInfoIQ.getReqFlag())) {
-                        Log.e("111111111","222222222222");
-                        Intent intent = new Intent(context, myActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        //锁屏及修改密码
+                        deviceLockOrWipe(DeviceManager.SCREEN_LOCK,"123456");
+
                         infoIQ.setType(IQ.Type.SET);
                         infoIQ.setReqFlag("screenLock");
                         infoIQ.setIsLocked("1");
                         xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("deviceWipe".equals(deviceInfoIQ.getReqFlag())){
-                        deviceSecurity.deleteFile(context, Environment.getExternalStorageDirectory().getAbsoluteFile());
+                        //删除数据
+//                        deviceSecurity.deleteFile(context, Environment.getExternalStorageDirectory().getAbsoluteFile());
+
+                        //卸载应用
+                        String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
+                        deviceManager.registReceivers(context,bootReceiver,action);
                         deviceSecurity.clientUninstall("com.apicloud.A6974226415736");
+
                         infoIQ.setType(IQ.Type.SET);
                         infoIQ.setReqFlag("deviceWipe");
                         infoIQ.setIsWiped("1");
@@ -200,25 +130,6 @@ public class DeviceInfoPacketListener  implements PacketListener {
 
     }
 
-    public void lock() {
-        Log.e("where???", "lock");
-        boolean adminActive;
-        Intent intent;
-        DevicePolicyManager manager= (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE); 	// 获得设备管安全理服务
-        ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);		// 申请权限
-        adminActive = manager.isAdminActive(componentName); 								// 判断该组件是否有系统管理员的权限
-        if (adminActive) {
-            Log.e("where???", "active");// 组件具备系统管理员权限
-            manager.lockNow();																// 执行锁屏操作
-            //	manager.resetPassword(null, 0);												// 设置解锁密码
-        } else {
-            Log.e("where???", "admin");
-            intent = new Intent();															// 构造意图
-            intent.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);					// 指定添加系统外设的动作名称
-            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);			// 指定给哪个组件授权
-            context.startActivity(intent);
-        }
-    }
     /**
      * 获取设备信息
      */
@@ -231,33 +142,23 @@ public class DeviceInfoPacketListener  implements PacketListener {
         infoIQ.setRomAvailableSize(deviceGetter.getAvailableRomMemroy() + "");
         infoIQ.setRomSize(deviceGetter.getTotalInternalMemorySize() + "");
         infoIQ.setDeviceOS(deviceGetter.getVersion()[3] + " " + deviceGetter.getVersion()[1]);
-//                        infoIQ.setSystemVersion(deviceGetter.getVersion()[3]+"");
-//                        infoIQ.setSoftWateVersion(deviceGetter.getVersion()[1]+"");
-        //                    infoIQ.setScreenHeight(deviceGetter.getDisplayMetrics(DeviceInfoPacketListener.this)[0]);
-        //                    infoIQ.setScreenWidth(deviceGetter.getDisplayMetrics(DeviceInfoPacketListener.this)[1]);
         infoIQ.setDisplaySize(deviceGetter.getDisplayMetrics(context)[1] + " * " + deviceGetter.getDisplayMetrics(context)[0]);
         infoIQ.setSdSize(deviceGetter.getAllSDSize() + "");
         infoIQ.setSdAvailableSize(String.valueOf(deviceGetter.getAvailaleSDSize()));
         infoIQ.setIsHasCamera(deviceGetter.getCamera() + "");
         infoIQ.setBlueToothMac(deviceGetter.getBluetoothMac());
-
         infoIQ.setWifiMac(deviceGetter.getLocalMacAddress(context));
-
         infoIQ.setUdid(deviceGetter.getUdid(context));
         infoIQ.setSdSerialNo(deviceGetter.getSDSerial());
-
         infoIQ.setIsRoot(deviceGetter.isRoot() + "");
         infoIQ.setBatteryLife(deviceGetter.getUpTime(context) + "");
         infoIQ.setIsLock(deviceGetter.getScreenLock(context) + "");
-
         infoIQ.setDeviceMobileNo(deviceGetter.getNativePhoneNumber(context));
         infoIQ.setMobileOperator(deviceGetter.getProvidersName(context));
-        Log.e("-------------------", "device4");
         infoIQ.setImsiNo(deviceGetter.getImsi(context));
         infoIQ.setIsRoaming(deviceGetter.getPhoneRoamState(context) + "");
         infoIQ.setSimFlow(deviceGetter.getTotalBytes()[0] + "");
         infoIQ.setWifiFlow((deviceGetter.getTotalBytes()[1] - deviceGetter.getTotalBytes()[0]) + "");
-        Log.e("deviceInfo", "=====================");
         deviceGetter.getBatteryInfo(context);
         Log.e("deviceInfo", infoIQ.toString());
         infoIQ.setType(IQ.Type.SET);
@@ -284,5 +185,29 @@ public class DeviceInfoPacketListener  implements PacketListener {
         return criteria;
     }
 
+    /**
+     * 进行锁屏，修改锁屏密码和恢复出厂设置
+     * @param tag 标志是否锁屏或者恢复出厂值设置
+     * @param password 锁屏密码
+     */
+    private void deviceLockOrWipe(int tag,String password){
+        Intent intent = new Intent(context, ScreenLockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence("password", password);
+        bundle.putInt("tag", tag);
+        intent.putExtras(bundle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
+
+    public void initDatas(){
+        infoIQ = new DeviceInfoIQ();
+        handler = new DeviceHandler(xmppManager,infoIQ);
+        deviceManager =getDeviceManagerInstance() ;
+        deviceSecurity = deviceManager.getDeviceSecurityInstance();
+        batteryReceiver = deviceManager.getBatteryReceiver(handler);
+        bootReceiver = deviceManager.getBootReceiver();
+        deviceGetter = deviceManager.getDeviceGetterInstance(handler);
+    }
 }

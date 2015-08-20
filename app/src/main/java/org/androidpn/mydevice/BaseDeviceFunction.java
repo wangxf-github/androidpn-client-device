@@ -6,7 +6,7 @@ import android.os.Bundle;
 /**
  * Created by S on 2015/7/27.
  */
-public class BaseDeviceActivity extends Activity {
+public class BaseDeviceFunction extends Activity {
 
     private  static DeviceManager manager = null;
 
@@ -36,13 +36,14 @@ public class BaseDeviceActivity extends Activity {
     public void viewListener(){
 
     }
+
     /**
      * 获取设备管理器
      * @return
      */
-    public static  DeviceManager getDeviceManager(){
+    public DeviceManager getDeviceManagerInstance(){
         if(manager==null){
-            synchronized(DeviceManager.class){
+            synchronized(BaseDeviceFunction.class){
                 if(manager==null){
                     manager=new DeviceManager();
                 }
@@ -50,4 +51,5 @@ public class BaseDeviceActivity extends Activity {
         }
         return manager;
     }
+
 }
