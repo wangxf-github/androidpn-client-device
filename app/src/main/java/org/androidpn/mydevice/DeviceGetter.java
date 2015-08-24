@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.bluetooth.BluetoothAdapter;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,13 +16,14 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.Message;
 import android.os.StatFs;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+
+import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,32 +39,18 @@ import java.util.UUID;
  */
 public class DeviceGetter extends BaseDeviceFunction{
 
-    Handler handler ;
-    BroadcastReceiver batteryReceiver;
-    DeviceInfo deviceInfo;
-    DeviceManager deviceManager;
-
-    public DeviceGetter(Handler handler) {
-        this.handler = handler;
-        initData();
+    public DeviceGetter() {
     }
 
-    public void initData(){
-        deviceManager =getDeviceManagerInstance();
-        batteryReceiver = deviceManager.getBatteryReceiver(handler);
-        deviceInfo =deviceManager.getDeviceInfoInstance();
-    }
     //手机型号
     public String getPhoneModel() {
         String model = Build.MODEL;
-        deviceInfo.setPhoneModle(model);
         return model;
     }
 
     //手机厂商
     public String getManufacturer() {
         String manufacturer = Build.MANUFACTURER;
-        deviceInfo.setManufacturer(manufacturer);
         return manufacturer;
     }
 
@@ -79,7 +65,6 @@ public class DeviceGetter extends BaseDeviceFunction{
             String[] array = text.split(":\\s+", 2);
             for (int i = 0; i < array.length; i++) {
             }
-            deviceInfo.setCpuName(array[1]);
             return array[1];
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -119,7 +104,6 @@ public class DeviceGetter extends BaseDeviceFunction{
         long blockSize = stat.getBlockSize();
         long availableBlocks = stat.getAvailableBlocks();
         romInfo[1] = blockSize * availableBlocks;
-        deviceInfo.setAvailRom(romInfo[1]);
         return romInfo[1];
     }
 
@@ -162,9 +146,12 @@ public class DeviceGetter extends BaseDeviceFunction{
      */
     public void getAvailRamMemory(final Context context) {
 
+
         new Thread(){
             @Override
             public void run() {
+                DeviceHandler handler = new DeviceHandler();
+                DeviceManager deviceManager =getDeviceManagerInstance();
                 ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
                 ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
                 am.getMemoryInfo(mi);
@@ -263,6 +250,8 @@ public class DeviceGetter extends BaseDeviceFunction{
 获取电池信息
  */
     public void getBatteryInfo(Context activity){
+        DeviceManager deviceManager =getDeviceManagerInstance();
+        BatteryReceiver batteryReceiver = deviceManager.getBatteryReceiver();
         String[]  action = {Intent.ACTION_BATTERY_CHANGED};
         deviceManager.registReceivers(activity,batteryReceiver, action);
     }
@@ -284,11 +273,7 @@ public class DeviceGetter extends BaseDeviceFunction{
      */
     public String getIMEI(Context context){
                 String imei =((TelephonyManager)context.getSystemService(Activity.TELEPHONY_SERVICE)).getDeviceId();
-                Message message = new Message();
         Log.e("22222222",imei+",,");
-        message.what = DeviceManager.IMEI_INFO;
-        message.obj = imei;
-        handler.sendMessage(message);
         return imei;
     }
     /*

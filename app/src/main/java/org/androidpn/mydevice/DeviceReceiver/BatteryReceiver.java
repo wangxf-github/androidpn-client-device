@@ -7,10 +7,10 @@ package org.androidpn.mydevice.DeviceReceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
 
 import java.util.HashMap;
@@ -21,12 +21,11 @@ import java.util.Map;
  */
 public class BatteryReceiver extends BroadcastReceiver {
 
-    Handler handler;
-    public BatteryReceiver(Handler handler){
-        this.handler = handler;
-    }
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        DeviceHandler handler = new DeviceHandler();
         if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
             int level = intent.getIntExtra("level", 0);
             int temperature = intent.getIntExtra("temperature", 0);

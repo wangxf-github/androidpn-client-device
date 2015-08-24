@@ -18,10 +18,11 @@ import org.androidpn.mydevice.DeviceManager;
  */
 public class BootReceiver extends BroadcastReceiver {
 
-DeviceHandler handler = new DeviceHandler();
+
 
     @Override
     public void onReceive(Context context, Intent intent){
+        DeviceHandler handler = new DeviceHandler();
         Log.e("aaaaaaaaaaaaaaa","ssssssssssssssss");
         //接收安装广播
         if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {

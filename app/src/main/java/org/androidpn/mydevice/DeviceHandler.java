@@ -5,6 +5,7 @@ import android.os.Message;
 import android.util.Log;
 
 import org.androidpn.client.DeviceInfoIQ;
+import org.androidpn.client.DeviceInfoPacketListener;
 import org.androidpn.client.XmppManager;
 import org.jivesoftware.smack.packet.IQ;
 
@@ -18,11 +19,9 @@ public class DeviceHandler  extends Handler{
     private  XmppManager xmppManager;
     private DeviceInfoIQ infoIQ = null;
     //异步获取信息
-    public DeviceHandler(XmppManager xmppManager,DeviceInfoIQ infoIQ){
-        this.xmppManager = xmppManager;
-        this.infoIQ = infoIQ;
+    public DeviceHandler(){
+        xmppManager = DeviceInfoPacketListener.getXmppManager();
     }
-    public DeviceHandler(){}
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -34,11 +33,7 @@ public class DeviceHandler  extends Handler{
                     break;
                 case DeviceManager.UNINSTALL_APK:
                     String UpackageName = msg.obj.toString();
-                    Log.e("++++++++++",UpackageName);
-                    break;
-                case DeviceManager.IMEI_INFO:
-                    String IMEI = (String) msg.obj;
-                    infoIQ.setImei(IMEI);
+                    Log.e("++++++++++", UpackageName);
                     break;
                 case DeviceManager.LOCATION_INFO:
                     infoIQ = (DeviceInfoIQ) msg.obj;
@@ -59,7 +54,7 @@ public class DeviceHandler  extends Handler{
                     infoIQ.setType(IQ.Type.SET);
                     infoIQ.setReqFlag("device");
                     //           deviceReceiver.unRegistReceivers(context);
-                    Log.e("deviceInfo", infoIQ.toString());
+                    Log.e("deviceInfo......", infoIQ.toString());
                     xmppManager.getConnection().sendPacket(infoIQ);
                     break;
 

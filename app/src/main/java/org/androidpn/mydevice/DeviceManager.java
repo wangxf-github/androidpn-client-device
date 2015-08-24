@@ -3,10 +3,12 @@ package org.androidpn.mydevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
-import android.os.Handler;
 import android.util.Log;
+
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
+import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
+import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
 
 /**
  * Created by S on 2015/7/27.
@@ -28,14 +30,15 @@ public class DeviceManager {
     private DeviceSecurity deviceSecurity;
     private BatteryReceiver batteryReceiver ;
     private BootReceiver bootReceiver;
+    private WifiStateReceiver wifiStateReceiver;
+    private MobileStatesReceiver mobileStatesReceiver;
 
     /**
      * 获取设备获取器
-     * @param handler
      * @return
      */
-    public DeviceGetter getDeviceGetterInstance(Handler handler){
-        return new DeviceGetter(handler);
+    public DeviceGetter getDeviceGetterInstance(){
+        return new DeviceGetter();
     }
 
     /**
@@ -93,16 +96,17 @@ public class DeviceManager {
      * 获取电池的注册器
      * @return
      */
-    public BatteryReceiver getBatteryReceiver(Handler handler){
+    public BatteryReceiver getBatteryReceiver(){
         if(batteryReceiver==null){
             synchronized(DeviceManager.class){
                 if(batteryReceiver==null){
-                    batteryReceiver=new BatteryReceiver(handler);
+                    batteryReceiver=new BatteryReceiver();
                 }
             }
         }
         return batteryReceiver;
     }
+
 
     /**
      * 获取应用卸载安装的注册器
@@ -119,4 +123,34 @@ public class DeviceManager {
         return bootReceiver;
     }
 
+
+    /**
+     * 获取wifi状态的广播
+     * @return
+     */
+    public WifiStateReceiver getWifiStateReceiver(){
+        if(wifiStateReceiver==null){
+            synchronized(DeviceManager.class){
+                if(wifiStateReceiver==null){
+                    wifiStateReceiver=new WifiStateReceiver();
+                }
+            }
+        }
+        return wifiStateReceiver;
+    }
+
+    /**
+     * 获取移动网络状态的广播
+     * @return
+     */
+    public MobileStatesReceiver getMobileStatesReceiver(){
+        if(mobileStatesReceiver==null){
+            synchronized(DeviceManager.class){
+                if(mobileStatesReceiver==null){
+                    mobileStatesReceiver=new MobileStatesReceiver();
+                }
+            }
+        }
+        return mobileStatesReceiver;
+    }
 }

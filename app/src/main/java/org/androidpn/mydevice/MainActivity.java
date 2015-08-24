@@ -9,8 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.androidpn.demoapp.R;
+import org.androidpn.demoapp.ScreenLockActivity;
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
+import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
+import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
 
 
 public class MainActivity extends BaseDeviceFunction {
@@ -26,6 +29,8 @@ public class MainActivity extends BaseDeviceFunction {
     private DeviceManager deviceManager;
     private BatteryReceiver batteryReceiver;
     private BootReceiver bootReceiver;
+    private WifiStateReceiver wifiStateReceiver;
+    private MobileStatesReceiver mobileStatesReceiver;
 
     DeviceHandler handler = new DeviceHandler();
 
@@ -43,6 +48,8 @@ public class MainActivity extends BaseDeviceFunction {
         deviceGetter = deviceManager.getDeviceGetterInstance(handler);
         deviceSecurity = deviceManager.getDeviceSecurityInstance();
         bootReceiver = deviceManager.getBootReceiver();
+        wifiStateReceiver  =deviceManager.getWifiStateReceiver();
+        mobileStatesReceiver = deviceManager.getMobileStatesReceiver();
     }
 
 
@@ -69,8 +76,18 @@ public class MainActivity extends BaseDeviceFunction {
             public void onClick(View v) {
                 Log.e("adf", "222222222222");
 
-                String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
-                deviceManager.registReceivers(MainActivity.this, bootReceiver, action);
+//                String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
+//                deviceManager.registReceivers(MainActivity.this, bootReceiver, action);
+//                String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
+//                deviceManager.registReceivers(MainActivity.this,wifiStateReceiver,action);
+//                deviceManager.registReceivers(MainActivity.this,mobileStatesReceiver,action);
+
+                Intent intent = new Intent(MainActivity.this, ScreenLockActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putCharSequence("password", "123");
+                bundle.putInt("tag", DeviceManager.SCREEN_LOCK);
+                intent.putExtras(bundle);
+                MainActivity.this.startActivity(intent);
 
 //                IntentFilter intentFilter = new IntentFilter();
 //                intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -115,5 +132,20 @@ public class MainActivity extends BaseDeviceFunction {
         deviceInfo.setPhoneNunber(deviceGetter.getNativePhoneNumber(MainActivity.this));
         deviceInfo.setPhoneProvidersName(deviceGetter.getProvidersName(MainActivity.this));
         deviceGetter.getBatteryInfo(MainActivity.this);
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(MainActivity.this, ScreenLockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence("password", "");
+        bundle.putInt("tag", DeviceManager.SCREEN_LOCK);
+        intent.putExtras(bundle);
+        MainActivity.this.startActivity(intent);
+//        deviceManager.unRegistReceivers(this,wifiStateReceiver);
+//        deviceManager.unRegistReceivers(this,mobileStatesReceiver);
     }
 }

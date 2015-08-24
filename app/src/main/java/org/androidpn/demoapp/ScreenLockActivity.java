@@ -32,7 +32,6 @@ public class ScreenLockActivity extends Activity {
         String password = bundle.getString("password");
         int tag = bundle.getInt("tag");
         lock(tag,password);
-        finish();
     }
 
     /**
@@ -57,7 +56,7 @@ public class ScreenLockActivity extends Activity {
                     manager.resetPassword(password, 0);
 //                    manager.setPasswordExpirationTimeout(componentName,5000);
                     manager.setMaximumFailedPasswordsForWipe(componentName,10);
-                    manager.setMaximumTimeToLock(componentName, 10000);
+                    manager.setMaximumTimeToLock(componentName, 30000);
                     ScreenLockActivity.this.finish();
                     break;
                 case DeviceManager.WIPE_DATA:
