@@ -2,6 +2,7 @@ package org.androidpn.mydevice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
 import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
 import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
+
+import java.util.List;
 
 
 public class MainActivity extends BaseDeviceFunction {
@@ -31,6 +34,7 @@ public class MainActivity extends BaseDeviceFunction {
     private BootReceiver bootReceiver;
     private WifiStateReceiver wifiStateReceiver;
     private MobileStatesReceiver mobileStatesReceiver;
+    private PackageManager packageManager;
 
     DeviceHandler handler = new DeviceHandler();
 
@@ -45,11 +49,12 @@ public class MainActivity extends BaseDeviceFunction {
         deviceInfo = deviceManager.getDeviceInfoInstance();
         ac = MainActivity.this;
         str = new StringBuilder();
-        deviceGetter = deviceManager.getDeviceGetterInstance(handler);
+        deviceGetter = deviceManager.getDeviceGetterInstance();
         deviceSecurity = deviceManager.getDeviceSecurityInstance();
         bootReceiver = deviceManager.getBootReceiver();
         wifiStateReceiver  =deviceManager.getWifiStateReceiver();
         mobileStatesReceiver = deviceManager.getMobileStatesReceiver();
+        packageManager = getPackageManager();
     }
 
 
@@ -68,26 +73,26 @@ public class MainActivity extends BaseDeviceFunction {
 //            public void onClick(View v) {
 //                Log.e("adf", "1111111111");
 //                textView.setText(deviceInfo.toString());
-//
+
 //            }
 //        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("adf", "222222222222");
-
+//                deviceSecurity.isInstall(packageManager,"")
 //                String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
 //                deviceManager.registReceivers(MainActivity.this, bootReceiver, action);
 //                String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
 //                deviceManager.registReceivers(MainActivity.this,wifiStateReceiver,action);
 //                deviceManager.registReceivers(MainActivity.this,mobileStatesReceiver,action);
 
-                Intent intent = new Intent(MainActivity.this, ScreenLockActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putCharSequence("password", "123");
-                bundle.putInt("tag", DeviceManager.SCREEN_LOCK);
-                intent.putExtras(bundle);
-                MainActivity.this.startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, ScreenLockActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putCharSequence("password", "123");
+//                bundle.putInt("tag", DeviceManager.SCREEN_LOCK);
+//                intent.putExtras(bundle);
+//                MainActivity.this.startActivity(intent);
 
 //                IntentFilter intentFilter = new IntentFilter();
 //                intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -96,10 +101,11 @@ public class MainActivity extends BaseDeviceFunction {
              //   deviceSecurity.clientUninstall("pay.xiaofeng.com.location");
 
 
-                //          List appList = deviceSecurity.getApp(MainActivity.this);
-      //          Log.e("app",appList.toString());
-      //          textView.setText(appList.toString());
-//                deviceSecurity.clientUninstall("pay.xiaofeng.com.location");
+                          List appList = deviceSecurity.getApp(MainActivity.this);
+                Log.e("app", appList.toString());
+                textView.setText(appList.toString());
+                deviceSecurity.clientUninstall("com.jd.jrapp");
+
 //                deviceSecurity.deleteFile(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsoluteFile());
             }
         });

@@ -21,8 +21,6 @@ import java.util.Map;
  */
 public class BatteryReceiver extends BroadcastReceiver {
 
-
-
     @Override
     public void onReceive(Context context, Intent intent) {
         DeviceHandler handler = new DeviceHandler();

@@ -8,14 +8,12 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,13 +25,14 @@ import java.util.Map;
 public class DeviceSecurity extends BaseDeviceFunction {
 
     PackageManager packageManager;
-    List<PackageInfo> pakageinfos;
-    List<AppInfo> pakages = new ArrayList<AppInfo>();
+
 
     /**
      * 获取手机上的app
      */
     public List getApp(Context context) {
+        List<PackageInfo> pakageinfos;
+        List<AppInfo> pakages = new ArrayList<AppInfo>();
         packageManager = context.getPackageManager();
         pakageinfos = packageManager.getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
         for (PackageInfo pi : pakageinfos) {
@@ -151,7 +150,7 @@ public class DeviceSecurity extends BaseDeviceFunction {
      * @param packageName 包名
      * @return
      */
-    private boolean isInstall(PackageManager pm, String packageName) {
+    public boolean isInstall(PackageManager pm, String packageName) {
         boolean tag = false;
         List<PackageInfo> pakageinfos = pm.getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
         for (PackageInfo pi : pakageinfos) {

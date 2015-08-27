@@ -41,6 +41,7 @@ public class DeviceGetter extends BaseDeviceFunction{
 
     public DeviceGetter() {
     }
+    DeviceHandler handler = new DeviceHandler();
 
     //手机型号
     public String getPhoneModel() {
@@ -146,11 +147,10 @@ public class DeviceGetter extends BaseDeviceFunction{
      */
     public void getAvailRamMemory(final Context context) {
 
-
         new Thread(){
             @Override
             public void run() {
-                DeviceHandler handler = new DeviceHandler();
+
                 DeviceManager deviceManager =getDeviceManagerInstance();
                 ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
                 ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
@@ -160,7 +160,7 @@ public class DeviceGetter extends BaseDeviceFunction{
                 Message message = new Message();
                 message.what=DeviceManager.AvailRamMemory_INFO;
                 message.obj = String.valueOf(mi.availMem);
-                        handler.sendMessage(message);
+                handler.sendMessage(message);
 
             }
         }.start();

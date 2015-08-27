@@ -17,17 +17,17 @@ package org.androidpn.client;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 
 import org.androidpn.demoapp.ScreenLockActivity;
+import org.androidpn.mydevice.AppInfo;
 import org.androidpn.mydevice.BaseDeviceFunction;
 import org.androidpn.mydevice.DeviceGetter;
 import org.androidpn.mydevice.DeviceManager;
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
-import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
 import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
 import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
 import org.androidpn.mydevice.DeviceSecurity;
@@ -35,6 +35,9 @@ import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Packet;
 
+import java.util.List;
+
+import mylocation.GetLocation;
 import update.Client;
 
 
@@ -45,9 +48,14 @@ import update.Client;
  */
 public class DeviceInfoPacketListener extends BaseDeviceFunction implements PacketListener {
 
-
-    private static  XmppManager xmppManager;
-
+    private static DeviceInfoIQ infoIQ = null;
+    private static XmppManager xmppManager;
+    private DeviceManager deviceManager;
+    private DeviceGetter deviceGetter  ;
+    private DeviceSecurity deviceSecurity;
+    private BatteryReceiver batteryReceiver ;
+    private WifiStateReceiver wifiStateReceiver;
+    private MobileStatesReceiver mobileStatesReceiver;
     private static final String LOGTAG = LogUtil
             .makeLogTag(DeviceInfoPacketListener.class);
     private Context context;
@@ -55,21 +63,20 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
     public DeviceInfoPacketListener(XmppManager xmppManager,Context context) {
         this.xmppManager = xmppManager;
         this.context = context;
+        initDatas();
     }
 
 
     @Override
     public void processPacket(Packet packet) {
+        xmppManager = DeviceInfoPacketListener.getXmppManager();
         Log.d(LOGTAG, "NotificationPacketListener.processPacket()...");
         Log.d(LOGTAG, "packet.toXML()=" + packet.toXML());
-        DeviceInfoIQ infoIQ =new  DeviceInfoIQ();
-        DeviceManager deviceManager = getDeviceManagerInstance();;
-        DeviceSecurity deviceSecurity = deviceManager.getDeviceSecurityInstance();
-        BatteryReceiver batteryReceiver = deviceManager.getBatteryReceiver();
-        BootReceiver bootReceiver = deviceManager.getBootReceiver();
-        DeviceGetter deviceGetter = deviceManager.getDeviceGetterInstance();
-        WifiStateReceiver wifiStateReceiver = deviceManager.getWifiStateReceiver();
-        MobileStatesReceiver mobileStatesReceiver = deviceManager.getMobileStatesReceiver();
+        infoIQ =new DeviceInfoIQ();
+        PackageManager  packageManager = context.getPackageManager();
+//        DeviceManager deviceManager = getDeviceManagerInstance();
+//        DeviceGetter deviceGetter = deviceManager.getDeviceGetterInstance();
+//        DeviceSecurity deviceSecurity = deviceManager.getDeviceSecurityInstance();
         if (packet instanceof DeviceInfoIQ) {
             DeviceInfoIQ deviceInfoIQ = (DeviceInfoIQ) packet;
 
@@ -78,41 +85,15 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
                     if("address".equals(deviceInfoIQ.getReqFlag())){
                         Log.e("-------------------", "location" );
                         //获取地理位置
-//                        GetLocation gl = new GetLocation(context,handler,deviceInfoIQ.getWifiMac());
-                    String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
-                     deviceManager.registReceivers(context,wifiStateReceiver,action);
-                        deviceManager.registReceivers(context,mobileStatesReceiver,action);
+                        GetLocation gl = new GetLocation(context,deviceInfoIQ.getWifiMac());
+//                    String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
+//                     deviceManager.registReceivers(context,wifiStateReceiver,action);
+//                        deviceManager.registReceivers(context, mobileStatesReceiver, action);
                     }else if("device".equals(deviceInfoIQ.getReqFlag())){
                         //获取设备信息
-                        deviceGetter.getAvailRamMemory(context);
-                        deviceGetter.getIMEI(context);
-                        infoIQ.setSpecification(deviceGetter.getPhoneModel());
-                        infoIQ.setManufacturer(deviceGetter.getManufacturer());
-                        infoIQ.setProcessor(deviceGetter.getCpuName());
-                        infoIQ.setRomAvailableSize(deviceGetter.getAvailableRomMemroy() + "");
-                        infoIQ.setRomSize(deviceGetter.getTotalInternalMemorySize() + "");
-                        infoIQ.setDeviceOS(deviceGetter.getVersion()[3] + " " + deviceGetter.getVersion()[1]);
-                        infoIQ.setDisplaySize(deviceGetter.getDisplayMetrics(context)[1] + " * " + deviceGetter.getDisplayMetrics(context)[0]);
-                        infoIQ.setSdSize(deviceGetter.getAllSDSize() + "");
-                        infoIQ.setSdAvailableSize(String.valueOf(deviceGetter.getAvailaleSDSize()));
-                        infoIQ.setIsHasCamera(deviceGetter.getCamera() + "");
-                        infoIQ.setBlueToothMac(deviceGetter.getBluetoothMac());
-                        infoIQ.setWifiMac(deviceGetter.getLocalMacAddress(context));
-                        infoIQ.setUdid(deviceGetter.getUdid(context));
-                        infoIQ.setSdSerialNo(deviceGetter.getSDSerial());
-                        infoIQ.setIsRoot(deviceGetter.isRoot() + "");
-                        infoIQ.setBatteryLife(deviceGetter.getUpTime(context) + "");
-                        infoIQ.setIsLock(deviceGetter.getScreenLock(context) + "");
-                        infoIQ.setDeviceMobileNo(deviceGetter.getNativePhoneNumber(context));
-                        infoIQ.setMobileOperator(deviceGetter.getProvidersName(context));
-                        infoIQ.setImsiNo(deviceGetter.getImsi(context));
-                        infoIQ.setIsRoaming(deviceGetter.getPhoneRoamState(context) + "");
-                        infoIQ.setSimFlow(deviceGetter.getTotalBytes()[0] + "");
-                        infoIQ.setWifiFlow((deviceGetter.getTotalBytes()[1] - deviceGetter.getTotalBytes()[0]) + "");
-                        deviceGetter.getBatteryInfo(context);
-                        Log.e("deviceInfo", infoIQ.toString());
-                        infoIQ.setType(IQ.Type.SET);
-                        infoIQ.setReqFlag("device");
+                        Log.e("+++++++","info----------");
+
+                        deviceInfoInstance();
                     }else if("validate".equals(deviceInfoIQ.getReqFlag())) {
                         infoIQ.setType(IQ.Type.SET);
                         infoIQ.setReqFlag("validate");
@@ -121,26 +102,63 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
                         infoIQ.setImsiNo(deviceGetter.getImsi(context));
                         xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("screenLock".equals(deviceInfoIQ.getReqFlag())) {
-                        Log.e("ccccccccc","----------------");
-                        //锁屏及修改密码
-                        deviceLockOrWipe(DeviceManager.SCREEN_LOCK, "");
-
+                        //当password的值是null时，表示解锁
+                        Log.e("aaaaaaaaa","ssssssssss");
+                        if("null".equals(deviceInfoIQ.getPassword())){
+                            deviceInfoIQ.setPassword("");
+                        }
                         infoIQ.setType(IQ.Type.SET);
                         infoIQ.setReqFlag("screenLock");
-                        infoIQ.setIsLocked("1");
+
+                        //锁屏及修改密码
+                        deviceLockOrWipe(DeviceManager.SCREEN_LOCK, deviceInfoIQ.getPassword());
+
+                        if("null".equals(deviceInfoIQ.getPassword())){
+                            infoIQ.setIsLocked("0");
+                        }else{
+                            infoIQ.setIsLocked("1");
+                        }
+
                         xmppManager.getConnection().sendPacket(infoIQ);
-                    }else if("deviceWipe".equals(deviceInfoIQ.getReqFlag())){
+                    }else if("deleteApp".equals(deviceInfoIQ.getReqFlag())){
                         //删除数据
 //                        deviceSecurity.deleteFile(context, Environment.getExternalStorageDirectory().getAbsoluteFile());
 
                         //卸载应用
-                        String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
-                        deviceManager.registReceivers(context,bootReceiver,action);
-                        deviceSecurity.clientUninstall("com.apicloud.A6974226415736");
+//                        String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
+//                        deviceManager.registReceivers(context,bootReceiver,action);
 
+                        if(!deviceSecurity.isInstall(packageManager,deviceInfoIQ.getAppPackage())) {
+                            infoIQ.setType(IQ.Type.SET);
+                            infoIQ.setIsWiped("0");
+                            infoIQ.setReqFlag("deleteApp");
+                            xmppManager.getConnection().sendPacket(infoIQ);
+                        }else{
+                            boolean flag = deviceSecurity.clientUninstall(deviceInfoIQ.getAppPackage());
+                        }
+
+                    }else if("deviceWipe".equals(deviceInfoIQ.getReqFlag())){
+                          //删除数据
+//                        deviceSecurity.deleteFile(context, Environment.getExternalStorageDirectory().getAbsoluteFile());
+
+                        //卸载应用
+//                        String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
+//                        deviceManager.registReceivers(context,bootReceiver,action);
+
+                        if(!deviceSecurity.isInstall(packageManager,"移动展业包名")) {
+                            infoIQ.setType(IQ.Type.SET);
+                            infoIQ.setReqFlag("deviceWipe");
+                            infoIQ.setIsWiped("0");
+                            xmppManager.getConnection().sendPacket(infoIQ);
+                        }else{
+                            boolean flag = deviceSecurity.clientUninstall("移动展业包名");
+                        }
+
+                    }else if("appInfo".equals(deviceInfoIQ.getReqFlag())){
+                        List<AppInfo> appInfos = deviceSecurity.getApp(context);
                         infoIQ.setType(IQ.Type.SET);
-                        infoIQ.setReqFlag("deviceWipe");
-                        infoIQ.setIsWiped("1");
+                        infoIQ.setReqFlag("appInfo");
+                        infoIQ.setAppInfos(appInfos);
                         xmppManager.getConnection().sendPacket(infoIQ);
                     }else if("file".equals(deviceInfoIQ.getReqFlag())){
                         //发送文件
@@ -161,6 +179,40 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
 
     }
 
+    /**
+     * 获取设备信息
+     */
+    public void deviceInfoInstance(){
+        deviceGetter.getAvailRamMemory(context);
+        infoIQ.setImei(deviceGetter.getIMEI(context));
+        infoIQ.setSpecification(deviceGetter.getPhoneModel());
+        infoIQ.setManufacturer(deviceGetter.getManufacturer());
+        infoIQ.setProcessor(deviceGetter.getCpuName());
+        infoIQ.setRomAvailableSize(deviceGetter.getAvailableRomMemroy() + "");
+        infoIQ.setRomSize(deviceGetter.getTotalInternalMemorySize() + "");
+        infoIQ.setDeviceOS(deviceGetter.getVersion()[3] + " " + deviceGetter.getVersion()[1]);
+        infoIQ.setDisplaySize(deviceGetter.getDisplayMetrics(context)[1] + " * " + deviceGetter.getDisplayMetrics(context)[0]);
+        infoIQ.setSdSize(deviceGetter.getAllSDSize() + "");
+        infoIQ.setSdAvailableSize(String.valueOf(deviceGetter.getAvailaleSDSize()));
+        infoIQ.setIsHasCamera(deviceGetter.getCamera() + "");
+        infoIQ.setBlueToothMac(deviceGetter.getBluetoothMac());
+        infoIQ.setWifiMac(deviceGetter.getLocalMacAddress(context));
+        infoIQ.setUdid(deviceGetter.getUdid(context));
+        infoIQ.setSdSerialNo(deviceGetter.getSDSerial());
+        infoIQ.setIsRoot(deviceGetter.isRoot() + "");
+        infoIQ.setBatteryLife(deviceGetter.getUpTime(context) + "");
+        infoIQ.setIsLock(deviceGetter.getScreenLock(context) + "");
+        infoIQ.setDeviceMobileNo(deviceGetter.getNativePhoneNumber(context));
+        infoIQ.setMobileOperator(deviceGetter.getProvidersName(context));
+        infoIQ.setImsiNo(deviceGetter.getImsi(context));
+        infoIQ.setIsRoaming(deviceGetter.getPhoneRoamState(context) + "");
+        infoIQ.setSimFlow(deviceGetter.getTotalBytes()[0] + "");
+        infoIQ.setWifiFlow((deviceGetter.getTotalBytes()[1] - deviceGetter.getTotalBytes()[0]) + "");
+        deviceGetter.getBatteryInfo(context);
+        Log.e("deviceInfo", infoIQ.toString());
+        infoIQ.setType(IQ.Type.SET);
+        infoIQ.setReqFlag("device");
+}
 
     /* 返回查询条件
     * @return
@@ -198,9 +250,35 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
     }
 
 
+    public void initDatas(){
+        deviceManager =getDeviceManagerInstance() ;
+        deviceSecurity = deviceManager.getDeviceSecurityInstance();
+        batteryReceiver = deviceManager.getBatteryReceiver();
+        deviceGetter = deviceManager.getDeviceGetterInstance();
+        wifiStateReceiver  =deviceManager.getWifiStateReceiver();
+        mobileStatesReceiver = deviceManager.getMobileStatesReceiver();
+    }
+
     public static XmppManager getXmppManager(){
         if(xmppManager==null){
+
         }
         return xmppManager;
     }
+
+    /**
+     * 获取设备信息管理器
+     * @return
+     */
+    public static DeviceInfoIQ getDeviceInfoIQInstance(){
+        if(infoIQ==null){
+            synchronized(DeviceManager.class){
+                if(infoIQ==null){
+                    infoIQ=new DeviceInfoIQ();
+                }
+            }
+        }
+        return infoIQ;
+    }
+
 }

@@ -36,6 +36,10 @@ public class DeviceInfoIQ extends IQ {
 
     private String reqFlag;
 
+    private String password;
+
+    private String appPackage;
+
     /**擦除成功标志*/
     private String isWiped;
     /**锁定成功标志*/
@@ -123,7 +127,7 @@ public class DeviceInfoIQ extends IQ {
     private String deviceOS;
 
     /**设备app信息*/
-    private List<AppInfo> appInfo;
+    private List<AppInfo> appInfos;
 
     public DeviceInfoIQ() {
     }
@@ -258,6 +262,18 @@ public class DeviceInfoIQ extends IQ {
             buf.append("<deviceOS>").append(deviceOS).append("</deviceOS>");
         }
 
+        if (isLocked != null) {
+            buf.append("<isLocked>").append(isLocked).append("</isLocked>");
+        }
+
+        if (isWiped != null) {
+            buf.append("<isWiped>").append(isWiped).append("</isWiped>");
+        }
+
+        if(appInfos != null && !appInfos.isEmpty()){
+            buf.append(covertAppInfos2Xml());
+        }
+
         buf.append("</").append("deviceinfo").append("> ");
         return buf.toString();
     }
@@ -278,12 +294,12 @@ public class DeviceInfoIQ extends IQ {
         this.isLocked = isLocked;
     }
 
-    public List<AppInfo> getAppInfo() {
-        return appInfo;
+    public List<AppInfo> getAppInfos() {
+        return appInfos;
     }
 
-    public void setAppInfo(List<AppInfo> appInfo) {
-        this.appInfo = appInfo;
+    public void setAppInfos(List<AppInfo> appInfos) {
+        this.appInfos = appInfos;
     }
 
     public String getAddress() {
@@ -385,6 +401,13 @@ public class DeviceInfoIQ extends IQ {
         this.romAvailableSize = romAvailableSize;
     }
 
+    public String getAppPackage() {
+        return appPackage;
+    }
+
+    public void setAppPackage(String appPackage) {
+        this.appPackage = appPackage;
+    }
 
     public String getDisplaySize(){
         return displaySize;
@@ -604,5 +627,39 @@ public class DeviceInfoIQ extends IQ {
                 ", simChangeHistory='" + simChangeHistory + '\'' +
                 ", deviceOS='" + deviceOS + '\'' +
                 '}';
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String covertAppInfos2Xml(){
+        if(appInfos == null || appInfos.isEmpty())
+            return null;
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<appInfos>");
+
+        for(AppInfo ai : appInfos){
+            builder.append("<AppInfo>");
+            builder.append("<appName>");
+            builder.append(ai.getAppName());
+            builder.append("</appName>");
+            builder.append("<packageName>");
+            builder.append(ai.getPackageName());
+            builder.append("</packageName>");
+            builder.append("<versionCode>");
+            builder.append(ai.getVersionCode());
+            builder.append("</versionCode>");
+            builder.append("</AppInfo>");
+        }
+
+        builder.append("</appInfos>");
+
+        return builder.toString();
     }
 }

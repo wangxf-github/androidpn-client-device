@@ -18,12 +18,11 @@ public class DeviceHandler  extends Handler{
 
     private  XmppManager xmppManager;
     private DeviceInfoIQ infoIQ = null;
-    //异步获取信息
-    public DeviceHandler(){
-        xmppManager = DeviceInfoPacketListener.getXmppManager();
-    }
+
         @Override
         public void handleMessage(Message msg) {
+            xmppManager = DeviceInfoPacketListener.getXmppManager();
+            infoIQ = DeviceInfoPacketListener.getDeviceInfoIQInstance();
             super.handleMessage(msg);
             int tag = msg.what;
             switch (tag){
@@ -33,7 +32,7 @@ public class DeviceHandler  extends Handler{
                     break;
                 case DeviceManager.UNINSTALL_APK:
                     String UpackageName = msg.obj.toString();
-                    Log.e("++++++++++", UpackageName);
+                    Log.e("----------------", UpackageName);
                     break;
                 case DeviceManager.LOCATION_INFO:
                     infoIQ = (DeviceInfoIQ) msg.obj;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import org.androidpn.mydevice.DeviceReceiver.BatInfoReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
 import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
@@ -24,11 +25,15 @@ public class DeviceManager {
     public static final int WIPE_DATA = 6;
     public static final int  INSTALL_APK = 7;
     public static final int  UNINSTALL_APK = 8;
+    public static final int SCREEN_ON = 9;
+    public static final int SCREEN_OFF = 10;
 
 
     private DeviceInfo deviceInfo;
+    private DeviceGetter deviceGetter;
     private DeviceSecurity deviceSecurity;
     private BatteryReceiver batteryReceiver ;
+    private BatInfoReceiver batInfoReceiver;
     private BootReceiver bootReceiver;
     private WifiStateReceiver wifiStateReceiver;
     private MobileStatesReceiver mobileStatesReceiver;
@@ -38,7 +43,14 @@ public class DeviceManager {
      * @return
      */
     public DeviceGetter getDeviceGetterInstance(){
-        return new DeviceGetter();
+        if(deviceGetter==null){
+            synchronized(DeviceManager.class){
+                if(deviceGetter==null){
+                    deviceGetter=new DeviceGetter();
+                }
+            }
+        }
+        return deviceGetter;
     }
 
     /**
@@ -152,5 +164,19 @@ public class DeviceManager {
             }
         }
         return mobileStatesReceiver;
+    }
+    /**
+     * 获取锁屏状态的广播
+     * @return
+     */
+    public BatInfoReceiver getBatInfoReceiver(){
+        if(batInfoReceiver==null){
+            synchronized(DeviceManager.class){
+                if(batInfoReceiver==null){
+                    batInfoReceiver=new BatInfoReceiver();
+                }
+            }
+        }
+        return batInfoReceiver;
     }
 }

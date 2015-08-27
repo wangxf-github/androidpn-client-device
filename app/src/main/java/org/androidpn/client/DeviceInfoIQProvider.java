@@ -49,6 +49,14 @@ public class DeviceInfoIQProvider implements IQProvider {
                     deviceInfoIQ.setReqFlag(parser.nextText());
                 }
 
+                if ("password".equals(parser.getName())) {
+                    deviceInfoIQ.setPassword(parser.nextText());
+                }
+
+                if ("appPackage".equals(parser.getName())) {
+                    deviceInfoIQ.setAppPackage(parser.nextText());
+                }
+
             } else if (eventType == 3
                     && "deviceinfo".equals(parser.getName())) {
                 done = true;

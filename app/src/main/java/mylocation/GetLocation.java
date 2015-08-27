@@ -3,7 +3,6 @@ package mylocation;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
@@ -13,6 +12,7 @@ import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 
 import org.androidpn.client.DeviceInfoIQ;
+import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,17 +21,17 @@ public class GetLocation implements AMapLocationListener{
     private LocationManagerProxy mLocationManagerProxy;
     private JSONObject object;
     private DeviceInfoIQ device;
-    private Handler handler;
+    private DeviceHandler handler;
     private String wlanMac;
 
-    public  GetLocation(Context context,Handler handler,String wlanMac){
+    public  GetLocation(Context context,String wlanMac){
         object = new JSONObject();
-        this.handler = handler;
         this.wlanMac = wlanMac;
         init(context);
     }
     private void init(Context context) {
         mLocationManagerProxy = LocationManagerProxy.getInstance(context);
+        handler = new DeviceHandler();
         Log.e("jlkj"," in gouzao----");
         //此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
         //注意设置合适的定位时间的间隔，并且在合适时间调用removeUpdates()方法来取消定位请求
