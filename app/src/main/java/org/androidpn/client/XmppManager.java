@@ -15,10 +15,12 @@
  */
 package org.androidpn.client;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -98,7 +100,7 @@ public class XmppManager {
         taskTracker = notificationService.getTaskTracker();
         sharedPrefs = notificationService.getSharedPreferences();
 
-        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "localhost");
+        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "10.101.4.180");
         xmppPort = sharedPrefs.getInt(Constants.XMPP_PORT, 5222);
         username = sharedPrefs.getString(Constants.XMPP_USERNAME, "");
         password = sharedPrefs.getString(Constants.XMPP_PASSWORD, "");
@@ -133,6 +135,11 @@ public class XmppManager {
         Runnable runnable = new Runnable() {
 
             final XmppManager xmppManager = XmppManager.this;
+
+            @Override
+            public boolean equals(Object o) {
+                return super.equals(o);
+            }
 
             public void run() {
                 if (xmppManager.isConnected()) {
@@ -314,6 +321,12 @@ public class XmppManager {
 //                connConfig.setSecurityMode(SecurityMode.required);
                 connConfig.setSASLAuthenticationEnabled(false);
                 connConfig.setCompressionEnabled(false);
+                connConfig.setReconnectionAllowed(true);
+                connConfig.setSecurityMode(ConnectionConfiguration.SecurityMode.enabled);
+                connConfig.setSASLAuthenticationEnabled(true);
+                connConfig .setTruststorePath("/system/etccurity/cacerts.bks");
+                connConfig.setTruststorePassword("changeit");
+                connConfig.setTruststoreType("bks");
 
 //                SASLAuthentication.supportSASLMechanism("PLAIN", 0);
 
@@ -338,13 +351,7 @@ public class XmppManager {
                             "androidpn:iq:deviceinfo",
                             new DeviceInfoIQProvider());
 
-                    // packet filter
-                    PacketFilter packetFilter = new PacketTypeFilter(
-                            DeviceInfoIQ.class);
-                    // packet listener
-                    PacketListener packetListener = xmppManager.deviceInfoPacketListener;
 
-                    connection.addPacketListener(packetListener, packetFilter);
 
 
                 } catch (XMPPException e) {
@@ -373,11 +380,11 @@ public class XmppManager {
 
         public void run() {
             Log.i(LOGTAG, "RegisterTask.run()...");
-
+     //       Log.e("username.....", username);
             if (!xmppManager.isRegistered()) {
-                final String newUsername = newRandomUUID();
-                final String newPassword = newRandomUUID();
-
+                final String newUsername = getIMEI(context);
+                final String newPassword = getIMEI(context);
+                Log.e("username.....",newUsername);
                 Registration registration = new Registration();
 
                 PacketFilter packetFilter = new AndFilter(new PacketIDFilter(
@@ -387,10 +394,8 @@ public class XmppManager {
                 PacketListener packetListener = new PacketListener() {
 
                     public void processPacket(Packet packet) {
-                        Log.d("RegisterTask.PacketListener",
-                                "processPacket().....");
-                        Log.d("RegisterTask.PacketListener", "packet="
-                                + packet.toXML());
+                        Log.d("RegisterTask.PacketListener","processPacket().....");
+                        Log.d("RegisterTask.PacketListener", "packet="+ packet.toXML());
 
                         if (packet instanceof IQ) {
                             IQ response = (IQ) packet;
@@ -466,15 +471,15 @@ public class XmppManager {
                 Log.d(LOGTAG, "password=" + password);
 
                 try {
-//                    xmppManager.getConnection().login(
-//                            xmppManager.getUsername(),
-//                            xmppManager.getPassword(), XMPP_RESOURCE_NAME);
-
-
                     xmppManager.getConnection().login(
                             xmppManager.getUsername(),
-                            xmppManager.getPassword(), wlanMac);
-                    Log.d(LOGTAG, "Loggedn in successfully");
+                            xmppManager.getPassword(), XMPP_RESOURCE_NAME);
+
+
+//                    xmppManager.getConnection().login(
+//                            xmppManager.getUsername(),
+//                            xmppManager.getPassword(), wlanMac);
+                    Log.e(LOGTAG, "Loggedn in successfully");
 
                     // connection listener
                     if (xmppManager.getConnectionListener() != null) {
@@ -490,7 +495,13 @@ public class XmppManager {
                             .getNotificationPacketListener();
                     connection.addPacketListener(packetListener, packetFilter);
 
+                    // packet filter
+                    PacketFilter packetFilters = new PacketTypeFilter(
+                            DeviceInfoIQ.class);
+                    // packet listener
+                    PacketListener packetListeners = xmppManager.deviceInfoPacketListener;
 
+                    connection.addPacketListener(packetListeners, packetFilters);
 
                     xmppManager.runTask();
 
@@ -522,6 +533,13 @@ public class XmppManager {
 
         }
     }
-
+    /*
+      获取IEMI
+       */
+    public String getIMEI(Context context){
+        String imei =((TelephonyManager)context.getSystemService(Activity.TELEPHONY_SERVICE)).getDeviceId();
+   //     Log.e("imei。。。",imei+"");
+        return imei;
+    }
 
 }

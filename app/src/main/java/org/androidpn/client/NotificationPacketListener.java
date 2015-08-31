@@ -15,18 +15,20 @@
  */
 package org.androidpn.client;
 
-import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.packet.Packet;
-
 import android.content.Intent;
 import android.util.Log;
+
+import org.androidpn.mydevice.BaseDeviceFunction;
+import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.packet.Packet;
 
 /** 
  * This class notifies the receiver of incoming notifcation packets asynchronously.  
  *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public class NotificationPacketListener implements PacketListener {
+public class NotificationPacketListener extends BaseDeviceFunction implements PacketListener {
+
 
     private static final String LOGTAG = LogUtil
             .makeLogTag(NotificationPacketListener.class);
@@ -74,5 +76,7 @@ public class NotificationPacketListener implements PacketListener {
         }
 
     }
+
+
 
 }

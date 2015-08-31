@@ -3,7 +3,6 @@ package mylocation;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
@@ -12,8 +11,9 @@ import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 
 import org.androidpn.client.DeviceInfoIQ;
+import org.androidpn.client.DeviceInfoPacketListener;
+import org.androidpn.client.XmppManager;
 import org.androidpn.mydevice.DeviceHandler;
-import org.androidpn.mydevice.DeviceManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,16 +22,16 @@ public class GetLocation implements AMapLocationListener{
     private JSONObject object;
     private DeviceInfoIQ device;
     private DeviceHandler handler;
-    private String wlanMac;
+    private XmppManager xmppManager;
 
-    public  GetLocation(Context context,String wlanMac){
+    public  GetLocation(Context context){
         object = new JSONObject();
-        this.wlanMac = wlanMac;
         init(context);
     }
     private void init(Context context) {
         mLocationManagerProxy = LocationManagerProxy.getInstance(context);
         handler = new DeviceHandler();
+        xmppManager = DeviceInfoPacketListener.getXmppManager();
         Log.e("jlkj"," in gouzao----");
         //此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
         //注意设置合适的定位时间的间隔，并且在合适时间调用removeUpdates()方法来取消定位请求
@@ -47,7 +47,7 @@ public class GetLocation implements AMapLocationListener{
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-        Log.e("amap===================",aMapLocation.toString()+"_");
+        Log.e("amap+++++++++++",aMapLocation.toString()+"_");
         device = new DeviceInfoIQ();
         if(aMapLocation != null && aMapLocation.getAMapException().getErrorCode() == 0) {
             //获取位置信息
@@ -57,7 +57,6 @@ public class GetLocation implements AMapLocationListener{
             try {
                 object.put("geoLat",geoLat);
                 object.put("geoLng",geoLng);
-                device.setWifiMac(wlanMac);
                 device.setLongitude(String.valueOf(geoLng));
                 device.setLatitude(String.valueOf(geoLat));
                 device.setAddress(aMapLocation.getAddress());
@@ -71,10 +70,12 @@ public class GetLocation implements AMapLocationListener{
             device.setLatitude("");
             device.setAddress("");
         }
-        Message message = new Message();
-        message.obj=device;
-        message.what= DeviceManager.LOCATION_INFO;
-        handler.sendMessage(message);
+//        Message message = new Message();
+//        message.obj=device;
+//        message.what= DeviceManager.LOCATION_INFO;
+//        handler.sendMessage(message);
+        device.setReqFlag("deviceLocaltion");
+         xmppManager.getConnection().sendPacket(device);
     }
 
     @Override

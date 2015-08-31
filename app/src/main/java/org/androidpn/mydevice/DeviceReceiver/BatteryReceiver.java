@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Message;
 import android.util.Log;
 
+import org.androidpn.client.LogUtil;
 import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
 
@@ -34,7 +35,7 @@ public class BatteryReceiver extends BroadcastReceiver {
             message.obj =map;
             message.what= DeviceManager.BATTERY_INFO;
             handler.sendMessage(message);
-            Log.e("asdf", "sssssss");
+            Log.e(LogUtil.makeLogTag(BatteryReceiver.class),"i am comming ....");
         }
     }
 };

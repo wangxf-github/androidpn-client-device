@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.client.DeviceInfoPacketListener;
+import org.androidpn.client.LogUtil;
 import org.androidpn.client.XmppManager;
 import org.jivesoftware.smack.packet.IQ;
 
@@ -21,6 +22,7 @@ public class DeviceHandler  extends Handler{
 
         @Override
         public void handleMessage(Message msg) {
+            Log.e(LogUtil.makeLogTag(DeviceHandler.class),"i am in handlermessage.......");
             xmppManager = DeviceInfoPacketListener.getXmppManager();
             infoIQ = DeviceInfoPacketListener.getDeviceInfoIQInstance();
             super.handleMessage(msg);
@@ -34,13 +36,13 @@ public class DeviceHandler  extends Handler{
                     String UpackageName = msg.obj.toString();
                     Log.e("----------------", UpackageName);
                     break;
-                case DeviceManager.LOCATION_INFO:
-                    infoIQ = (DeviceInfoIQ) msg.obj;
-                    infoIQ.setType(IQ.Type.SET);
-                    Log.e("location", msg.obj.toString());
-                    infoIQ.setReqFlag("address");
-                    xmppManager.getConnection().sendPacket(infoIQ);
-                    break;
+//                case DeviceManager.LOCATION_INFO:
+//                    infoIQ = (DeviceInfoIQ) msg.obj;
+//                    infoIQ.setType(IQ.Type.SET);
+//                    Log.e("location", msg.obj.toString());
+//                    infoIQ.setReqFlag("deviceLocaltion");
+//                    xmppManager.getConnection().sendPacket(infoIQ);
+//                    break;
                 case DeviceManager.AvailRamMemory_INFO:
                     infoIQ.setRamSize(msg.obj.toString());
                     break;
@@ -51,9 +53,8 @@ public class DeviceHandler  extends Handler{
                     //TODO添加电池信息
                     infoIQ.setBatteryStatus(level + " " + temperature);
                     infoIQ.setType(IQ.Type.SET);
-                    infoIQ.setReqFlag("device");
-                    //           deviceReceiver.unRegistReceivers(context);
-                    Log.e("deviceInfo......", infoIQ.toString());
+                    infoIQ.setReqFlag("hardwareInfo");
+                    Log.e(LogUtil.makeLogTag(DeviceHandler.class), infoIQ.toString());
                     xmppManager.getConnection().sendPacket(infoIQ);
                     break;
 

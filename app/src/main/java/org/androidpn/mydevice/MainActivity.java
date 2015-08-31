@@ -1,7 +1,6 @@
 package org.androidpn.mydevice;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,14 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.androidpn.demoapp.R;
-import org.androidpn.demoapp.ScreenLockActivity;
+import com.zs.devicemanager.R;
+
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
 import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
 import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
 
-import java.util.List;
+import mylocation.GetLocation;
 
 
 public class MainActivity extends BaseDeviceFunction {
@@ -36,7 +35,6 @@ public class MainActivity extends BaseDeviceFunction {
     private MobileStatesReceiver mobileStatesReceiver;
     private PackageManager packageManager;
 
-    DeviceHandler handler = new DeviceHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +99,13 @@ public class MainActivity extends BaseDeviceFunction {
              //   deviceSecurity.clientUninstall("pay.xiaofeng.com.location");
 
 
-                          List appList = deviceSecurity.getApp(MainActivity.this);
-                Log.e("app", appList.toString());
-                textView.setText(appList.toString());
-                deviceSecurity.clientUninstall("com.jd.jrapp");
+//                          List appList = deviceSecurity.getApp(MainActivity.this);
+//                Log.e("app", appList.toString());
+//                textView.setText(appList.toString());
+//                deviceSecurity.clientUninstall("com.jd.jrapp");
+                GetLocation getLocation = new GetLocation(MainActivity.this);
+                String packageName = getPackageName();
+                textView.setText(packageName);
 
 //                deviceSecurity.deleteFile(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsoluteFile());
             }
@@ -142,16 +143,16 @@ public class MainActivity extends BaseDeviceFunction {
 
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Intent intent = new Intent(MainActivity.this, ScreenLockActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putCharSequence("password", "");
-        bundle.putInt("tag", DeviceManager.SCREEN_LOCK);
-        intent.putExtras(bundle);
-        MainActivity.this.startActivity(intent);
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        Intent intent = new Intent(MainActivity.this, ScreenLockActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putCharSequence("password", "");
+//        bundle.putInt("tag", DeviceManager.SCREEN_LOCK);
+//        intent.putExtras(bundle);
+//        MainActivity.this.startActivity(intent);
 //        deviceManager.unRegistReceivers(this,wifiStateReceiver);
 //        deviceManager.unRegistReceivers(this,mobileStatesReceiver);
-    }
+//    }
 }

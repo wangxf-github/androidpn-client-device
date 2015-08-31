@@ -41,7 +41,7 @@ public class DeviceGetter extends BaseDeviceFunction{
 
     public DeviceGetter() {
     }
-    DeviceHandler handler = new DeviceHandler();
+
 
     //手机型号
     public String getPhoneModel() {
@@ -146,7 +146,7 @@ public class DeviceGetter extends BaseDeviceFunction{
      * 获取android当前运行内存大小
      */
     public void getAvailRamMemory(final Context context) {
-
+        final DeviceHandler handler = new DeviceHandler();
         new Thread(){
             @Override
             public void run() {
@@ -254,6 +254,7 @@ public class DeviceGetter extends BaseDeviceFunction{
         BatteryReceiver batteryReceiver = deviceManager.getBatteryReceiver();
         String[]  action = {Intent.ACTION_BATTERY_CHANGED};
         deviceManager.registReceivers(activity,batteryReceiver, action);
+        deviceManager.unRegistReceivers(activity,batteryReceiver);
     }
 
     /**
@@ -263,7 +264,7 @@ public class DeviceGetter extends BaseDeviceFunction{
      *
      */
     public  long getUpTime(final Context context) {
-        SharedPreferences sharedPreferences=context.getSharedPreferences("这是存储文件的名字",       Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences=context.getSharedPreferences("这是存储文件的名字", Context.MODE_PRIVATE);
 
         long seconds= sharedPreferences.getLong("存储时间的key", new Date().getTime());
         return seconds;
@@ -274,7 +275,10 @@ public class DeviceGetter extends BaseDeviceFunction{
     public String getIMEI(Context context){
                 String imei =((TelephonyManager)context.getSystemService(Activity.TELEPHONY_SERVICE)).getDeviceId();
         Log.e("22222222",imei+",,");
-        return imei;
+        if(imei!=null&&imei!="") {
+            return imei;
+        }
+        return "";
     }
     /*
     获取UDid
@@ -372,7 +376,7 @@ public class DeviceGetter extends BaseDeviceFunction{
     public  String getImsi(Context context){
         TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String imsi = mTelephonyMgr.getSubscriberId();
-        if(imsi!=null||imsi!="") {
+        if(imsi!=null&&imsi!="") {
             return imsi;
         }
         return "";

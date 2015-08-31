@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.androidpn.demoapp" android:versionCode="20101028"
+	package="com.zs.devicemanager"
+	android:versionCode="20101028"
 	android:versionName="0.5.0">
 
 	<uses-permission android:name="android.permission.BLUETOOTH" />
-	<application android:icon="@drawable/icon" android:label="@string/app_name">
+	<application android:icon="@drawable/screen" android:label="@string/app_name">
 
-		<activity android:name=".DemoAppActivity" android:label="@string/app_name">
+		<activity android:name="org.androidpn.demoapp.DemoAppActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -25,7 +26,7 @@
 		<activity android:name="org.androidpn.client.NotificationSettingsActivity"
 			android:label="Notification Settings">
 		</activity>
-		<activity android:name=".ScreenLockActivity" android:label="@string/app_name" android:launchMode="singleTask">
+		<activity android:name="org.androidpn.demoapp.ScreenLockActivity" android:label="@string/app_name" android:launchMode="singleTask">
 			<intent-filter>
 				<action android:name="com.TEST" />
 				<category android:name="android.intent.category.DEFAULT"/>
@@ -55,11 +56,11 @@
 			</intent-filter>
 		</receiver>
 
-		<meta-data android:name="ANDROIDPN_API_KEY"
-			android:value="1234567890" />
+		<!--<meta-data android:name="ANDROIDPN_API_KEY"-->
+			<!--android:value="1234567890" />-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="a2163fb3b233523add014bbe130a4a1b" />
+            android:value="510a7e0c180db7d36b746a76cfcb7582" />
 
     </application>
 	<uses-sdk android:minSdkVersion="20" />
@@ -75,6 +76,17 @@
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
 
 </manifest> 
