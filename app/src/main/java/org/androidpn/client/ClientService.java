@@ -31,6 +31,7 @@ public class ClientService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+
     @Override
     public void onDestroy() {
         Intent localIntent = new Intent();
