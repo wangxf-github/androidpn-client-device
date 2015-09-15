@@ -2,46 +2,46 @@
 <items version="2" >
 
     <item
-        jar="F:\Users\S\Desktop\libss\log4j-1.2.12.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="057b8740427ee6d7b0b60792751356cad17dc0d9">
-        <dex dex="D:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\log4j-1.2.12-ad577d233950838db6d468f33cced46262aecc18.jar" />
-    </item>
-    <item
-        jar="F:\Users\S\Desktop\libss\asmack-android-8-0.8.10.jar"
+        jar="E:\Git\androidpn-client-0.5.02\libs\asmack-android-8-0.8.10.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="8ffad10173ab28a17db77cf10c9a9fc95037305b">
-        <dex dex="D:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\asmack-android-8-0.8.10-93e1169d2809823b0cfd862da168526cc13d948c.jar" />
+        <dex dex="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\asmack-android-8-0.8.10-9f196779a29a897c3bf1bd1bc04e89e051e88440.jar" />
     </item>
     <item
-        jar="F:\Users\S\Desktop\libss\mina-core-2.0.9.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="255f546277515f2191105e89f4d768e3ca02db9c">
-        <dex dex="D:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\mina-core-2.0.9-8183511cbc344cd4a9c1779739f69ca16f320c56.jar" />
-    </item>
-    <item
-        jar="F:\Users\S\Desktop\libss\slf4j-log4j12-1.5.8.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="da00a151c4db31b5be23e5f2b9f528735fddc384">
-        <dex dex="D:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\slf4j-log4j12-1.5.8-967491a2967f39e17b5af986beebd98b69e1bff3.jar" />
-    </item>
-    <item
-        jar="F:\Users\S\Desktop\libss\Android_Location_V1.3.2.jar"
+        jar="E:\Git\androidpn-client-0.5.02\libs\Android_Location_V1.3.2.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="b64d1f38ef7ee28b538d61a39d040f249c65587c">
-        <dex dex="D:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\Android_Location_V1.3.2-3447d73a59111b304348ef82bad1d3f9d854c234.jar" />
+        <dex dex="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\Android_Location_V1.3.2-0d91fd527b64c628a65f9fa99a84d6e83f36a0e0.jar" />
     </item>
     <item
-        jar="F:\Users\S\Desktop\libss\slf4j-api-1.5.8.jar"
+        jar="E:\Git\androidpn-client-0.5.02\libs\slf4j-log4j12-1.5.8.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="da00a151c4db31b5be23e5f2b9f528735fddc384">
+        <dex dex="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\slf4j-log4j12-1.5.8-d454b1a8bc14fd7fb77f9aba3400c81cdaf8072d.jar" />
+    </item>
+    <item
+        jar="E:\Git\androidpn-client-0.5.02\libs\log4j-1.2.12.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="057b8740427ee6d7b0b60792751356cad17dc0d9">
+        <dex dex="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\log4j-1.2.12-cab4c9b138da35c4151ff0460c67b582cde28a4e.jar" />
+    </item>
+    <item
+        jar="E:\Git\androidpn-client-0.5.02\libs\mina-core-2.0.9.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="255f546277515f2191105e89f4d768e3ca02db9c">
+        <dex dex="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\mina-core-2.0.9-ceeeadafc25bd0a00074998c1bb17b277c8ddb24.jar" />
+    </item>
+    <item
+        jar="E:\Git\androidpn-client-0.5.02\libs\slf4j-api-1.5.8.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="2aaf496dfd551adb9b079f58a7e2d55eb383fc82">
-        <dex dex="D:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\slf4j-api-1.5.8-4e4f0c1d4f17d8465e5b275aadcd8913958c4416.jar" />
+        <dex dex="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\slf4j-api-1.5.8-0c457daa42293672ee4362d87e5b75a1d56beb75.jar" />
     </item>
 
 </items>
