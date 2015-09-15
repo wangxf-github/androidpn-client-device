@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.util.Log;
 import com.zs.devicemanager.R;
 
+import org.androidpn.client.ClientService;
 import org.androidpn.client.ServiceManager;
 import org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver;
 import org.androidpn.utils.LogUtils;
@@ -49,7 +50,8 @@ public class DemoAppActivity extends Activity{
 //        ServiceManager serviceManager = new ServiceManager(this);
 //        serviceManager.setNotificationIcon(R.drawable.notification);
 //        serviceManager.startService();
-
+        Intent intent = new Intent(DemoAppActivity.this, ClientService.class);
+        startService(intent);
     }
 
     @Override
@@ -93,7 +95,7 @@ public class DemoAppActivity extends Activity{
         }
         resultData.putExtra("result", json.toString());
         setResult(RESULT_OK, resultData);
-        finish();
+//        finish();
     }
 
     @Override

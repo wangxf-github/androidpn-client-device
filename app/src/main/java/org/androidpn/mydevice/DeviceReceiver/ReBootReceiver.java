@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.zs.devicemanager.R;
 
+import org.androidpn.client.ClientService;
 import org.androidpn.client.ServiceManager;
 
 /**
@@ -15,9 +16,8 @@ import org.androidpn.client.ServiceManager;
 public class ReBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        ServiceManager serviceManager = new ServiceManager(context);
-        serviceManager.setNotificationIcon(R.drawable.notification);
-        serviceManager.startService();
+        Intent intents = new Intent(context, ClientService.class);
+        context.startService(intents);
         Log.e("comming","ReBootReceiver...");
     }
 }

@@ -131,7 +131,9 @@ public class NotificationService extends Service {
     @Override
     public void onDestroy() {
         Log.d(LOGTAG, "onDestroy()...");
-        stop();
+        Intent localIntent = new Intent();
+        localIntent.setClass(this, NotificationService.class); //销毁时重新启动Service
+        this.startService(localIntent);
     }
 
     @Override
