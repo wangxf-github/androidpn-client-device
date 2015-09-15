@@ -16,14 +16,19 @@
 package org.androidpn.demoapp;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-
 import com.zs.devicemanager.R;
 
 import org.androidpn.client.ServiceManager;
+import org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver;
+import org.androidpn.utils.LogUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This is an androidpn client demo application.
@@ -32,6 +37,7 @@ import org.androidpn.client.ServiceManager;
  */
 public class DemoAppActivity extends Activity{
 
+    private SharedPreferences sharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d("DemoAppActivity", "onCreate()...");
@@ -39,24 +45,73 @@ public class DemoAppActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // Settings
-        Button okButton = (Button) findViewById(R.id.btn_settings);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                ServiceManager.viewNotificationSettings(DemoAppActivity.this);
-//                Intent intent = new Intent(DemoAppActivity.this,ScreenLockActivity.class);
-//                Intent intent = new Intent(DemoAppActivity.this,ScreenLockActivity.class);
-             //   DemoAppActivity.this.startActivity(intent);
-//                Intent inten = new Intent("com.TEST");
-//                startActivity(inten);
-         //       deviceSecurity.masterClear(DemoAppActivity.this) ;
-            }
-        });
-
         // Start the service
-        ServiceManager serviceManager = new ServiceManager(this);
-        serviceManager.setNotificationIcon(R.drawable.notification);
-        serviceManager.startService();
+//        ServiceManager serviceManager = new ServiceManager(this);
+//        serviceManager.setNotificationIcon(R.drawable.notification);
+//        serviceManager.startService();
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e("comming", "onStart...");
+        sharedPreferences = getSharedPreferences("deviceSharePre", MODE_PRIVATE);
+        Boolean isEnable= sharedPreferences.getBoolean("deviceStatus",false);
+        Log.e("demo//////////.......",isEnable+"");
+        if(isEnable){
+
+        }else {
+            Intent intents = new Intent();                                                            // 构造意图
+            ComponentName componentName = new ComponentName(this, MyAdminReceiver.class);        // 申请权限
+            intents.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);                    // 指定添加系统外设的动作名称
+            intents.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);            // 指定给哪个组件授权
+            startActivity(intents);
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LogUtils.takeLog(this.getClass(),"onPause...");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtils.takeLog(this.getClass(), "onResume..");
+
+        sharedPreferences = getSharedPreferences("deviceSharePre", MODE_PRIVATE);
+        Boolean isEnable = sharedPreferences.getBoolean("deviceStatus", false);
+        Intent resultData = new Intent();
+        JSONObject json = new JSONObject();
+        try {
+            json.put("deviceStatus", isEnable);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        resultData.putExtra("result", json.toString());
+        setResult(RESULT_OK, resultData);
+        finish();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        LogUtils.takeLog(this.getClass(),"onRestart...");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LogUtils.takeLog(this.getClass(),"onStop..");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogUtils.takeLog(this.getClass(), "Destory..");
+//        sharedPreferences =null;
+    }
 }

@@ -4,23 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-	<TextView
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1.0"
-	    android:layout_marginTop="100dip"
-	    android:gravity="center_horizontal"
-	    android:text="@string/hello"
-	    android:textSize="16sp"
-	    android:textStyle="bold"
-		android:id="@+id/tv_info"
-	    />
-	<Button
-		android:id="@+id/btn_settings"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center_horizontal"
-		android:text="@string/settings"
-		/>
+
 </LinearLayout>
-<!-- From: file:/D:/资料/手机银行资料/androidpn-client-0.5.02/app/src/main/res/layout/main.xml -->
+<!-- From: file:/E:/资料/手机银行资料/androidpn-client-0.5.02/app/src/main/res/layout/main.xml -->

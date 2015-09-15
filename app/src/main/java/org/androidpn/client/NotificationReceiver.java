@@ -62,7 +62,7 @@ public final class NotificationReceiver extends BroadcastReceiver {
             Log.d(LOGTAG, "notificationApiKey=" + notificationApiKey);
             Log.d(LOGTAG, "notificationTitle=" + notificationTitle);
             Log.d(LOGTAG, "notificationMessage=" + notificationMessage);
-            Log.d(LOGTAG, "notificationUri=" + notificationUri);
+             Log.d(LOGTAG, "notificationUri=" + notificationUri);
 
             Notifier notifier = new Notifier(context);
             notifier.notify(notificationId, notificationApiKey,

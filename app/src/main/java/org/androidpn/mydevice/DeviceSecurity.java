@@ -24,7 +24,6 @@ import java.util.Map;
  */
 public class DeviceSecurity extends BaseDeviceFunction {
 
-    PackageManager packageManager;
 
 
     /**
@@ -33,7 +32,7 @@ public class DeviceSecurity extends BaseDeviceFunction {
     public List getApp(Context context) {
         List<PackageInfo> pakageinfos;
         List<AppInfo> pakages = new ArrayList<AppInfo>();
-        packageManager = context.getPackageManager();
+        PackageManager packageManager= context.getPackageManager();
         pakageinfos = packageManager.getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
         for (PackageInfo pi : pakageinfos) {
             if ((pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
@@ -48,7 +47,7 @@ public class DeviceSecurity extends BaseDeviceFunction {
                 Log.e("====", tmpInfo.toString());
                 pakages.add(tmpInfo);
             } else {
-//系统应用　　　　　　　　
+        //系统应用　　　　　　　　
             }
 
         }

@@ -17,6 +17,7 @@ package org.androidpn.client;
 
 import java.util.Random;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,14 +25,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
+import com.zs.devicemanager.R;
 
 /** 
  * This class is to notify the user of messages with NotificationManager.
  *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public class Notifier {
+public class Notifier{
 
     private static final String LOGTAG = LogUtil.makeLogTag(Notifier.class);
 
@@ -80,6 +83,7 @@ public class Notifier {
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
             notification.when = System.currentTimeMillis();
             notification.tickerText = message;
+
 
             //            Intent intent;
             //            if (uri != null

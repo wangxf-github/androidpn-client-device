@@ -41,7 +41,7 @@ public class GetLocation implements AMapLocationListener{
             mLocationManagerProxy.requestLocationData(
                     LocationProviderProxy.AMapNetwork, 60 * 1000, 15, this);
         }catch (Exception e){
-            Log.e("xxxx","xxxxxx",e);
+            Log.e("getLocation erro",e.toString());
         }
     }
 

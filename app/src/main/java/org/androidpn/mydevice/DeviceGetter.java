@@ -39,6 +39,7 @@ import java.util.UUID;
  */
 public class DeviceGetter extends BaseDeviceFunction{
 
+    DeviceHandler handler = new DeviceHandler();
     public DeviceGetter() {
     }
 
@@ -146,7 +147,7 @@ public class DeviceGetter extends BaseDeviceFunction{
      * 获取android当前运行内存大小
      */
     public void getAvailRamMemory(final Context context) {
-        final DeviceHandler handler = new DeviceHandler();
+
         new Thread(){
             @Override
             public void run() {

@@ -26,8 +26,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.zs.devicemanager.R;
 
 /** 
  * Activity for displaying the notification details view.
@@ -43,13 +46,20 @@ public class NotificationDetailsActivity extends Activity {
 
     private String callbackActivityClassName;
 
+    ImageView imageView ;
+    TextView notify_title;
+    TextView notify_des;
+
     public NotificationDetailsActivity() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.notifity);
+        imageView = (ImageView) findViewById(R.id.notify_header);
+        notify_title = (TextView) findViewById(R.id.notify_title);
+        notify_des = (TextView) findViewById(R.id.notify_des);
         SharedPreferences sharedPrefs = this.getSharedPreferences(
                 Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         callbackActivityPackageName = sharedPrefs.getString(
@@ -69,10 +79,13 @@ public class NotificationDetailsActivity extends Activity {
         String notificationUri = intent
                 .getStringExtra(Constants.NOTIFICATION_URI);
 
+        notify_title.setText(notificationTitle);
+        notify_des.setText(notificationMessage);
+        imageView.setImageResource(R.drawable.ic_launcher);
         Log.d(LOGTAG, "notificationId=" + notificationId);
         Log.d(LOGTAG, "notificationApiKey=" + notificationApiKey);
-        Log.d(LOGTAG, "notificationTitle=" + notificationTitle);
-        Log.d(LOGTAG, "notificationMessage=" + notificationMessage);
+        Log.e(LOGTAG, "notificationTitle=" + notificationTitle);
+        Log.e(LOGTAG, "notificationMessage=" + notificationMessage);
         Log.d(LOGTAG, "notificationUri=" + notificationUri);
 
         //        Display display = getWindowManager().getDefaultDisplay();
@@ -83,9 +96,9 @@ public class NotificationDetailsActivity extends Activity {
         //            rootView = null;
         //        }
 
-        View rootView = createView(notificationTitle, notificationMessage,
-                notificationUri);
-        setContentView(rootView);
+//        View rootView = createView(notificationTitle, notificationMessage,
+//                notificationUri);
+
     }
 
     private View createView(final String title, final String message,

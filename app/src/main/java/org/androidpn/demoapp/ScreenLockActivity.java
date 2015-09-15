@@ -54,9 +54,9 @@ public class ScreenLockActivity extends Activity {
                     manager.lockNow();
                     // 设置解锁密码
                     manager.resetPassword(password, 0);
-//                    manager.setPasswordExpirationTimeout(componentName,5000);
-                    manager.setMaximumFailedPasswordsForWipe(componentName,10);
-                    manager.setMaximumTimeToLock(componentName, 30000);
+//                  manager.setPasswordExpirationTimeout(componentName,5000);
+        //            manager.setMaximumFailedPasswordsForWipe(componentName,10);
+//                    manager.setMaximumTimeToLock(componentName, Integer.MAX_VALUE);
                     ScreenLockActivity.this.finish();
                     break;
                 case DeviceManager.WIPE_DATA:

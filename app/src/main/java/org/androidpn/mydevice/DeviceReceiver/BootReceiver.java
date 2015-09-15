@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Message;
 import android.util.Log;
 
+import org.androidpn.client.LogUtil;
 import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
 
@@ -22,8 +23,9 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent){
+
         DeviceHandler handler = new DeviceHandler();
-        Log.e("aaaaaaaaaaaaaaa","ssssssssssssssss");
+        Log.e("BootReceiver",intent.getAction().toString());
         //接收安装广播
         if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
             String packageName = intent.getDataString();

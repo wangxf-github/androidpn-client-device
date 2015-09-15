@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.androidpn.demoapp.test">
+    package="com.zs.devicemanager.test">
 
     <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="20" />
 
@@ -9,8 +9,8 @@
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="org.androidpn.demoapp"
+                     android:targetPackage="com.zs.devicemanager"
                      android:handleProfiling="false"
                      android:functionalTest="false"
-                     android:label="Tests for org.androidpn.demoapp"/>
+                     android:label="Tests for com.zs.devicemanager"/>
 </manifest>

@@ -100,7 +100,7 @@ public class XmppManager {
         taskTracker = notificationService.getTaskTracker();
         sharedPrefs = notificationService.getSharedPreferences();
 
-        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "10.101.4.180");
+        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "10.101.5.169");
         xmppPort = sharedPrefs.getInt(Constants.XMPP_PORT, 5222);
         username = sharedPrefs.getString(Constants.XMPP_USERNAME, "");
         password = sharedPrefs.getString(Constants.XMPP_PASSWORD, "");
@@ -382,8 +382,10 @@ public class XmppManager {
             Log.i(LOGTAG, "RegisterTask.run()...");
      //       Log.e("username.....", username);
             if (!xmppManager.isRegistered()) {
-                final String newUsername = getIMEI(context);
-                final String newPassword = getIMEI(context);
+//                final String newUsername = getIMEI(context);
+//                final String newPassword = getIMEI(context);
+                final String newUsername = "23423515";
+                final String newPassword = "asdfsdffcadf";
                 Log.e("username.....",newUsername);
                 Registration registration = new Registration();
 
@@ -431,16 +433,16 @@ public class XmppManager {
                 connection.addPacketListener(packetListener, packetFilter);
 
                 registration.setType(IQ.Type.SET);
-                // registration.setTo(xmppHost);
-                // Map<String, String> attributes = new HashMap<String, String>();
-                // attributes.put("username", rUsername);
-                // attributes.put("password", rPassword);
-                // registration.setAttributes(attributes);
-                Map<String,String> regMap = new HashMap<String,String>();
-                regMap.put("username", newUsername);
-                regMap.put("password", newPassword);
-                regMap.put("wlanMac",wlanMac);
-                registration.setAttributes(regMap);
+                 registration.setTo(xmppHost);
+                 Map<String, String> attributes = new HashMap<String, String>();
+                 attributes.put("username", newUsername);
+                 attributes.put("password", newPassword);
+                 registration.setAttributes(attributes);
+//                Map<String,String> regMap = new HashMap<String,String>();
+//                regMap.put("username", newUsername);
+//                regMap.put("password", newPassword);
+//          //      regMap.put("wlanMac",wlanMac);
+//                registration.setAttributes(regMap);
 
                 connection.sendPacket(registration);
 

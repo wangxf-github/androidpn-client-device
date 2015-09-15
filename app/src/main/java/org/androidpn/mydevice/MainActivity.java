@@ -1,27 +1,33 @@
 package org.androidpn.mydevice;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zs.devicemanager.R;
 
+import org.androidpn.client.Constants;
+import org.androidpn.client.NotificationDetailsActivity;
+import org.androidpn.demoapp.ScreenLockActivity;
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
 import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
 import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
-
-import mylocation.GetLocation;
 
 
 public class MainActivity extends BaseDeviceFunction {
 
     StringBuilder str = null;
     Button button;
+    EditText password;
     Button button_zhan;
     DeviceInfo deviceInfo;
     Activity ac;
@@ -34,6 +40,7 @@ public class MainActivity extends BaseDeviceFunction {
     private WifiStateReceiver wifiStateReceiver;
     private MobileStatesReceiver mobileStatesReceiver;
     private PackageManager packageManager;
+    private Uri packageUri;
 
 
     @Override
@@ -55,12 +62,12 @@ public class MainActivity extends BaseDeviceFunction {
         packageManager = getPackageManager();
     }
 
-
     public void initView() {
         setContentView(R.layout.main);
-        button = (Button) findViewById(R.id.btn_settings);
+//        button = (Button) findViewById(R.id.btn_settings);
      //   button_zhan = (Button) findViewById(R.id.button_zhan);
-        textView = (TextView) findViewById(R.id.tv_info);
+//        textView = (TextView) findViewById(R.id.tv_info);
+//        password = (EditText) findViewById(R.id.password);
     }
 
 
@@ -74,10 +81,27 @@ public class MainActivity extends BaseDeviceFunction {
 
 //            }
 //        });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("adf", "222222222222");
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e("adf", "222222222222");
+//                Intent intent = new Intent(MainActivity.this,
+//                        NotificationDetailsActivity.class);
+//                intent.putExtra(Constants.NOTIFICATION_TITLE, "sadfsadfsa");
+//                intent.putExtra(Constants.NOTIFICATION_MESSAGE, "adsfsafsadf");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//                startActivity(intent);
+//                PendingIntent contentIntent = PendingIntent.getActivity(MainActivity.this, 0,
+//                        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                packageUri = getPackageUri();
+      //          install();
+//                String passWord = password.getText().toString();
+//                deviceLockOrWipe(DeviceManager.SCREEN_LOCK,passWord);
 //                deviceSecurity.isInstall(packageManager,"")
 //                String[] action = {Intent.ACTION_PACKAGE_ADDED,Intent.ACTION_PACKAGE_REMOVED};
 //                deviceManager.registReceivers(MainActivity.this, bootReceiver, action);
@@ -103,13 +127,13 @@ public class MainActivity extends BaseDeviceFunction {
 //                Log.e("app", appList.toString());
 //                textView.setText(appList.toString());
 //                deviceSecurity.clientUninstall("com.jd.jrapp");
-                GetLocation getLocation = new GetLocation(MainActivity.this);
-                String packageName = getPackageName();
-                textView.setText(packageName);
+//                GetLocation getLocation = new GetLocation(MainActivity.this);
+//                String packageName = getPackageName();
+//                textView.setText(packageName);
 
 //                deviceSecurity.deleteFile(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsoluteFile());
-            }
-        });
+//            }
+//        });
 
     }
 
@@ -155,4 +179,20 @@ public class MainActivity extends BaseDeviceFunction {
 //        deviceManager.unRegistReceivers(this,wifiStateReceiver);
 //        deviceManager.unRegistReceivers(this,mobileStatesReceiver);
 //    }
+
+    /**
+     * 进行锁屏，修改锁屏密码和恢复出厂设置
+     * @param tag 标志是否锁屏或者恢复出厂值设置
+     * @param password 锁屏密码
+     */
+    private void deviceLockOrWipe(int tag,String password){
+        Intent intent = new Intent(this, ScreenLockActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence("password", password);
+        bundle.putInt("tag", tag);
+        intent.putExtras(bundle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 }
