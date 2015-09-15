@@ -39,8 +39,16 @@
 		<service android:enabled="true"
 			android:name="org.androidpn.client.NotificationService"
 			android:label="NotificationService">
-			<intent-filter>
+			<intent-filter android:priority="1000">
 				<action android:name="org.androidpn.client.NotificationService" />
+			</intent-filter>
+		</service>
+
+		<service
+			android:name="org.androidpn.client.ClientService"
+			android:enabled="true" >
+			<intent-filter android:priority="1000" >
+				<action android:name="com.dbjtech.myservice" />
 			</intent-filter>
 		</service>
 		<receiver android:name="org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver" >
