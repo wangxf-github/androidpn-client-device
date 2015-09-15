@@ -206,15 +206,15 @@ uses-permission#android.permission.WRITE_SETTINGS
 ADDED from AndroidManifest.xml:106:2
 	android:name
 		ADDED from AndroidManifest.xml:106:19
-uses-permission#android.permission.INSTALL_PACKAGES
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from AndroidManifest.xml:107:2
 	android:name
 		ADDED from AndroidManifest.xml:107:19
-uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+uses-permission#android.permission.SYSTEM_OVERLAY_WINDOW
 ADDED from AndroidManifest.xml:108:2
 	android:name
 		ADDED from AndroidManifest.xml:108:19
-uses-permission#android.permission.SYSTEM_OVERLAY_WINDOW
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
 ADDED from AndroidManifest.xml:109:2
 	android:name
 		ADDED from AndroidManifest.xml:109:19
