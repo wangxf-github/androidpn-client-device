@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="E:\资料\手机银行资料\androidpn-client-0.5.02\app\src\androidTest\res"/><source path="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\generated\res\rs\androidTest\debug"/><source path="E:\资料\手机银行资料\androidpn-client-0.5.02\app\build\generated\res\generated\androidTest\debug"/></dataSet><mergedItems/></merger>
+<merger version="3"><dataSet config="main"><source path="E:\mdm\androidpn-client-device\app\src\androidTest\res"/><source path="E:\mdm\androidpn-client-device\app\build\generated\res\rs\androidTest\debug"/><source path="E:\mdm\androidpn-client-device\app\build\generated\res\generated\androidTest\debug"/></dataSet><mergedItems/></merger>
