@@ -20,13 +20,20 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import com.zs.devicemanager.R;
 
 import org.androidpn.client.ClientService;
 import org.androidpn.client.ServiceManager;
+import org.androidpn.client.XmppManager;
+import org.androidpn.mydevice.BaseDeviceFunction;
+import org.androidpn.mydevice.DeviceGetter;
+import org.androidpn.mydevice.DeviceManager;
 import org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver;
+import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
+import org.androidpn.mydevice.DeviceSecurity;
 import org.androidpn.utils.LogUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,21 +43,29 @@ import org.json.JSONObject;
  * 
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public class DemoAppActivity extends Activity{
+public class DemoAppActivity extends BaseDeviceFunction{
 
     private SharedPreferences sharedPreferences;
+    private WifiStateReceiver wifiStateReceiver;
+    private DeviceManager deviceManager;
+//    private DeviceSecurity deviceSecurity;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d("DemoAppActivity", "onCreate()...");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        deviceManager =getDeviceManagerInstance() ;
+//        deviceSecurity = deviceManager.getDeviceSecurityInstance();
+        wifiStateReceiver  =deviceManager.getWifiStateReceiver();
         // Start the service
 //        ServiceManager serviceManager = new ServiceManager(this);
 //        serviceManager.setNotificationIcon(R.drawable.notification);
 //        serviceManager.startService();
+//        String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
+//        deviceManager.registReceivers(this,wifiStateReceiver,action);
         Intent intent = new Intent(DemoAppActivity.this, ClientService.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(intent);
 
     }

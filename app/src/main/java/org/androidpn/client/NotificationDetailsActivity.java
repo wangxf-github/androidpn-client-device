@@ -49,6 +49,7 @@ public class NotificationDetailsActivity extends Activity {
     ImageView imageView ;
     TextView notify_title;
     TextView notify_des;
+    TextView notify_url;
 
     public NotificationDetailsActivity() {
     }
@@ -60,6 +61,7 @@ public class NotificationDetailsActivity extends Activity {
         imageView = (ImageView) findViewById(R.id.notify_header);
         notify_title = (TextView) findViewById(R.id.notify_title);
         notify_des = (TextView) findViewById(R.id.notify_des);
+        notify_url = (TextView) findViewById(R.id.notify_url);
         SharedPreferences sharedPrefs = this.getSharedPreferences(
                 Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         callbackActivityPackageName = sharedPrefs.getString(
@@ -81,7 +83,9 @@ public class NotificationDetailsActivity extends Activity {
 
         notify_title.setText(notificationTitle);
         notify_des.setText(notificationMessage);
-        imageView.setImageResource(R.drawable.ic_launcher);
+        notify_url.setText(notificationUri);
+        imageView.setImageResource(R.drawable.pander);
+
         Log.d(LOGTAG, "notificationId=" + notificationId);
         Log.d(LOGTAG, "notificationApiKey=" + notificationApiKey);
         Log.e(LOGTAG, "notificationTitle=" + notificationTitle);
@@ -199,4 +203,10 @@ public class NotificationDetailsActivity extends Activity {
     //        setIntent(intent);
     //    }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

@@ -100,7 +100,7 @@ public class XmppManager {
         taskTracker = notificationService.getTaskTracker();
         sharedPrefs = notificationService.getSharedPreferences();
 
-        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "10.101.5.169");
+        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "10.10.10.11");
         xmppPort = sharedPrefs.getInt(Constants.XMPP_PORT, 5222);
         username = sharedPrefs.getString(Constants.XMPP_USERNAME, "");
         password = sharedPrefs.getString(Constants.XMPP_PASSWORD, "");
@@ -339,7 +339,7 @@ public class XmppManager {
 
                       connection.connect();
 
-                    Log.i(LOGTAG, "XMPP connected successfully");
+                    Log.e(LOGTAG, "XMPP connected successfully");
 
                     // packet provider
                     ProviderManager.getInstance().addIQProvider("notification",
@@ -355,7 +355,7 @@ public class XmppManager {
 
 
                 } catch (XMPPException e) {
-                    Log.e(LOGTAG, "XMPP connection failed", e);
+                    Log.i(LOGTAG, "XMPP connection failed", e);
                 }
 
                 xmppManager.runTask();
@@ -381,11 +381,12 @@ public class XmppManager {
         public void run() {
             Log.i(LOGTAG, "RegisterTask.run()...");
      //       Log.e("username.....", username);
-            if (!xmppManager.isRegistered()) {
-//                final String newUsername = getIMEI(context);
-//                final String newPassword = getIMEI(context);
-                final String newUsername = "23423515";
-                final String newPassword = "asdfsdffcadf";
+//            if (!xmppManager.isRegistered()) {
+                if (true) {
+                final String newUsername = getIMEI(context);
+                final String newPassword = getIMEI(context);
+//                final String newUsername = "23423515";
+//                final String newPassword = "asdfsdffcadf";
                 Log.e("username.....",newUsername);
                 Registration registration = new Registration();
 

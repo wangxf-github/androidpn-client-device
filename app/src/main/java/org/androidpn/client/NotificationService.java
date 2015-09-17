@@ -33,6 +33,8 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.zs.devicemanager.R;
+
 /**
  * Service that continues to run in background and respond to the push 
  * notification events from the server. This should be registered as service
@@ -124,14 +126,26 @@ public class NotificationService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        Log.d(LOGTAG, "onStart()...");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        flags = START_STICKY;
+        Log.d(LOGTAG, "onStart.....");
+//        startForeground();
+//        xmppManager = new XmppManager(this);
+//
+//        taskSubmitter.submit(new Runnable() {
+//            public void run() {
+//                NotificationService.this.start();
+//            }
+//        });
+        return super.onStartCommand(intent, flags, startId);
     }
+
 
     @Override
     public void onDestroy() {
-        Log.d(LOGTAG, "onDestroy()...");
+        Log.i(LOGTAG, "onDestroy()...");
         Intent localIntent = new Intent();
+        localIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         localIntent.setClass(this, NotificationService.class); //销毁时重新启动Service
         this.startService(localIntent);
     }

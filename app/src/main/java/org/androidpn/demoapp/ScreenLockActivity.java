@@ -17,12 +17,7 @@ import org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver;
  */
 public class ScreenLockActivity extends Activity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-
-    }
 
     @Override
     protected void onResume() {

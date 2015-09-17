@@ -74,7 +74,7 @@ public class GpsLocation{
                 device.setLongitude(location.getLongitude() + "");
                 device.setReqFlag("deviceLocaltion");
                 Toast.makeText(context, location.getLongitude() + "---------" + location.getLatitude(), Toast.LENGTH_SHORT).show();
-//                xmppManager.getConnection().sendPacket(device);
+                xmppManager.getConnection().sendPacket(device);
             } else {
                 Toast.makeText(context,"无法获取地理信息",Toast.LENGTH_SHORT).show();
             }

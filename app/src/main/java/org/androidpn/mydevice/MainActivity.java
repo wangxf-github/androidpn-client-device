@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import com.zs.devicemanager.R;
 
+import org.androidpn.client.ClientService;
 import org.androidpn.client.Constants;
 import org.androidpn.client.NotificationDetailsActivity;
+import org.androidpn.demoapp.DemoAppActivity;
 import org.androidpn.demoapp.ScreenLockActivity;
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
@@ -46,6 +48,8 @@ public class MainActivity extends BaseDeviceFunction {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(MainActivity.this, ClientService.class);
+        startService(intent);
     }
 
 
@@ -64,7 +68,7 @@ public class MainActivity extends BaseDeviceFunction {
 
     public void initView() {
         setContentView(R.layout.main);
-//        button = (Button) findViewById(R.id.btn_settings);
+        button = (Button) findViewById(R.id.button);
      //   button_zhan = (Button) findViewById(R.id.button_zhan);
 //        textView = (TextView) findViewById(R.id.tv_info);
 //        password = (EditText) findViewById(R.id.password);
@@ -73,14 +77,20 @@ public class MainActivity extends BaseDeviceFunction {
 
     public void viewListener() {
         Log.e("qwe", "333333333");
-//        button_zhan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.e("adf", "1111111111");
-//                textView.setText(deviceInfo.toString());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
+                intent
+                        .putExtra(Constants.NOTIFICATION_TITLE,
+                                "afsdafsad");
+                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
+                        "dsafsadfsdafsa");
+                intent.putExtra(Constants.NOTIFICATION_URI, "www.baidu.com");
+                sendBroadcast(intent);
 
-//            }
-//        });
+            }
+        });
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

@@ -5,5 +5,11 @@
     android:layout_height="fill_parent"
     >
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
 <!-- From: file:/E:/mdm/androidpn-client-device/app/src/main/res/layout/main.xml -->

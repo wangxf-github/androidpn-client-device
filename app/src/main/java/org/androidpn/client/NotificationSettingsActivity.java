@@ -125,4 +125,9 @@ public class NotificationSettingsActivity extends PreferenceActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

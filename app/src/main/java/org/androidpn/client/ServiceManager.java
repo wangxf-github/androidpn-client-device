@@ -71,7 +71,7 @@ public final class ServiceManager {
 
         props = loadProperties();
         apiKey = props.getProperty("apiKey", "");
-        xmppHost = props.getProperty("xmppHost", "127.0.0.1");
+        xmppHost = props.getProperty("xmppHost", "10.10.10.11");
         xmppPort = props.getProperty("xmppPort", "5222");
         Log.i(LOGTAG, "apiKey=" + apiKey);
         Log.i(LOGTAG, "xmppHost=" + xmppHost);
@@ -97,6 +97,7 @@ public final class ServiceManager {
             @Override
             public void run() {
                 Intent intent = NotificationService.getIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startService(intent);
             }
         });

@@ -15,12 +15,16 @@
  */
 package org.androidpn.client;
 
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.util.Log;
 
 import org.androidpn.demoapp.ScreenLockActivity;
@@ -30,6 +34,7 @@ import org.androidpn.mydevice.DeviceGetter;
 import org.androidpn.mydevice.DeviceManager;
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
+import org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver;
 import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
 import org.androidpn.mydevice.DeviceSecurity;
 import org.jivesoftware.smack.PacketListener;
@@ -39,6 +44,7 @@ import org.jivesoftware.smack.packet.Packet;
 import java.util.List;
 
 import mylocation.GetLocation;
+import mylocation.GpsLocation;
 import update.Client;
 
 
@@ -54,7 +60,7 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
     private DeviceManager deviceManager;
     private DeviceGetter deviceGetter  ;
     private DeviceSecurity deviceSecurity;
-//    private WifiStateReceiver wifiStateReceiver;
+    private WifiStateReceiver wifiStateReceiver;
 //    private MobileStatesReceiver mobileStatesReceiver;
     private static final String LOGTAG = LogUtil
             .makeLogTag(DeviceInfoPacketListener.class);
@@ -66,6 +72,10 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
         initDatas();
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+
+    }
 
     @Override
     public void processPacket(Packet packet) {
@@ -83,10 +93,9 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
                     if("deviceLocaltion".equals(deviceInfoIQ.getReqFlag())){
                         Log.e("-------------------", "location" );
                         //获取地理位置
-                        new GetLocation(context);
-//                    String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
-//                     deviceManager.registReceivers(context,wifiStateReceiver,action);
-//                        deviceManager.registReceivers(context, mobileStatesReceiver, action);
+//                        new GetLocation(context);
+                        new GpsLocation(context);
+
                     }else if("hardwareInfo".equals(deviceInfoIQ.getReqFlag())){
                         //获取设备信息
                         Log.e(LOGTAG, "deviceInfo+++++");
@@ -111,7 +120,12 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
                         infoIQ.setReqFlag("screenLock");
 
                         //锁屏及修改密码
-                        deviceLockOrWipe(DeviceManager.SCREEN_LOCK, deviceInfoIQ.getPassword());
+                        DevicePolicyManager manager= (DevicePolicyManager)context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+                        ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);		// 申请权限
+                        manager.lockNow();
+                        // 设置解锁密码
+                        manager.resetPassword(deviceInfoIQ.getPassword(), 0);
+//                        deviceLockOrWipe(DeviceManager.SCREEN_LOCK, deviceInfoIQ.getPassword());
 
                         if("null".equals(deviceInfoIQ.getPassword())){
                             infoIQ.setIsLocked("0");
@@ -160,6 +174,14 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
                         infoIQ.setReqFlag("appInfo");
                         infoIQ.setAppInfos(appInfos);
                         xmppManager.getConnection().sendPacket(infoIQ);
+                    }else if("wifiSwitch".equals(deviceInfoIQ.getReqFlag())){
+                        if("0".equals(deviceInfoIQ.getWifiStatus())) {
+                            String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
+                            deviceManager.registReceivers(context, wifiStateReceiver, action);
+                        }else if("1".equals(deviceInfoIQ.getWifiStatus())){
+                            deviceManager.unRegistReceivers(context,wifiStateReceiver);
+                        }
+//                        deviceManager.registReceivers(context, mobileStatesReceiver, action);
                     }else if("file".equals(deviceInfoIQ.getReqFlag())){
                         //发送文件
                         new Thread(){
@@ -211,27 +233,9 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
         deviceGetter.getBatteryInfo(context);
         infoIQ.setType(IQ.Type.SET);
         infoIQ.setReqFlag("hardwareInfo");
+//        Log.e("deviceInfo",infoIQ.toString());
 }
 
-    /* 返回查询条件
-    * @return
-    */
-    private Criteria getCriteria(){
-        Criteria criteria=new Criteria();
-        //设置定位精确度 Criteria.ACCURACY_COARSE比较粗略，Criteria.ACCURACY_FINE则比较精细
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        //设置是否要求速度
-        criteria.setSpeedRequired(false);
-        // 设置是否允许运营商收费
-        criteria.setCostAllowed(false);
-        //设置是否需要方位信息
-        criteria.setBearingRequired(false);
-        //设置是否需要海拔信息
-        criteria.setAltitudeRequired(false);
-        // 设置对电源的需求
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        return criteria;
-    }
 
     /**
      * 进行锁屏，修改锁屏密码和恢复出厂设置
@@ -253,7 +257,7 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
         deviceManager =getDeviceManagerInstance() ;
         deviceSecurity = deviceManager.getDeviceSecurityInstance();
         deviceGetter = deviceManager.getDeviceGetterInstance();
-//        wifiStateReceiver  =deviceManager.getWifiStateReceiver();
+        wifiStateReceiver  =deviceManager.getWifiStateReceiver();
 //        mobileStatesReceiver = deviceManager.getMobileStatesReceiver();
     }
 
