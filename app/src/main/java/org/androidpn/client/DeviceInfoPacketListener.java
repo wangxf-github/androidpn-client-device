@@ -121,7 +121,7 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
 
                         //锁屏及修改密码
                         DevicePolicyManager manager= (DevicePolicyManager)context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-                        ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);		// 申请权限
+//                        ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);		// 申请权限
                         manager.lockNow();
                         // 设置解锁密码
                         manager.resetPassword(deviceInfoIQ.getPassword(), 0);
