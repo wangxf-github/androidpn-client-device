@@ -105,7 +105,8 @@ public class XmppManager {
         username = sharedPrefs.getString(Constants.XMPP_USERNAME, "");
         password = sharedPrefs.getString(Constants.XMPP_PASSWORD, "");
         wlanMac = sharedPrefs.getString(Constants.XMPP_WLANMAC, "");
-
+        Log.i(LOGTAG, "xmppHost=" + xmppHost);
+        Log.i(LOGTAG, "xmppPort=" + xmppPort);
         connectionListener = new PersistentConnectionListener(this);
         notificationPacketListener = new NotificationPacketListener(this);
 

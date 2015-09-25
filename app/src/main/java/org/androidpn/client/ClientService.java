@@ -34,8 +34,8 @@ public class ClientService extends Service {
 
     @Override
     public void onDestroy() {
-        Intent localIntent = new Intent();
-        localIntent.setClass(this, ClientService.class); //销毁时重新启动Service
-        this.startService(localIntent);
+//        Intent localIntent = new Intent();
+//        localIntent.setClass(this, ClientService.class); //销毁时重新启动Service
+//        this.startService(localIntent);
     }
 }

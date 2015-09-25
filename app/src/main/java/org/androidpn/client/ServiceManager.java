@@ -73,16 +73,16 @@ public final class ServiceManager {
         apiKey = props.getProperty("apiKey", "");
         xmppHost = props.getProperty("xmppHost", "127.0.0.1");
         xmppPort = props.getProperty("xmppPort", "5222");
-        Log.i(LOGTAG, "apiKey=" + apiKey);
-        Log.i(LOGTAG, "xmppHost=" + xmppHost);
-        Log.i(LOGTAG, "xmppPort=" + xmppPort);
+//        Log.i(LOGTAG, "apiKey=" + apiKey);
+//        Log.i(LOGTAG, "xmppHost=" + xmppHost);
+//        Log.i(LOGTAG, "xmppPort=" + xmppPort);
 
         sharedPrefs = context.getSharedPreferences(
                 Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         Editor editor = sharedPrefs.edit();
         editor.putString(Constants.API_KEY, apiKey);
         editor.putString(Constants.VERSION, version);
-        editor.putString(Constants.XMPP_HOST, xmppHost);
+//        editor.putString(Constants.XMPP_HOST, xmppHost);
         editor.putInt(Constants.XMPP_PORT, Integer.parseInt(xmppPort));
         editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
                 callbackActivityPackageName);
