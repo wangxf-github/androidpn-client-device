@@ -1,5 +1,6 @@
 package org.androidpn.mydevice;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -198,4 +199,13 @@ public class DeviceSecurity extends BaseDeviceFunction {
      return map;
     }
 
+
+    public boolean setBluetoothEnable(boolean bluetoothEnable){
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(bluetoothEnable){
+            return bluetoothAdapter.enable();
+        }else {
+            return bluetoothAdapter.disable();
+        }
+    }
 }

@@ -129,9 +129,6 @@ public class DeviceInfoIQ extends IQ {
     /**设备app信息*/
     private List<AppInfo> appInfos;
 
-    /**设备wifi状态*/
-    private String wifiStatus;
-
     public DeviceInfoIQ() {
     }
 
@@ -279,14 +276,6 @@ public class DeviceInfoIQ extends IQ {
 
         buf.append("</").append("deviceinfo").append("> ");
         return buf.toString();
-    }
-
-    public String getWifiStatus() {
-        return wifiStatus;
-    }
-
-    public void setWifiStatus(String wifiStatus) {
-        this.wifiStatus = wifiStatus;
     }
 
     public String getIsWiped() {
@@ -637,7 +626,6 @@ public class DeviceInfoIQ extends IQ {
                 ", wifiFlow='" + wifiFlow + '\'' +
                 ", simChangeHistory='" + simChangeHistory + '\'' +
                 ", deviceOS='" + deviceOS + '\'' +
-                ", wifiStatus='" + wifiStatus + '\'' +
                 '}';
     }
 
