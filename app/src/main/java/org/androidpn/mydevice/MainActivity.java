@@ -1,6 +1,7 @@
 package org.androidpn.mydevice;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,8 +51,9 @@ public class MainActivity extends BaseDeviceFunction {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(MainActivity.this, ClientService.class);
-        startService(intent);
+
+//        Intent intent = new Intent(MainActivity.this, ClientService.class);
+//        startService(intent);
     }
 
 
@@ -80,14 +84,15 @@ public class MainActivity extends BaseDeviceFunction {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
-                intent
-                        .putExtra(Constants.NOTIFICATION_TITLE,
-                                "afsdafsad");
-                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
-                        "dsafsadfsdafsa");
-                intent.putExtra(Constants.NOTIFICATION_URI, "www.baidu.com");
-                sendBroadcast(intent);
+//                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
+//                intent
+//                        .putExtra(Constants.NOTIFICATION_TITLE,
+//                                "afsdafsad");
+//                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
+//                        "dsafsadfsdafsa");
+//                intent.putExtra(Constants.NOTIFICATION_URI, "www.baidu.com");
+//                sendBroadcast(intent);
+                deviceSecurity.setScreenCutEnable();
 
             }
         });

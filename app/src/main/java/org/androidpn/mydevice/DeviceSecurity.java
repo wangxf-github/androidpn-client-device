@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -199,7 +201,11 @@ public class DeviceSecurity extends BaseDeviceFunction {
      return map;
     }
 
-
+    /**
+     * 蓝牙控制
+     * @param bluetoothEnable
+     * @return
+     */
     public boolean setBluetoothEnable(boolean bluetoothEnable){
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothEnable){
@@ -208,4 +214,10 @@ public class DeviceSecurity extends BaseDeviceFunction {
             return bluetoothAdapter.disable();
         }
     }
+
+    public void setScreenCutEnable(){
+        Window win = this.getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
 }
+

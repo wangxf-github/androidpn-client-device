@@ -23,6 +23,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.zs.devicemanager.R;
 
 import org.androidpn.client.ClientService;
@@ -75,7 +78,7 @@ public class DemoAppActivity extends BaseDeviceFunction{
         super.onStart();
         Log.e("comming", "onStart...");
         sharedPreferences = getSharedPreferences("deviceSharePre", MODE_PRIVATE);
-        Boolean isEnable= sharedPreferences.getBoolean("deviceStatus",false);
+        Boolean isEnable = sharedPreferences.getBoolean("deviceStatus",false);
         Log.e("demo//////////.......",isEnable+"");
         if(isEnable){
 
