@@ -425,6 +425,23 @@ public class DeviceGetter extends BaseDeviceFunction{
         return bytes;
     }
 
+    /**
+     * 获取总容量和可用容量
+     * @return
+     */
+    public long[] getRomSize(){
+        long[] romInfo = new long[2];
+        //Available rom memory
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        long totalBlocks = stat.getBlockCount();
+        romInfo[0] =  totalBlocks * blockSize;
+        romInfo[1] = blockSize * availableBlocks;
+        return romInfo;
+    }
+
 
 }
 

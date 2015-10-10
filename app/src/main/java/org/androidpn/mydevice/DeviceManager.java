@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import org.androidpn.mydevice.cmdcontrol.CmdLines;
+import org.androidpn.mydevice.cmdcontrol.CmdOperate;
 import org.androidpn.mydevice.DeviceReceiver.BatInfoReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
 import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
@@ -37,6 +39,8 @@ public class DeviceManager {
     private BootReceiver bootReceiver;
     private WifiStateReceiver wifiStateReceiver;
     private MobileStatesReceiver mobileStatesReceiver;
+    private CmdLines deviceCmdLine;
+    private CmdOperate cmdOperate;
 
     /**
      * 获取设备获取器
@@ -178,5 +182,35 @@ public class DeviceManager {
             }
         }
         return batInfoReceiver;
+    }
+
+    /**
+     * 获取操作指令执行对象
+     * @return
+     */
+    public CmdLines getDeviceCmdLine(){
+        if(deviceCmdLine==null){
+            synchronized(DeviceManager.class){
+                if(deviceCmdLine==null){
+                    deviceCmdLine=new CmdLines();
+                }
+            }
+        }
+        return deviceCmdLine;
+    }
+
+    /**
+     * 获取操作指令执行对象
+     * @return
+     */
+    public CmdOperate getDeviceCmdOperate(){
+        if(cmdOperate==null){
+            synchronized(DeviceManager.class){
+                if(cmdOperate==null){
+                    cmdOperate=new CmdOperate();
+                }
+            }
+        }
+        return cmdOperate;
     }
 }

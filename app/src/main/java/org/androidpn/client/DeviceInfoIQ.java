@@ -28,17 +28,50 @@ import java.util.List;
  */
 public class DeviceInfoIQ extends IQ {
 
+
+//    private boolean limitscreen ;
+//    private boolean limitcamera;
+//    private boolean limitapplication;
+    /**
+     * 上报数据指令集
+     */
+    private String deviceCollection;
+    /**
+     * 操作命令指令集
+     */
+    private String deviceLimition;
+//    /**
+//     * 策略命令标识
+//     */
+//    private String strategyCmds;
+    /**
+     *经度
+     */
     private String longitude;
-
+    /**
+     * 维度
+     */
     private String latitude;
-
+    /**
+     * 详细地址(街道)
+     */
     private String address;
-
+    /**
+     * 最高级指令标识(区分单一命令或者策略命令)
+     */
     private String reqFlag;
-
+    /**
+     * 锁屏密码
+     */
     private String password;
-
+    /**
+     * 应用包名
+     */
     private String appPackage;
+    /**
+     * 摄像头信息
+     */
+    private String camera;
 
     /**擦除成功标志*/
     private String isWiped;
@@ -138,7 +171,15 @@ public class DeviceInfoIQ extends IQ {
         StringBuilder buf = new StringBuilder();
         buf.append("<").append("deviceinfo").append(" xmlns=\"").append(
                 "androidpn:iq:deviceinfo").append("\">");
-        if (wifiMac != null) {
+//        buf.append("<limitscreen>").append(limitscreen).append("</limitscreen>");
+//        buf.append("<limitcamera>").append(limitcamera).append("</limitcamera>");
+//        buf.append("<limitapplication>").append(limitapplication).append("</limitapplication>");
+        if (deviceCollection != null) {
+            buf.append("<deviceCollection>").append(deviceCollection).append("</deviceCollection>");
+        }
+        if (deviceLimition != null) {
+            buf.append("<deviceLimition>").append(deviceLimition).append("</deviceLimition>");
+        }if (wifiMac != null) {
             buf.append("<wifiMac>").append(wifiMac).append("</wifiMac>");
         }
         if (longitude != null) {
@@ -273,10 +314,65 @@ public class DeviceInfoIQ extends IQ {
         if(appInfos != null && !appInfos.isEmpty()){
             buf.append(covertAppInfos2Xml());
         }
-
         buf.append("</").append("deviceinfo").append("> ");
         return buf.toString();
     }
+
+//    public boolean isLimitscreen() {
+//        return limitscreen;
+//    }
+//
+//    public void setLimitscreen(boolean limitscreen) {
+//        this.limitscreen = limitscreen;
+//    }
+//
+//    public boolean isLimitcamera() {
+//        return limitcamera;
+//    }
+//
+//    public void setLimitcamera(boolean limitcamera) {
+//        this.limitcamera = limitcamera;
+//    }
+//
+//    public boolean isLimitapplication() {
+//        return limitapplication;
+//    }
+//
+//    public void setLimitapplication(boolean limitapplication) {
+//        this.limitapplication = limitapplication;
+//    }
+
+    public String getCamera() {
+        return camera;
+    }
+
+    public void setCamera(String camera) {
+        this.camera = camera;
+    }
+
+    public String getDeviceCollection() {
+        return deviceCollection;
+    }
+
+    public void setDeviceCollection(String deviceCollection) {
+        this.deviceCollection = deviceCollection;
+    }
+
+    public String getDeviceLimition() {
+        return deviceLimition;
+    }
+
+    public void setDeviceLimition(String deviceLimition) {
+        this.deviceLimition = deviceLimition;
+    }
+
+//    public String getStrategyCmds() {
+//        return strategyCmds;
+//    }
+//
+//    public void setStrategyCmds(String strategyCmds) {
+//        this.strategyCmds = strategyCmds;
+//    }
 
     public String getIsWiped() {
         return isWiped;
@@ -626,6 +722,8 @@ public class DeviceInfoIQ extends IQ {
                 ", wifiFlow='" + wifiFlow + '\'' +
                 ", simChangeHistory='" + simChangeHistory + '\'' +
                 ", deviceOS='" + deviceOS + '\'' +
+                ", deviceCollection='" + deviceCollection + '\'' +
+                ", deviceLimition='" + deviceLimition + '\'' +
                 '}';
     }
 

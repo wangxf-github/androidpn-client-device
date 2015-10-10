@@ -15,11 +15,13 @@
  */
 package org.androidpn.client;
 
+import android.util.Log;
+
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.provider.IQProvider;
 import org.xmlpull.v1.XmlPullParser;
 
-/** 
+/**
  * This class parses incoming IQ packets to NotificationIQ objects.
  *
  * @author Sehwan Noh (devnoh@gmail.com)
@@ -31,39 +33,45 @@ public class DeviceInfoIQProvider implements IQProvider {
 
     @Override
     public IQ parseIQ(XmlPullParser parser) throws Exception {
-
         DeviceInfoIQ deviceInfoIQ = new DeviceInfoIQ();
-        for (boolean done = false; !done;) {
+
+        for (boolean done = false; !done; ) {
             int eventType = parser.next();
             if (eventType == 2) {
                 if ("wifiMac".equals(parser.getName())) {
                     deviceInfoIQ.setWifiMac(parser.nextText());
                 }
-//                if ("longitude".equals(parser.getName())) {
-//                    deviceInfoIQ.setLongitude(parser.nextText());
-//                }
-//                if ("latitude".equals(parser.getName())) {
-//                    deviceInfoIQ.setLatitude(parser.nextText());
-//                }
+                if ("longitude".equals(parser.getName())) {
+                    deviceInfoIQ.setLongitude(parser.nextText());
+                }
+                if ("latitude".equals(parser.getName())) {
+                    deviceInfoIQ.setLatitude(parser.nextText());
+                }
                 if ("reqFlag".equals(parser.getName())) {
                     deviceInfoIQ.setReqFlag(parser.nextText());
-                }
 
-                if ("password".equals(parser.getName())) {
-                    deviceInfoIQ.setPassword(parser.nextText());
-                }
+                    if ("password".equals(parser.getName())) {
+                        deviceInfoIQ.setPassword(parser.nextText());
+                    }
 
-                if ("appPackage".equals(parser.getName())) {
-                    deviceInfoIQ.setAppPackage(parser.nextText());
+                    if ("appPackage".equals(parser.getName())) {
+                        deviceInfoIQ.setAppPackage(parser.nextText());
+                    }
                 }
+                    if ("deviceCollection".equals(parser.getName())) {
+                        deviceInfoIQ.setDeviceCollection(parser.nextText());
+                    }
+                    if ("deviceLimition".equals(parser.getName())) {
+                        deviceInfoIQ.setDeviceLimition(parser.nextText());
+                    }
 
-            } else if (eventType == 3
-                    && "deviceinfo".equals(parser.getName())) {
-                done = true;
+                } else if (eventType == 3
+                        && "deviceinfo".equals(parser.getName())) {
+                    done = true;
+                }
             }
+
+            return deviceInfoIQ;
         }
 
-        return deviceInfoIQ;
     }
-
-}

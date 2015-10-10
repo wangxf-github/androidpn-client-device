@@ -2,46 +2,53 @@
 <items version="2" >
 
     <item
-        jar="E:\Git\androidpn-client-0.5.02\libs\mina-core-2.0.9.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="255f546277515f2191105e89f4d768e3ca02db9c">
-        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\mina-core-2.0.9-ceeeadafc25bd0a00074998c1bb17b277c8ddb24.jar" />
-    </item>
-    <item
-        jar="E:\Git\androidpn-client-0.5.02\libs\slf4j-api-1.5.8.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="2aaf496dfd551adb9b079f58a7e2d55eb383fc82">
-        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\slf4j-api-1.5.8-0c457daa42293672ee4362d87e5b75a1d56beb75.jar" />
-    </item>
-    <item
-        jar="E:\Git\androidpn-client-0.5.02\libs\slf4j-log4j12-1.5.8.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="da00a151c4db31b5be23e5f2b9f528735fddc384">
-        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\slf4j-log4j12-1.5.8-d454b1a8bc14fd7fb77f9aba3400c81cdaf8072d.jar" />
-    </item>
-    <item
-        jar="E:\Git\androidpn-client-0.5.02\libs\Android_Location_V1.3.2.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="b64d1f38ef7ee28b538d61a39d040f249c65587c">
-        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\Android_Location_V1.3.2-0d91fd527b64c628a65f9fa99a84d6e83f36a0e0.jar" />
-    </item>
-    <item
-        jar="E:\Git\androidpn-client-0.5.02\libs\log4j-1.2.12.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="057b8740427ee6d7b0b60792751356cad17dc0d9">
-        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\log4j-1.2.12-cab4c9b138da35c4151ff0460c67b582cde28a4e.jar" />
-    </item>
-    <item
-        jar="E:\Git\androidpn-client-0.5.02\libs\asmack-android-8-0.8.10.jar"
+        jar="E:\mdm\androidpn-client-device\libs\asmack-android-8-0.8.10.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="8ffad10173ab28a17db77cf10c9a9fc95037305b">
-        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\asmack-android-8-0.8.10-9f196779a29a897c3bf1bd1bc04e89e051e88440.jar" />
+        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\asmack-android-8-0.8.10-53aad3441547276d16c6e5ac3b202bb89b73de1a.jar" />
+    </item>
+    <item
+        jar="E:\mdm\androidpn-client-device\libs\mina-core-2.0.9.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="255f546277515f2191105e89f4d768e3ca02db9c">
+        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\mina-core-2.0.9-68f608b964c82712e21418ef5393f24beeb21d90.jar" />
+    </item>
+    <item
+        jar="E:\mdm\androidpn-client-device\libs\Android_Location_V1.3.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="b64d1f38ef7ee28b538d61a39d040f249c65587c">
+        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\Android_Location_V1.3.2-4ff6fcb8612b9b2c119b02dcf81b2b3ca5321608.jar" />
+    </item>
+    <item
+        jar="E:\mdm\androidpn-client-device\libs\json-lib-2.4-jdk15.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="136743e0d12df4e785e62b48618cee169b2ae546">
+        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\json-lib-2.4-jdk15-2767c777ab2c0fefd68311400f034f10fb6c7ddf.jar" />
+    </item>
+    <item
+        jar="E:\mdm\androidpn-client-device\libs\slf4j-api-1.5.8.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="2aaf496dfd551adb9b079f58a7e2d55eb383fc82">
+        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\slf4j-api-1.5.8-927423690461d6bacfc86075dcf664d906d23ee7.jar" />
+    </item>
+    <item
+        jar="E:\mdm\androidpn-client-device\libs\log4j-1.2.12.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="057b8740427ee6d7b0b60792751356cad17dc0d9">
+        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\log4j-1.2.12-a3f7657604f7d59c24bf04023e5f7a4de23f33b3.jar" />
+    </item>
+    <item
+        jar="E:\mdm\androidpn-client-device\libs\slf4j-log4j12-1.5.8.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="da00a151c4db31b5be23e5f2b9f528735fddc384">
+        <dex dex="E:\mdm\androidpn-client-device\app\build\intermediates\pre-dexed\debug\slf4j-log4j12-1.5.8-3888bd509886b531ca7ad85dc19ca09da4d7572c.jar" />
     </item>
 
 </items>

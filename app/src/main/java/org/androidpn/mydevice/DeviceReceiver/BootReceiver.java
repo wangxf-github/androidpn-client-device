@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Message;
 import android.util.Log;
 
-import org.androidpn.client.LogUtil;
 import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
 

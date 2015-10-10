@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.zs.devicemanager.R;
-
 import org.androidpn.client.ClientService;
-import org.androidpn.client.ServiceManager;
 
 /**
  * Created by Saber on 2015/9/14.
