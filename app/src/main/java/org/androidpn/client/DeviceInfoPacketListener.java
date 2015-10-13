@@ -78,6 +78,14 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
             {
                     if("strategy".equals(deviceInfoIQ.getReqFlag())){
                         Log.e("-------------------", "strategy" );
+                        infoIQ.setCamera("索尼2.4亿像素摄像头");
+                        infoIQ.setReqFlag("strategy");
+                        infoIQ.setDeviceOS("android 5.1.1");
+                        infoIQ.setAddress("天安门广场");
+                        List<AppInfo> appInfos = deviceSecurity.getApp(context);
+                        infoIQ.setType(IQ.Type.SET);
+                        infoIQ.setAppInfos(appInfos);
+                        xmppManager.getConnection().sendPacket(infoIQ);
 
                     }else if("hardwareInfo".equals(deviceInfoIQ.getReqFlag())){
                         //获取设备信息

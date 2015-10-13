@@ -30,23 +30,70 @@ public class CmdLines extends BaseDeviceFunction {
      * @param infoIQ
      * @param cmd
      */
-    public void doMethods(Context context, DeviceInfoIQ deviceInfoIQ,
-                          DeviceInfoIQ infoIQ, String cmd) {
+    public void doMethod(Context context, DeviceInfoIQ deviceInfoIQ,
+                          DeviceInfoIQ infoIQ, int cmd) {
         DeviceManager deviceManager = getDeviceManagerInstance();
         PackageManager packageManager = getPackageManager();
         DeviceSecurity deviceSecurity = deviceManager.getDeviceSecurityInstance();
         DeviceGetter deviceGetter = deviceManager.getDeviceGetterInstance();
         XmppManager xmppManager = DeviceInfoPacketListener.getXmppManager();
-//        PackageManager packageManager = context.getPackageManager();
-//        if("limitscreen".equals(cmd)){
-//            infoIQ.setLimitscreen(true);
-//        }
-//        if("limitcamera".equals(cmd)){
-//            infoIQ.setLimitcamera(true);
-//        }
-//        if("limitapplication".equals(cmd)){
-//            infoIQ.setLimitapplication(true);
-//        }
+        switch (cmd){
+            case CmdType.IMEI:
+                infoIQ.setImei(deviceGetter.getIMEI(context));
+                break;
+            case CmdType.BLUETOOTHMAC:
+                infoIQ.setBlueToothMac(deviceGetter.getBluetoothMac());
+                break;
+            case CmdType.BATTERYSTATUS:
+                deviceGetter.getBatteryInfo(context);
+                break;
+            case CmdType.PROCESSOR:
+                infoIQ.setProcessor(deviceGetter.getCpuName());
+                break;
+            case CmdType.DEVICEMOBILENO:
+                infoIQ.setDeviceMobileNo(deviceGetter.getPhoneModel());
+                break;
+            case CmdType.DEVICEOS:
+                infoIQ.setDeviceOS(deviceGetter.getVersion()[3] + " " + deviceGetter.getVersion()[1]);
+                break;
+            case CmdType.DEVICEWIPE:
+
+                break;
+            case CmdType.DISPLAYSIZE:
+                break;
+            case CmdType.IMSINO:
+                break;
+            case CmdType.ISLOCK:
+                break;
+            case CmdType.ISROAMING:
+                break;
+            case CmdType.ISROOT:
+                break;
+            case CmdType.LIMITION:
+                break;
+            case CmdType.LOCATION:
+                break;
+            case CmdType.MANUFACTURER:
+                break;
+            case CmdType.MOBILEOPERATOR:
+                break;
+            case CmdType.RAMSIZE:
+                break;
+            case CmdType.ROMSIZE:
+                break;
+            case CmdType.ROMAVAILABLESIZE:
+                break;
+            case CmdType.SCREENLOCK:
+                break;
+            case CmdType.SIMFLOW:
+                break;
+            case CmdType.SPECIFICATION:
+                break;
+            case CmdType.WIFIFLOW:
+                break;
+            case CmdType.WIFIMAC:
+                break;
+        }
         if("batteryStatus".equals(cmd)){
             infoIQ.setBatteryStatus("99%");
         }
@@ -134,38 +181,6 @@ public class CmdLines extends BaseDeviceFunction {
         } else if ("romsize".equals(cmd)) {
             long[] romsize = deviceGetter.getRomSize();
             infoIQ.setRomSize(romsize[0] + "," + romsize[1]);
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
-        } else if ("appInfo".equals(cmd)) {
-
         }
     }
 }
