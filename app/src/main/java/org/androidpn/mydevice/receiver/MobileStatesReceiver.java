@@ -1,4 +1,4 @@
-package org.androidpn.mydevice.DeviceReceiver;
+package org.androidpn.mydevice.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

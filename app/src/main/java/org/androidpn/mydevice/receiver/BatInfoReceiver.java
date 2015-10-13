@@ -1,4 +1,4 @@
-package org.androidpn.mydevice.DeviceReceiver;
+package org.androidpn.mydevice.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Message;
 import android.util.Log;
 
-import org.androidpn.client.ClientService;
 import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
 

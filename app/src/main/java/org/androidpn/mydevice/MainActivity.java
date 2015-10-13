@@ -1,16 +1,12 @@
 package org.androidpn.mydevice;
 
 import android.app.Activity;
-import android.app.Application;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,14 +14,11 @@ import android.widget.TextView;
 import com.zs.devicemanager.R;
 
 import org.androidpn.client.ClientService;
-import org.androidpn.client.Constants;
-import org.androidpn.client.NotificationDetailsActivity;
-import org.androidpn.demoapp.DemoAppActivity;
 import org.androidpn.demoapp.ScreenLockActivity;
-import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
-import org.androidpn.mydevice.DeviceReceiver.BootReceiver;
-import org.androidpn.mydevice.DeviceReceiver.MobileStatesReceiver;
-import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
+import org.androidpn.mydevice.receiver.BatteryReceiver;
+import org.androidpn.mydevice.receiver.BootReceiver;
+import org.androidpn.mydevice.receiver.MobileStatesReceiver;
+import org.androidpn.mydevice.receiver.WifiStateReceiver;
 
 
 public class MainActivity extends BaseDeviceFunction {

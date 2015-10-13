@@ -23,7 +23,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import org.androidpn.mydevice.DeviceReceiver.BatteryReceiver;
+import org.androidpn.mydevice.receiver.BatteryReceiver;
 
 import java.io.BufferedReader;
 import java.io.File;

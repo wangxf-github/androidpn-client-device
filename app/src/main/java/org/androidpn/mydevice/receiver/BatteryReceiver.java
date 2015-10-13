@@ -1,4 +1,4 @@
-package org.androidpn.mydevice.DeviceReceiver;
+package org.androidpn.mydevice.receiver;
 
 /**
  * Created by S on 2015/8/20.

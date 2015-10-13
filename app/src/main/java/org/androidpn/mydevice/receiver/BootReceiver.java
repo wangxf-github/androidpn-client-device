@@ -1,4 +1,4 @@
-package org.androidpn.mydevice.DeviceReceiver;
+package org.androidpn.mydevice.receiver;
 
 /**
  * Created by S on 2015/8/20.
@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Message;
 import android.util.Log;
 
-import org.androidpn.client.LogUtil;
 import org.androidpn.mydevice.DeviceHandler;
 import org.androidpn.mydevice.DeviceManager;
 

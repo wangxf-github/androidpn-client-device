@@ -113,7 +113,7 @@ action#com.dbjtech.myservice
 ADDED from AndroidManifest.xml:58:5
 	android:name
 		ADDED from AndroidManifest.xml:58:13
-receiver#org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver
+receiver#org.androidpn.mydevice.receiver.MyAdminReceiver
 ADDED from AndroidManifest.xml:62:3
 	android:name
 		ADDED from AndroidManifest.xml:62:13
@@ -129,7 +129,7 @@ action#android.app.action.DEVICE_ADMIN_ENABLED
 ADDED from AndroidManifest.xml:67:5
 	android:name
 		ADDED from AndroidManifest.xml:67:13
-receiver#org.androidpn.mydevice.DeviceReceiver.ReBootReceiver
+receiver#org.androidpn.mydevice.receiver.ReBootReceiver
 ADDED from AndroidManifest.xml:70:3
 	android:enabled
 		ADDED from AndroidManifest.xml:70:13
@@ -143,7 +143,7 @@ action#android.intent.action.BOOT_COMPLETED
 ADDED from AndroidManifest.xml:76:5
 	android:name
 		ADDED from AndroidManifest.xml:76:13
-receiver#org.androidpn.mydevice.DeviceReceiver.BootReceiver
+receiver#org.androidpn.mydevice.receiver.BootReceiver
 ADDED from AndroidManifest.xml:83:3
 	android:label
 		ADDED from AndroidManifest.xml:84:4

@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.zs.devicemanager.R;
 
-import org.androidpn.mydevice.DeviceReceiver.BatInfoReceiver;
+import org.androidpn.mydevice.receiver.BatInfoReceiver;
 
 /**
  * Created by Saber on 2015/9/15.

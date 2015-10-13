@@ -15,28 +15,17 @@
  */
 package org.androidpn.demoapp;
 
-import android.app.Activity;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.zs.devicemanager.R;
 
 import org.androidpn.client.ClientService;
-import org.androidpn.client.ServiceManager;
-import org.androidpn.client.XmppManager;
 import org.androidpn.mydevice.BaseDeviceFunction;
-import org.androidpn.mydevice.DeviceGetter;
 import org.androidpn.mydevice.DeviceManager;
-import org.androidpn.mydevice.DeviceReceiver.MyAdminReceiver;
-import org.androidpn.mydevice.DeviceReceiver.WifiStateReceiver;
-import org.androidpn.mydevice.DeviceSecurity;
+import org.androidpn.mydevice.receiver.WifiStateReceiver;
 import org.androidpn.utils.LogUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,7 +68,7 @@ public class DemoAppActivity extends BaseDeviceFunction{
         Log.e("comming", "onStart...");
         sharedPreferences = getSharedPreferences("deviceSharePre", MODE_PRIVATE);
         Boolean isEnable = sharedPreferences.getBoolean("deviceStatus",false);
-        Log.e("demo//////////.......",isEnable+"");
+        Log.e("demo//////////.......", isEnable + "");
         if(isEnable){
 
         }else {
@@ -95,7 +84,7 @@ public class DemoAppActivity extends BaseDeviceFunction{
     @Override
     protected void onPause() {
         super.onPause();
-        LogUtils.takeLog(this.getClass(),"onPause...");
+        LogUtils.takeLog(this.getClass(), "onPause...");
     }
 
     @Override
