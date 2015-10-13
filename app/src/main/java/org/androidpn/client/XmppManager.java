@@ -100,7 +100,7 @@ public class XmppManager {
         taskTracker = notificationService.getTaskTracker();
         sharedPrefs = notificationService.getSharedPreferences();
 
-        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "10.10.10.11");
+        xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "192.168.99.9");
         xmppPort = sharedPrefs.getInt(Constants.XMPP_PORT, 5222);
         username = sharedPrefs.getString(Constants.XMPP_USERNAME, "");
         password = sharedPrefs.getString(Constants.XMPP_PASSWORD, "");
@@ -383,10 +383,10 @@ public class XmppManager {
      //       Log.e("username.....", username);
 //            if (!xmppManager.isRegistered()) {
                 if (true) {
-                final String newUsername = getIMEI(context);
-                final String newPassword = getIMEI(context);
-//                final String newUsername = "23423515";
-//                final String newPassword = "asdfsdffcadf";
+//                final String newUsername = getIMEI(context);
+//                final String newPassword = getIMEI(context);
+                final String newUsername = "862428021516471";
+                final String newPassword = "862428021516471";
                 Log.e("username.....",newUsername);
                 Registration registration = new Registration();
 

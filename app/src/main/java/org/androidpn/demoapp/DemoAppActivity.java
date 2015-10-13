@@ -83,11 +83,11 @@ public class DemoAppActivity extends BaseDeviceFunction{
         if(isEnable){
 
         }else {
-            Intent intents = new Intent();                                                            // 构造意图
-            ComponentName componentName = new ComponentName(this, MyAdminReceiver.class);        // 申请权限
-            intents.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);                    // 指定添加系统外设的动作名称
-            intents.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);            // 指定给哪个组件授权
-            startActivity(intents);
+//            Intent intents = new Intent();                                                            // 构造意图
+//            ComponentName componentName = new ComponentName(this, MyAdminReceiver.class);        // 申请权限
+//            intents.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);                    // 指定添加系统外设的动作名称
+//            intents.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);            // 指定给哪个组件授权
+//            startActivity(intents);
         }
 
     }

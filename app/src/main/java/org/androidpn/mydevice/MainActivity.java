@@ -52,8 +52,9 @@ public class MainActivity extends BaseDeviceFunction {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Intent intent = new Intent(MainActivity.this, ClientService.class);
-//        startService(intent);
+        Intent intent = new Intent(MainActivity.this, ClientService.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startService(intent);
     }
 
 

@@ -28,6 +28,26 @@ import java.util.List;
  */
 public class DeviceInfoIQ extends IQ {
 
+    private String deviceCollection;
+
+    private String deviceLimition;
+
+    public String getDeviceCollection() {
+        return deviceCollection;
+    }
+
+    public void setDeviceCollection(String deviceCollection) {
+        this.deviceCollection = deviceCollection;
+    }
+
+    public String getDeviceLimition() {
+        return deviceLimition;
+    }
+
+    public void setDeviceLimition(String deviceLimition) {
+        this.deviceLimition = deviceLimition;
+    }
+
     private String longitude;
 
     private String latitude;
@@ -141,6 +161,13 @@ public class DeviceInfoIQ extends IQ {
         if (wifiMac != null) {
             buf.append("<wifiMac>").append(wifiMac).append("</wifiMac>");
         }
+
+        if (deviceCollection != null) {
+            buf.append("<deviceCollection>").append(deviceCollection).append("</deviceCollection>");
+        }if (deviceLimition != null) {
+            buf.append("<deviceLimition>").append(deviceLimition).append("</deviceLimition>");
+        }
+
         if (longitude != null) {
             buf.append("<longitude>").append(longitude).append("</longitude>");
         }

@@ -46,7 +46,6 @@
 		</activity>
 		<service android:enabled="true"
 			android:name="org.androidpn.client.NotificationService"
-			android:process=":service2"
 			android:label="NotificationService">
 			<intent-filter android:priority="1000">
 				<action android:name="org.androidpn.client.NotificationService" />
@@ -54,9 +53,7 @@
 		</service>
 
 		<service
-			android:name="org.androidpn.client.ClientService"
-			android:enabled="true"
-			android:process=":service1">
+			android:name="org.androidpn.client.ClientService">
 			<intent-filter android:priority="1000" >
 				<action android:name="com.dbjtech.myservice" />
 			</intent-filter>

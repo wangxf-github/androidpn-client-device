@@ -72,7 +72,7 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
         xmppManager = DeviceInfoPacketListener.getXmppManager();
         Log.d(LOGTAG, "NotificationPacketListener.processPacket()...");
         Log.e(LOGTAG, "packet.toXML()=" + packet.toXML());
-        Log.e(LOGTAG, "++++++++++++++");
+//        Log.e(LOGTAG, "++++++++++++++");
         infoIQ =new DeviceInfoIQ();
         PackageManager  packageManager = context.getPackageManager();
         if (packet instanceof DeviceInfoIQ) {

@@ -91,16 +91,12 @@
         <service
             android:name="org.androidpn.client.NotificationService"
             android:enabled="true"
-            android:label="NotificationService"
-            android:process=":service2" >
+            android:label="NotificationService" >
             <intent-filter android:priority="1000" >
                 <action android:name="org.androidpn.client.NotificationService" />
             </intent-filter>
         </service>
-        <service
-            android:name="org.androidpn.client.ClientService"
-            android:enabled="true"
-            android:process=":service1" >
+        <service android:name="org.androidpn.client.ClientService" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.dbjtech.myservice" />
             </intent-filter>
