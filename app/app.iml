@@ -92,6 +92,7 @@
     <orderEntry type="library" exported="" name="log4j-1.2.12" level="project" />
     <orderEntry type="library" exported="" name="slf4j-log4j12-1.5.8" level="project" />
     <orderEntry type="library" exported="" name="asmack-android-8-0.8.10" level="project" />
+    <orderEntry type="library" exported="" name="json-lib-2.4-jdk15" level="project" />
     <orderEntry type="library" exported="" name="mina-core-2.0.9" level="project" />
     <orderEntry type="library" exported="" name="slf4j-api-1.5.8" level="project" />
     <orderEntry type="library" exported="" name="asmack-android-8-4.0.0" level="project" />

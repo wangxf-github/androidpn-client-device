@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="slf4j-api-1.5.8">
     <CLASSES>
-      <root url="jar://E:/Git/androidpn-client-0.5.02/libs/slf4j-api-1.5.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/slf4j-api-1.5.8.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -32,6 +32,16 @@ public class DeviceInfoIQ extends IQ {
 
     private String deviceLimition;
 
+    private String Camera;
+
+    public String getCamera() {
+        return Camera;
+    }
+
+    public void setCamera(String camera) {
+        Camera = camera;
+    }
+
     public String getDeviceCollection() {
         return deviceCollection;
     }

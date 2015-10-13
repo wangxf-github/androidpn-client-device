@@ -76,13 +76,9 @@ public class DeviceInfoPacketListener extends BaseDeviceFunction implements Pack
 
             if (deviceInfoIQ.getChildElementXML().contains("androidpn:iq:deviceinfo"))
             {
-                    if("deviceLocaltion".equals(deviceInfoIQ.getReqFlag())){
-                        Log.e("-------------------", "location" );
-                        //获取地理位置
-                        new GetLocation(context);
-//                    String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
-//                     deviceManager.registReceivers(context,wifiStateReceiver,action);
-//                        deviceManager.registReceivers(context, mobileStatesReceiver, action);
+                    if("strategy".equals(deviceInfoIQ.getReqFlag())){
+                        Log.e("-------------------", "strategy" );
+
                     }else if("hardwareInfo".equals(deviceInfoIQ.getReqFlag())){
                         //获取设备信息
                         Log.e(LOGTAG, "deviceInfo+++++");
