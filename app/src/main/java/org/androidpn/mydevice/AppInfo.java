@@ -10,8 +10,17 @@ public class AppInfo {
     private String packageName;
     private String versionCode;
     private Drawable appIcon;
+    private String firstInstallTime;
 
     public AppInfo(){}
+
+    public String getFirstInstallTime() {
+        return firstInstallTime;
+    }
+
+    public void setFirstInstallTime(String firstInstallTime) {
+        this.firstInstallTime = firstInstallTime;
+    }
 
     public Drawable getAppIcon() {
         return appIcon;
@@ -52,6 +61,7 @@ public class AppInfo {
                 ", appName='" + appName + '\'' +
                 ", packageName='" + packageName + '\'' +
                 ", versionCode='" + versionCode + '\'' +
+                ", firstInstallTime='" + firstInstallTime + '\'' +
                 '}';
     }
 }

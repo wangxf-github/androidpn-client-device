@@ -1,6 +1,8 @@
 package org.androidpn.mydevice;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,10 +16,18 @@ import android.widget.TextView;
 import com.zs.devicemanager.R;
 
 import org.androidpn.client.ClientService;
+import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.demoapp.ScreenLockActivity;
+import org.androidpn.mydevice.cmd.CmdShine;
+import org.androidpn.mydevice.cmd.CmdType;
+import org.androidpn.mydevice.observer.ConcreteWatched;
+import org.androidpn.mydevice.observer.ConcreteWatcher;
+import org.androidpn.mydevice.observer.Watched;
+import org.androidpn.mydevice.observer.Watcher;
 import org.androidpn.mydevice.receiver.BatteryReceiver;
 import org.androidpn.mydevice.receiver.BootReceiver;
 import org.androidpn.mydevice.receiver.MobileStatesReceiver;
+import org.androidpn.mydevice.receiver.MyAdminReceiver;
 import org.androidpn.mydevice.receiver.WifiStateReceiver;
 
 
@@ -48,10 +58,30 @@ public class MainActivity extends BaseDeviceFunction {
         Intent intent = new Intent(MainActivity.this, ClientService.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(intent);
+
+    }
+    public void testObserver(){
+        Watched girl = new ConcreteWatched();
+
+        Watcher watcher1 = new ConcreteWatcher();
+        Watcher watcher2 = new ConcreteWatcher();
+        Watcher watcher3 = new ConcreteWatcher();
+
+        girl.addWatcher(watcher1);
+        girl.addWatcher(watcher2);
+        girl.addWatcher(watcher3);
+
+        girl.notifyWatchers("开心");
     }
 
 
     public void initData() {
+        Intent intent = new Intent();
+        intent.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        ComponentName componentName = new ComponentName(this, MyAdminReceiver.class);		// 申请权限// 指定添加系统外设的动作名称
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);			// 指定给哪个组件授权
+        startActivity(intent);// 构造意图
+
         deviceManager = getDeviceManagerInstance();
         deviceInfo = deviceManager.getDeviceInfoInstance();
         ac = MainActivity.this;
@@ -86,7 +116,12 @@ public class MainActivity extends BaseDeviceFunction {
 //                        "dsafsadfsdafsa");
 //                intent.putExtra(Constants.NOTIFICATION_URI, "www.baidu.com");
 //                sendBroadcast(intent);
-                deviceSecurity.setScreenCutEnable();
+//                deviceSecurity.setScreenCutEnable();
+
+//                String cmd = "deviceMobileNo;deviceOS;imei;imsiNo;isRoaming;mobileOperator;romSize;simFlow;wifiFlow;wifiMac";
+//                DeviceInfoIQ deviceInfo = new DeviceInfoIQ();
+//                deviceManager.getDeviceCmdOperate().doStrategyMethod(MainActivity.this, deviceInfo, new DeviceInfoIQ(), cmd, CmdType.COLLECTION);
+                deviceSecurity.unInstallApk("com.autonavi.minimap",MainActivity.this);
 
             }
         });

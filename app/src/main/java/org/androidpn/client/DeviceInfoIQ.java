@@ -34,13 +34,7 @@ public class DeviceInfoIQ extends IQ {
 
     private String Camera;
 
-    public String getCamera() {
-        return Camera;
-    }
-
-    public void setCamera(String camera) {
-        Camera = camera;
-    }
+    private String packageName;
 
     public String getDeviceCollection() {
         return deviceCollection;
@@ -168,10 +162,15 @@ public class DeviceInfoIQ extends IQ {
         StringBuilder buf = new StringBuilder();
         buf.append("<").append("deviceinfo").append(" xmlns=\"").append(
                 "androidpn:iq:deviceinfo").append("\">");
+        if (packageName != null) {
+            buf.append("<packageName>").append(packageName).append("</packageName>");
+        }
         if (wifiMac != null) {
             buf.append("<wifiMac>").append(wifiMac).append("</wifiMac>");
         }
-
+        if (password != null) {
+            buf.append("<password>").append(password).append("</password>");
+        }
         if (deviceCollection != null) {
             buf.append("<deviceCollection>").append(deviceCollection).append("</deviceCollection>");
         }if (deviceLimition != null) {
@@ -313,6 +312,22 @@ public class DeviceInfoIQ extends IQ {
 
         buf.append("</").append("deviceinfo").append("> ");
         return buf.toString();
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getCamera() {
+        return Camera;
+    }
+
+    public void setCamera(String camera) {
+        Camera = camera;
     }
 
     public String getIsWiped() {
@@ -629,6 +644,14 @@ public class DeviceInfoIQ extends IQ {
         this.wifiFlow = wifiFlow;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "DeviceInfoIQ{" +
@@ -663,16 +686,11 @@ public class DeviceInfoIQ extends IQ {
                 ", wifiFlow='" + wifiFlow + '\'' +
                 ", simChangeHistory='" + simChangeHistory + '\'' +
                 ", deviceOS='" + deviceOS + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     private String covertAppInfos2Xml(){
         if(appInfos == null || appInfos.isEmpty())
@@ -692,6 +710,9 @@ public class DeviceInfoIQ extends IQ {
             builder.append("<versionCode>");
             builder.append(ai.getVersionCode());
             builder.append("</versionCode>");
+            builder.append("<firstInstallTime>");
+            builder.append(ai.getFirstInstallTime());
+            builder.append("</firstInstallTime>");
             builder.append("</AppInfo>");
         }
 

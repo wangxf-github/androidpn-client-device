@@ -41,7 +41,25 @@ public class DeviceManager {
     private MobileStatesReceiver mobileStatesReceiver;
     private CmdLines deviceCmdLine;
     private CmdOperate cmdOperate;
+    private static DeviceManager deviceManager;
 
+    private DeviceManager(){
+
+    }
+    /**
+     * 获取设备管理器
+     * @return
+     */
+    public static DeviceManager getDeviceManagerInstance(){
+        if(deviceManager==null){
+            synchronized(DeviceManager.class){
+                if(deviceManager==null){
+                    deviceManager=new DeviceManager();
+                }
+            }
+        }
+        return deviceManager;
+    }
     /**
      * 获取设备获取器
      * @return

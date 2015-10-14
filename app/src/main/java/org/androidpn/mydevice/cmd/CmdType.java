@@ -32,5 +32,8 @@ public class CmdType {
         public  static final int LOCATION = 5003;
         public  static final int SCREENLOCK = 6001;
         public  static final int DEVICEWIPE = 6002;
+        public static final int UNSTALLAPK = 6003;
+
+        public static final int NOCMD = 4444;
 
 }

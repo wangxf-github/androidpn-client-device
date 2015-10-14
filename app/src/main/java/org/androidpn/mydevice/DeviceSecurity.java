@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Created by S on 2015/8/14.
  */
-public class DeviceSecurity extends BaseDeviceFunction {
+public class DeviceSecurity{
 
 
 
@@ -46,8 +46,8 @@ public class DeviceSecurity extends BaseDeviceFunction {
                 tmpInfo.setAppName(pi.applicationInfo.loadLabel(context.getPackageManager()).toString());
                 tmpInfo.setPackageName(pi.packageName);
                 tmpInfo.setVersionCode(pi.versionCode + "");
+                tmpInfo.setFirstInstallTime(pi.firstInstallTime + "");
                 tmpInfo.setAppIcon(pi.applicationInfo.loadIcon(context.getPackageManager()));
-                Log.e("====", tmpInfo.toString());
                 pakages.add(tmpInfo);
             } else {
         //系统应用　　　　　　　　
@@ -173,18 +173,18 @@ public class DeviceSecurity extends BaseDeviceFunction {
     public void installAPK(String apkFromPath ,String apkName){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath() +apkFromPath+ "/" + apkName),
+        intent.setDataAndType(Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath() + apkFromPath + "/" + apkName),
                 "application/vnd.android.package-archive");
-        this.startActivity(intent);
+//        this.startActivity(intent);
     }
 
     /**
      * 查看网络信息列表
      */
-    public Map getNetStates(){
+    public Map getNetStates(Context context){
         String serviceName =Context.CONNECTIVITY_SERVICE ;
         Map map = new HashMap();
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(serviceName);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(serviceName);
         NetworkInfo[] allNetworkInfo = connectivityManager.getAllNetworkInfo();
         for (int i =0;i<allNetworkInfo.length;i++){
             NetworkInfo networkInfo = allNetworkInfo[i];
@@ -215,9 +215,18 @@ public class DeviceSecurity extends BaseDeviceFunction {
         }
     }
 
-    public void setScreenCutEnable(){
-        Window win = this.getWindow();
-        win.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    /**
+     * 卸载应用
+     * @param packageName
+     */
+    public void unInstallApk(String packageName,Context context){
+        Uri uri = Uri.parse("package:"+packageName);//获取删除包名的URI
+        Intent i = new Intent();
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction(Intent.ACTION_DELETE);//设置我们要执行的卸载动作
+        i.setData(uri);//设置获取到的URI
+        context.startActivity(i);
     }
+
 }
 

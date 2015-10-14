@@ -36,9 +36,6 @@ public class DeviceInfoIQProvider implements IQProvider {
         for (boolean done = false; !done;) {
             int eventType = parser.next();
             if (eventType == 2) {
-                if ("wifiMac".equals(parser.getName())) {
-                    deviceInfoIQ.setWifiMac(parser.nextText());
-                }
 //                if ("longitude".equals(parser.getName())) {
 //                    deviceInfoIQ.setLongitude(parser.nextText());
 //                }
@@ -57,9 +54,8 @@ public class DeviceInfoIQProvider implements IQProvider {
                 if ("password".equals(parser.getName())) {
                     deviceInfoIQ.setPassword(parser.nextText());
                 }
-
-                if ("appPackage".equals(parser.getName())) {
-                    deviceInfoIQ.setAppPackage(parser.nextText());
+                if ("packageName".equals(parser.getName())) {
+                    deviceInfoIQ.setPackageName(parser.nextText());
                 }
 
             } else if (eventType == 3

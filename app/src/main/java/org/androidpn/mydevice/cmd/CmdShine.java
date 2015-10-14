@@ -13,8 +13,9 @@ public class CmdShine {
 
     public static Map<String,Integer> cmdShine = new HashMap<String,Integer>();
 
+    public static void initData()
     {
-        cmdShine.put("manufacturer",4001);
+        cmdShine.put("manufacturer", 4001);
         cmdShine.put("specification",4002);
         cmdShine.put("processor",4003);
         cmdShine.put("romSize",4004);
@@ -37,10 +38,9 @@ public class CmdShine {
         cmdShine.put("location",5003);
         cmdShine.put("screenLock",6001);
         cmdShine.put("deviceWipe",6002);
+        cmdShine.put("uninstallapp",6003);
 
 
-        cmdShine.put("location",5004);
-        cmdShine.put("location",5004);
 
 
 
@@ -52,22 +52,49 @@ public class CmdShine {
      * @return
      */
     public  static int[] cmdTransfer(String[] cmds){
+        initData();
 
-        Iterator i = cmdShine.entrySet().iterator();
         int[] ints = new int[cmds.length];
-        int j = 0;
-        while (i.hasNext()) {
-            Object obj = i.next();
-            String key = obj.toString();
-            j++;
-            if(key.equals(cmds[j])){
-                int cmdValue = cmdShine.get(key);
-                ints[j] = cmdValue;
+        for (int j=0;j<cmds.length;j++) {
+            Iterator i = cmdShine.entrySet().iterator();
+            while (i.hasNext()) {
+                Map.Entry entry = (Map.Entry) i.next();
+                String key = (String) entry.getKey();
+                if (key.equals(cmds[j])) {
+                    int cmdValue = cmdShine.get(key);
+                    ints[j] = cmdValue;
+                    break;
+                }
             }
-        }
+            }
+//        while (i.hasNext()) {
+//            Map.Entry entry = (Map.Entry) i.next();
+//            String key = (String) entry.getKey();
+//
+//            for (int j=0;j<cmds.length;j++) {
+//                if (key.equals(cmds[j])) {
+//                    int cmdValue = cmdShine.get(key);
+//                    ints[j] = cmdValue;
+//                }
+//            }
+//        }
         return ints;
     }
 
+    public static int cmdToInt(String cmd){
+        initData();
+        Iterator i = cmdShine.entrySet().iterator();
+        int s = CmdType.NOCMD;
+        while (i.hasNext()) {
+            Map.Entry entry = (Map.Entry) i.next();
+            String key = (String) entry.getKey();
+            if(key.equals(cmd)){
+                int cmdValue = cmdShine.get(key);
+                s= cmdValue;
+            }
+        }
+        return s;
+    }
 
 
 }

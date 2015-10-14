@@ -37,7 +37,7 @@ import java.util.UUID;
 /**
  * Created by S on 2015/7/20.
  */
-public class DeviceGetter extends BaseDeviceFunction{
+public class DeviceGetter {
 
     DeviceHandler handler = new DeviceHandler();
     public DeviceGetter() {
@@ -152,12 +152,12 @@ public class DeviceGetter extends BaseDeviceFunction{
             @Override
             public void run() {
 
-                DeviceManager deviceManager =getDeviceManagerInstance();
                 ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
                 ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
                 am.getMemoryInfo(mi);
                 //mi.availMem; 当前系统的可用内存
-                Log.e("ram", String.valueOf(mi.availMem));
+//                Log.e("ram", String.valueOf(mi.availMem));
+//                mi.totalMem;
                 Message message = new Message();
                 message.what=DeviceManager.AvailRamMemory_INFO;
                 message.obj = String.valueOf(mi.availMem);
@@ -251,7 +251,7 @@ public class DeviceGetter extends BaseDeviceFunction{
 获取电池信息
  */
     public void getBatteryInfo(Context activity){
-        DeviceManager deviceManager =getDeviceManagerInstance();
+        DeviceManager deviceManager =DeviceManager.getDeviceManagerInstance();
         BatteryReceiver batteryReceiver = deviceManager.getBatteryReceiver();
         String[]  action = {Intent.ACTION_BATTERY_CHANGED};
         deviceManager.registReceivers(activity,batteryReceiver, action);
