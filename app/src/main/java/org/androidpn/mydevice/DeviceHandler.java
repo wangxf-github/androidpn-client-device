@@ -3,11 +3,13 @@ package org.androidpn.mydevice;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.client.DeviceInfoPacketListener;
 import org.androidpn.client.LogUtil;
 import org.androidpn.client.XmppManager;
+import org.androidpn.utils.LogUtils;
 import org.jivesoftware.smack.packet.IQ;
 
 import java.util.Map;
@@ -22,9 +24,9 @@ public class DeviceHandler  extends Handler{
 
         @Override
         public void handleMessage(Message msg) {
-            Log.e(LogUtil.makeLogTag(DeviceHandler.class),"i am in handlermessage.......");
+            LogUtils.takeLog(DeviceHandler.class,"i am in handlermessage.......");
             xmppManager = DeviceInfoPacketListener.getXmppManager();
-            infoIQ = DeviceInfoPacketListener.getDeviceInfoIQInstance();
+            infoIQ = DeviceManager.getDeviceManagerInstance().getOverallDeviceInfoInstance();
             super.handleMessage(msg);
             int tag = msg.what;
             switch (tag){
@@ -52,12 +54,14 @@ public class DeviceHandler  extends Handler{
                     String temperature = (String) map.get("temperature");
                     //TODO添加电池信息
                     infoIQ.setBatteryStatus(level + " " + temperature);
-                    infoIQ.setType(IQ.Type.SET);
-                    infoIQ.setReqFlag("hardwareInfo");
-                    Log.e(LogUtil.makeLogTag(DeviceHandler.class), infoIQ.toString());
-                    xmppManager.getConnection().sendPacket(infoIQ);
+//                    Log.e(LogUtil.makeLogTag(DeviceHandler.class), infoIQ.toString());
+//                    xmppManager.getConnection().sendPacket(infoIQ);
                     break;
 
+                case 1234:
+                    String result = msg.obj.toString();
+                    LogUtils.takeLog(DeviceHandler.class,"result ==="+result);
+                    break;
             }
         }
 }

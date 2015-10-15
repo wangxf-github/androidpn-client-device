@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.mydevice.cmd.CmdLines;
 import org.androidpn.mydevice.cmd.CmdOperate;
 import org.androidpn.mydevice.receiver.BatInfoReceiver;
@@ -31,7 +32,7 @@ public class DeviceManager {
     public static final int SCREEN_OFF = 10;
 
 
-    private DeviceInfo deviceInfo;
+    private DeviceInfoIQ deviceInfo;
     private DeviceGetter deviceGetter;
     private DeviceSecurity deviceSecurity;
     private BatteryReceiver batteryReceiver ;
@@ -79,15 +80,22 @@ public class DeviceManager {
      * 获取设备信息管理器
      * @return
      */
-    public  DeviceInfo getDeviceInfoInstance(){
+    public  DeviceInfoIQ getOverallDeviceInfoInstance(){
         if(deviceInfo==null){
             synchronized(DeviceManager.class){
                 if(deviceInfo==null){
-                    deviceInfo=new DeviceInfo();
+                    deviceInfo=new DeviceInfoIQ();
                 }
             }
         }
         return deviceInfo;
+    }
+    /**
+     * 获取设备信息管理器
+     * @return
+     */
+    public  DeviceInfoIQ getSingleDeviceInfoInstance(){
+        return new DeviceInfoIQ();
     }
 
     /**

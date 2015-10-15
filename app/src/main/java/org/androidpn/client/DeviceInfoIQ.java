@@ -28,41 +28,46 @@ import java.util.List;
  */
 public class DeviceInfoIQ extends IQ {
 
+    /*
+    设备硬件检测
+     */
+    private String hardwareSecurity;
+    /**
+     * 设备上报命令
+     */
     private String deviceCollection;
-
+    /**
+     * 设备限制命令
+     */
     private String deviceLimition;
-
+    /**
+     * 摄像头信息
+     */
     private String Camera;
-
+    /**
+     * 应用包名
+     */
     private String packageName;
-
-    public String getDeviceCollection() {
-        return deviceCollection;
-    }
-
-    public void setDeviceCollection(String deviceCollection) {
-        this.deviceCollection = deviceCollection;
-    }
-
-    public String getDeviceLimition() {
-        return deviceLimition;
-    }
-
-    public void setDeviceLimition(String deviceLimition) {
-        this.deviceLimition = deviceLimition;
-    }
-
+    /*
+    经度
+     */
     private String longitude;
-
+    /*
+    纬度
+     */
     private String latitude;
-
+    /*
+    详细地址
+     */
     private String address;
-
+    /*
+    命令标示
+     */
     private String reqFlag;
-
+    /*
+    锁屏密码
+     */
     private String password;
-
-    private String appPackage;
 
     /**擦除成功标志*/
     private String isWiped;
@@ -156,12 +161,18 @@ public class DeviceInfoIQ extends IQ {
     public DeviceInfoIQ() {
     }
 
-
+    /**
+     * 把IQ转化成xml
+     * @return
+     */
     @Override
     public String getChildElementXML() {
         StringBuilder buf = new StringBuilder();
         buf.append("<").append("deviceinfo").append(" xmlns=\"").append(
                 "androidpn:iq:deviceinfo").append("\">");
+        if (hardwareSecurity != null) {
+            buf.append("<hardwareSecurity>").append(hardwareSecurity).append("</hardwareSecurity>");
+        }
         if (packageName != null) {
             buf.append("<packageName>").append(packageName).append("</packageName>");
         }
@@ -314,6 +325,30 @@ public class DeviceInfoIQ extends IQ {
         return buf.toString();
     }
 
+    public String getHardwareSecurity() {
+        return hardwareSecurity;
+    }
+
+    public void setHardwareSecurity(String hardwareSecurity) {
+        this.hardwareSecurity = hardwareSecurity;
+    }
+
+    public String getDeviceCollection() {
+        return deviceCollection;
+    }
+
+    public void setDeviceCollection(String deviceCollection) {
+        this.deviceCollection = deviceCollection;
+    }
+
+    public String getDeviceLimition() {
+        return deviceLimition;
+    }
+
+    public void setDeviceLimition(String deviceLimition) {
+        this.deviceLimition = deviceLimition;
+    }
+
     public String getPackageName() {
         return packageName;
     }
@@ -451,14 +486,6 @@ public class DeviceInfoIQ extends IQ {
 
     public void setRomAvailableSize(String romAvailableSize){
         this.romAvailableSize = romAvailableSize;
-    }
-
-    public String getAppPackage() {
-        return appPackage;
-    }
-
-    public void setAppPackage(String appPackage) {
-        this.appPackage = appPackage;
     }
 
     public String getDisplaySize(){
@@ -687,6 +714,7 @@ public class DeviceInfoIQ extends IQ {
                 ", simChangeHistory='" + simChangeHistory + '\'' +
                 ", deviceOS='" + deviceOS + '\'' +
                 ", password='" + password + '\'' +
+                ", password='" + appInfos + '\'' +
                 '}';
     }
 

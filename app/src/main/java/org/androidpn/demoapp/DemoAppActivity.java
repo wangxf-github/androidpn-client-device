@@ -47,7 +47,7 @@ public class DemoAppActivity extends BaseDeviceFunction{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        deviceManager =getDeviceManagerInstance() ;
+        deviceManager =DeviceManager.getDeviceManagerInstance();
 //        deviceSecurity = deviceManager.getDeviceSecurityInstance();
         wifiStateReceiver  =deviceManager.getWifiStateReceiver();
         // Start the service

@@ -5,15 +5,12 @@ package org.androidpn.mydevice.cmd;
  */
 public class CmdType {
 
-        //上报信息标识
-        public static final int COLLECTION = 9001;
-        //限制操作标识
-        public static final int LIMITION = 9002;
-        public static final int MANUFACTURER =4001;
-        public  static final int SPECIFICATION= 4002;
+
+        public static final int BATTERYSTATUS =4001;
+        public  static final int RAMSIZE= 4002;
         public  static final int PROCESSOR = 4003;
         public  static final int ROMSIZE = 4004;
-        public  static final int ROMAVAILABLESIZE=4005;
+        public  static final int APPINFOS=4005;
         public  static final int DISPLAYSIZE=4006;
         public  static final int BLUETOOTHMAC=4007;
         public  static final int WIFIMAC = 4008;
@@ -27,13 +24,20 @@ public class CmdType {
         public  static final int ISROAMING = 4016;
         public  static final int SIMFLOW = 4017;
         public  static final int WIFIFLOW = 4018;
-        public  static final int RAMSIZE = 5001;
-        public  static final int BATTERYSTATUS = 5002;
+        public  static final int MANUFACTURER = 4019;
         public  static final int LOCATION = 5003;
         public  static final int SCREENLOCK = 6001;
         public  static final int DEVICEWIPE = 6002;
         public static final int UNSTALLAPK = 6003;
 
+        //上报信息标识
+        public static final int COLLECTION = 9001;
+        //限制操作标识
+        public static final int LIMITION = 9002;
+        //设备安全检测
+        public  static final int HARDWARESECURITY = 9003;
+
+        //空指令
         public static final int NOCMD = 4444;
 
 }

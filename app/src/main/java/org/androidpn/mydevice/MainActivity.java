@@ -1,12 +1,15 @@
 package org.androidpn.mydevice;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +20,12 @@ import com.zs.devicemanager.R;
 
 import org.androidpn.client.ClientService;
 import org.androidpn.client.DeviceInfoIQ;
+import org.androidpn.client.LogUtil;
 import org.androidpn.demoapp.ScreenLockActivity;
+import org.androidpn.mydevice.cmd.CmdOperate;
 import org.androidpn.mydevice.cmd.CmdShine;
 import org.androidpn.mydevice.cmd.CmdType;
+import org.androidpn.mydevice.listener.DataListener;
 import org.androidpn.mydevice.observer.ConcreteWatched;
 import org.androidpn.mydevice.observer.ConcreteWatcher;
 import org.androidpn.mydevice.observer.Watched;
@@ -29,6 +35,9 @@ import org.androidpn.mydevice.receiver.BootReceiver;
 import org.androidpn.mydevice.receiver.MobileStatesReceiver;
 import org.androidpn.mydevice.receiver.MyAdminReceiver;
 import org.androidpn.mydevice.receiver.WifiStateReceiver;
+import org.androidpn.utils.LogUtils;
+
+import java.util.HashMap;
 
 
 public class MainActivity extends BaseDeviceFunction {
@@ -55,9 +64,9 @@ public class MainActivity extends BaseDeviceFunction {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(MainActivity.this, ClientService.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startService(intent);
+//        Intent intent = new Intent(MainActivity.this, ClientService.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startService(intent);
 
     }
     public void testObserver(){
@@ -82,8 +91,8 @@ public class MainActivity extends BaseDeviceFunction {
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);			// 指定给哪个组件授权
         startActivity(intent);// 构造意图
 
-        deviceManager = getDeviceManagerInstance();
-        deviceInfo = deviceManager.getDeviceInfoInstance();
+        deviceManager = DeviceManager.getDeviceManagerInstance();
+//        deviceInfo = deviceManager.getDeviceInfoInstance();
         ac = MainActivity.this;
         str = new StringBuilder();
         deviceGetter = deviceManager.getDeviceGetterInstance();
@@ -120,11 +129,50 @@ public class MainActivity extends BaseDeviceFunction {
 
 //                String cmd = "deviceMobileNo;deviceOS;imei;imsiNo;isRoaming;mobileOperator;romSize;simFlow;wifiFlow;wifiMac";
 //                DeviceInfoIQ deviceInfo = new DeviceInfoIQ();
-//                deviceManager.getDeviceCmdOperate().doStrategyMethod(MainActivity.this, deviceInfo, new DeviceInfoIQ(), cmd, CmdType.COLLECTION);
-                deviceSecurity.unInstallApk("com.autonavi.minimap",MainActivity.this);
+                CmdOperate cmdOperate = deviceManager.getDeviceCmdOperate();
+////                deviceManager.getDeviceCmdOperate().doStrategyMethod(MainActivity.this, deviceInfo, new DeviceInfoIQ(), cmd, CmdType.COLLECTION);
+////                deviceSecurity.unInstallApk("com.autonavi.minimap",MainActivity.this);
+//                deviceInfo.setHardwareSecurity("isRoot;imsiNo;deviceOS");
+//                String hardwareSecurity = deviceInfo.getHardwareSecurity();
+//                cmdOperate.doMethods(MainActivity.this, deviceInfo, new DeviceInfoIQ(), hardwareSecurity, CmdType.HARDWARESECURITY);
+//                long s = getTestRam();
+//                DeviceInfoIQ deviceInfoIQ= deviceManager.getOverallDeviceInfoInstance();
+//                    deviceGetter.getBatteryInfo(MainActivity.this);
+//                DataListener.setDataListener(new HashMap().put("key",deviceInfoIQ.getBatteryStatus()));
+//                        LogUtils.takeLog(MainActivity.class, s + ".......");
+
+                DeviceInfoIQ deviceInfoIQ = deviceManager.getOverallDeviceInfoInstance();
+                deviceInfoIQ.setReqFlag("location");
+                deviceInfoIQ.setDeviceCollection("isRoot;deviceOS;romSize;displaySize");
+                deviceInfoIQ.setDeviceLimition("");
+                deviceInfoIQ.setHardwareSecurity("isRoot;deviceOS;imsiNo");
+                String flag = deviceInfoIQ.getReqFlag();
+                if("strategy".equals(flag)){
+                    DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
+                    cmdOperate.doMethods(MainActivity.this,deviceInfoIQ,infoIQ, CmdType.COLLECTION);
+                    cmdOperate.doMethods(MainActivity.this,deviceInfoIQ,infoIQ, CmdType.LIMITION);
+
+                }else  {
+                    DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
+                    int cmdInt = CmdShine.cmdToInt(flag);
+                    cmdOperate.doMethods(MainActivity.this, deviceInfoIQ, infoIQ, cmdInt);
+                }
 
             }
+
         });
+    }
+
+        public long getTestRam(){
+
+
+                ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+                ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+                am.getMemoryInfo(mi);
+                return mi.availMem;
+
+
+    }
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -179,7 +227,7 @@ public class MainActivity extends BaseDeviceFunction {
 //            }
 //        });
 
-    }
+//    }
 
     public void getDevice(){
         deviceGetter.getAvailRamMemory(ac);

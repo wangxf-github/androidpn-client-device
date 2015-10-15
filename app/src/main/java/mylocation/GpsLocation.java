@@ -18,6 +18,7 @@ package mylocation;
         import org.androidpn.client.DeviceInfoIQ;
         import org.androidpn.client.DeviceInfoPacketListener;
         import org.androidpn.client.XmppManager;
+        import org.androidpn.utils.LogUtils;
 
 public class GpsLocation{
     private LocationManager lm;
@@ -69,12 +70,14 @@ public class GpsLocation{
          */
         public void onLocationChanged(Location location) {
             device = new DeviceInfoIQ();
+            LogUtils.takeLog(GpsLocation.class,location.toString());
             if (location != null) {
                 device.setLatitude(location.getLatitude() + "");
                 device.setLongitude(location.getLongitude() + "");
                 device.setReqFlag("deviceLocaltion");
                 Toast.makeText(context, location.getLongitude() + "---------" + location.getLatitude(), Toast.LENGTH_SHORT).show();
-                xmppManager.getConnection().sendPacket(device);
+//                xmppManager.getConnection().sendPacket(device);
+                stopLocation();
             } else {
                 Toast.makeText(context,"无法获取地理信息",Toast.LENGTH_SHORT).show();
             }
@@ -158,6 +161,13 @@ public class GpsLocation{
         };
     };
 
+    private void stopLocation() {
+        if (lm != null) {
+
+            lm.removeUpdates(locationListener);
+        }
+        lm = null;
+    }
 
     /**
      * 返回查询条件

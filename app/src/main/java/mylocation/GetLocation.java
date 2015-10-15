@@ -14,6 +14,7 @@ import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.client.DeviceInfoPacketListener;
 import org.androidpn.client.XmppManager;
 import org.androidpn.mydevice.DeviceHandler;
+import org.jivesoftware.smack.packet.IQ;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,7 +40,7 @@ public class GetLocation implements AMapLocationListener{
         //其中如果间隔时间为-1，则定位只定一次
         try {
             mLocationManagerProxy.requestLocationData(
-                    LocationProviderProxy.AMapNetwork, 60 * 1000, 15, this);
+                    LocationProviderProxy.AMapNetwork, -1, 15, this);
         }catch (Exception e){
             Log.e("getLocation erro",e.toString());
         }
@@ -74,8 +75,9 @@ public class GetLocation implements AMapLocationListener{
 //        message.obj=device;
 //        message.what= DeviceManager.LOCATION_INFO;
 //        handler.sendMessage(message);
+        device.setType(IQ.Type.SET);
         device.setReqFlag("deviceLocaltion");
-         xmppManager.getConnection().sendPacket(device);
+//         xmppManager.getConnection().sendPacket(device);
     }
 
     @Override

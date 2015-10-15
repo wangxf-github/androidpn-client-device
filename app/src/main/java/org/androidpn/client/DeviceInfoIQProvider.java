@@ -57,6 +57,9 @@ public class DeviceInfoIQProvider implements IQProvider {
                 if ("packageName".equals(parser.getName())) {
                     deviceInfoIQ.setPackageName(parser.nextText());
                 }
+                if ("hardwareSecurity".equals(parser.getName())) {
+                    deviceInfoIQ.setHardwareSecurity(parser.nextText());
+                }
 
             } else if (eventType == 3
                     && "deviceinfo".equals(parser.getName())) {

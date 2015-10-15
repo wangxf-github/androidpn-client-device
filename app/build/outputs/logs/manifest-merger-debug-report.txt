@@ -227,26 +227,26 @@ ADDED from AndroidManifest.xml:113:5
 	android:name
 		ADDED from AndroidManifest.xml:113:22
 uses-permission#android.permission.WAKE_LOCK
+ADDED from AndroidManifest.xml:122:2
+	android:name
+		ADDED from AndroidManifest.xml:122:19
+uses-permission#android.permission.WRITE_SETTINGS
 ADDED from AndroidManifest.xml:123:2
 	android:name
 		ADDED from AndroidManifest.xml:123:19
-uses-permission#android.permission.WRITE_SETTINGS
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from AndroidManifest.xml:124:2
 	android:name
 		ADDED from AndroidManifest.xml:124:19
-uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+uses-permission#android.permission.SYSTEM_OVERLAY_WINDOW
 ADDED from AndroidManifest.xml:125:2
 	android:name
 		ADDED from AndroidManifest.xml:125:19
-uses-permission#android.permission.SYSTEM_OVERLAY_WINDOW
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
 ADDED from AndroidManifest.xml:126:2
 	android:name
 		ADDED from AndroidManifest.xml:126:19
-uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+uses-permission#android.permission.RESTART_PACKAGES
 ADDED from AndroidManifest.xml:127:2
 	android:name
 		ADDED from AndroidManifest.xml:127:19
-uses-permission#android.permission.RESTART_PACKAGES
-ADDED from AndroidManifest.xml:128:2
-	android:name
-		ADDED from AndroidManifest.xml:128:19

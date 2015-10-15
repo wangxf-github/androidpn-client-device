@@ -8,8 +8,6 @@ import android.os.Bundle;
  */
 public class BaseDeviceFunction extends Activity {
 
-    private  static DeviceManager manager = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,19 +35,5 @@ public class BaseDeviceFunction extends Activity {
 
     }
 
-    /**
-     * 获取设备管理器
-     * @return
-     */
-    public DeviceManager getDeviceManagerInstance(){
-        if(manager==null){
-            synchronized(BaseDeviceFunction.class){
-                if(manager==null){
-                    manager=new DeviceManager();
-                }
-            }
-        }
-        return manager;
-    }
 
 }

@@ -1,6 +1,7 @@
 package org.androidpn.mydevice.cmd;
 
 import android.app.admin.DevicePolicyManager;
+import android.bluetooth.BluetoothClass;
 import android.content.ComponentName;
 import android.content.Context;
 
@@ -8,11 +9,15 @@ import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.client.DeviceInfoPacketListener;
 import org.androidpn.client.XmppManager;
 import org.androidpn.mydevice.BaseDeviceFunction;
+import org.androidpn.mydevice.DeviceManager;
+import org.androidpn.mydevice.DeviceSecurity;
 import org.androidpn.mydevice.receiver.MyAdminReceiver;
 import org.androidpn.utils.DataUtils;
+import org.androidpn.utils.LogUtils;
 import org.jivesoftware.smack.packet.IQ;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,68 +34,93 @@ public class CmdOperate extends BaseDeviceFunction{
      * @param context
      * @param deviceInfoIQ
      * @param infoIQ
-     * @param cmds
      */
-    public void doStrategyMethod(Context context, DeviceInfoIQ deviceInfoIQ,
-                                DeviceInfoIQ infoIQ, String cmds,int tag){
-        CmdLines cmdLines = getDeviceManagerInstance().getDeviceCmdLine();
+    public void doMethods(Context context, DeviceInfoIQ deviceInfoIQ,
+                                DeviceInfoIQ infoIQ,int tag){
+        DeviceManager deviceManager = DeviceManager.getDeviceManagerInstance();
+        DeviceSecurity deviceSecurity = deviceManager.getDeviceSecurityInstance();
+        CmdLines cmdLines = deviceManager.getDeviceCmdLine();
         XmppManager xmppManager = DeviceInfoPacketListener.getXmppManager();
-        CmdLines deviceCmdLine = getDeviceManagerInstance().getDeviceCmdLine();
-        String cmdsStr = null;
         String[] cmdsArrey = null;
-        if(tag==CmdType.COLLECTION){
-            cmdsArrey= DataUtils.convertStrToArray(cmds,";");
-        }else if(tag ==CmdType.LIMITION){
-            Map<String,Boolean> limitMap = new HashMap<String,Boolean>();
-            limitMap = DataUtils.convertToMap(cmds);
-            Iterator i = limitMap.entrySet().iterator();
-            while (i.hasNext()) {
-                int keycount = 0;
-                Object obj = i.next();
-                String key = obj.toString();
-                if(limitMap.get(key)){
-                    cmdsArrey[keycount] = key;
-                }else{
-                    //TODO 指令取消时的操作
+        String cmds = null;
+
+        switch (tag){
+            case CmdType.COLLECTION:
+                infoIQ.setReqFlag("strategy");
+                cmds = deviceInfoIQ.getDeviceCollection();
+                if(cmds==null||cmds==""){
+                    break;
                 }
-            }
+                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
+
+                break;
+            case CmdType.LIMITION:
+                infoIQ.setReqFlag("strategy");
+                cmds= deviceInfoIQ.getDeviceLimition();
+                if(cmds==null||cmds==""){
+                    break;
+                }
+                Map<String,Boolean> limitMap = new HashMap<String,Boolean>();
+                limitMap = DataUtils.convertToMap(cmds);
+                Iterator i = limitMap.entrySet().iterator();
+                while (i.hasNext()) {
+                    int keycount = 0;
+                    Object obj = i.next();
+                    String key = obj.toString();
+                    if(limitMap.get(key)){
+                        cmdsArrey[keycount] = key;
+                    }else{
+                        //TODO 指令取消时的操作
+                    }
+                }
+
+                break;
+            case CmdType.HARDWARESECURITY:
+                infoIQ.setReqFlag("hardwareSecurity");
+                cmds = deviceInfoIQ.getHardwareSecurity();
+                if(cmds==null||cmds==""){
+                    break;
+                }
+                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
+                break;
+            case CmdType.APPINFOS:
+                cmds = "appInfos";
+                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
+                break;
+            case CmdType.LOCATION:
+                cmds = "location";
+                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
+                break;
         }
+        infoIQ.setType(IQ.Type.SET);
         if(cmdsArrey!=null){
             int[] firstcmd = CmdShine.cmdTransfer(cmdsArrey);
             int[] lastcmd = setOrder(firstcmd);
             for (int s:lastcmd
-                 ) {
+                    ) {
                 cmdLines.doMethod(context,deviceInfoIQ,infoIQ,s);
             }
-            infoIQ.setType(IQ.Type.SET);
-            infoIQ.setReqFlag("strategy");
-            xmppManager.getConnection().sendPacket(infoIQ);
+            if(cmds.equals("location")){
+
+            }else {
+                xmppManager.getConnection().sendPacket(infoIQ);
+                LogUtils.takeLog(CmdOperate.class, infoIQ.toString());
+            }
+
         }
     }
 
-
+    /**
+     * 把命令集进行优先级排序
+     * @param a
+     * @return
+     */
     public static int[] setOrder(int[] a) {
         Arrays.sort(a);
         return a;
     }
 
 
-
-    /**
-     * 执行单一命令
-     * @param context
-     * @param deviceInfoIQ
-     * @param infoIQ
-     * @param ints
-     */
-    public void runMethods(Context context, DeviceInfoIQ deviceInfoIQ,
-                           DeviceInfoIQ infoIQ,int[] ints){
-        CmdLines cmdLines = getDeviceManagerInstance().getDeviceCmdLine();
-        for (int cmd:ints
-             ) {
-            cmdLines.doMethod(context,deviceInfoIQ, infoIQ,cmd);
-        }
-    }
 
     /**
      * 进行锁屏操作
@@ -124,10 +154,9 @@ public class CmdOperate extends BaseDeviceFunction{
 
     /**
      * 恢复出厂设置
-     * @param deviceInfoIQ
      * @param context
      */
-    public static void doWipe(DeviceInfoIQ deviceInfoIQ,Context context){
+    public static void doWipe(Context context){
         boolean adminActive;
         DevicePolicyManager manager= (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE); 	// 获得设备管安全理服务
         ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);		// 申请权限

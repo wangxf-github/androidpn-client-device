@@ -19,12 +19,16 @@ public class DataUtils {
     }
 
     public static Map convertToMap(String jsonStr) {
-        JSONObject localJSONObject = JSONObject.fromObject(jsonStr);
         HashMap localHashMap = new HashMap();
-        Iterator localIterator = localJSONObject.keys();
-        while (localIterator.hasNext()) {
-            Object localObject = localIterator.next();
-            localHashMap.put(localObject, localJSONObject.get(localObject));
+        if(jsonStr!=null&&jsonStr!=""){
+            JSONObject localJSONObject = JSONObject.fromObject(jsonStr);
+            Iterator localIterator = localJSONObject.keys();
+            while (localIterator.hasNext()) {
+                Object localObject = localIterator.next();
+                localHashMap.put(localObject, localJSONObject.get(localObject));
+            }
+        }else{
+            return null;
         }
         return localHashMap;
     }

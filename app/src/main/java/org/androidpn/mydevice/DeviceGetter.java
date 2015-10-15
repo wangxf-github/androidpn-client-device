@@ -294,25 +294,48 @@ public class DeviceGetter {
         String uniqueId = deviceUuid.toString();
         return uniqueId;
     }
+
+
+
     /**
      * 判断当前手机是否有ROOT权限
      * @return
      */
     public boolean isRoot(){
-        boolean bool = false;
-
-        try{
-            if ((!new File("/system/bin/su").exists()) && (!new File("/system/xbin/su").exists())){
-                bool = false;
-            } else {
-                bool = true;
+        Process process = null;
+        try
+        {
+            process  = Runtime.getRuntime().exec("su");
+            process.getOutputStream().write("exit\n".getBytes());
+            process.getOutputStream().flush();
+            int i = process.waitFor();
+            if(0 == i){
+                process = Runtime.getRuntime().exec("su");
+                return true;
             }
-            Log.d("root", "bool = " + bool);
-        } catch (Exception e) {
 
+        } catch (Exception e)
+        {
+            return false;
         }
-        return bool;
+        return false;
+
     }
+//    public boolean isRoot(){
+//        boolean bool = false;
+//
+//        try{
+//            if ((!new File("/system/bin/su").exists()) && (!new File("/system/xbin/su").exists())){
+//                bool = false;
+//            } else {
+//                bool = true;
+//            }
+//            Log.d("root", "bool = " + bool);
+//        } catch (Exception e) {
+//
+//        }
+//        return bool;
+//    }
     /*
     获取屏幕状态
      */
