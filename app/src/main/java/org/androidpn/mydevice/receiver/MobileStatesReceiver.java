@@ -28,10 +28,10 @@ public class MobileStatesReceiver extends BroadcastReceiver {
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (!gprs.isConnected() ) {
             // network closed
-            Log.e("mobile status.....", "duan kai le ......");
+            Log.i("mobile status.....", "duan kai le ......");
         } else {
             // network opend
-            Log.e("mobile status.....", "lian jie  le ......");
+            Log.i("mobile status.....", "lian jie  le ......");
         setMobileNetEnable(false);
         }
     }

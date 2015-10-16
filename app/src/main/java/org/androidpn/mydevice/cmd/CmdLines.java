@@ -86,7 +86,7 @@ public class CmdLines {
 //                infoIQ.setIsRoot("true");
                 break;
             case CmdType.LOCATION:
-                new GetLocation(context);
+//                new GetLocation(context);
 //                new GpsLocation(context);
                 break;
             case CmdType.MANUFACTURER:

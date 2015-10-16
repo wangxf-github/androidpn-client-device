@@ -37,6 +37,8 @@ public class CmdType {
         //设备安全检测
         public  static final int HARDWARESECURITY = 9003;
 
+        public static final int SECURITY = 9004;
+
         //空指令
         public static final int NOCMD = 4444;
 

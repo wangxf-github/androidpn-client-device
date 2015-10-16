@@ -15,6 +15,6 @@ public class ReBootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent intents = new Intent(context, ClientService.class);
         context.startService(intents);
-        Log.e("comming","ReBootReceiver...");
+        Log.i("comming","ReBootReceiver...");
     }
 }

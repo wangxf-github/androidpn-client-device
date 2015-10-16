@@ -17,9 +17,9 @@ public class BatInfoReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         DeviceHandler handler = new DeviceHandler();
-        Log.e("screen","sssssssssssssssssssssss");
+        Log.i("screen","sssssssssssssssssssssss");
         String action = intent.getAction();
-        Log.e("screen", action);
+        Log.i("screen", action);
         if("android.intent.action.SCREEN_ON".equals(action)){
             Log.d("on=====", "screen is on...");
 //            Intent intents = new Intent(context, ClientService.class);

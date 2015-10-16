@@ -83,6 +83,14 @@ public class CmdOperate extends BaseDeviceFunction{
                 }
                 cmdsArrey= DataUtils.convertStrToArray(cmds,";");
                 break;
+            case CmdType.SECURITY:
+                infoIQ.setReqFlag("hardwareSecurity");
+                cmds = deviceInfoIQ.getHardwareSecurity();
+                if(cmds==null||cmds==""){
+                    break;
+                }
+                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
+                break;
             case CmdType.APPINFOS:
                 cmds = "appInfos";
                 cmdsArrey= DataUtils.convertStrToArray(cmds,";");

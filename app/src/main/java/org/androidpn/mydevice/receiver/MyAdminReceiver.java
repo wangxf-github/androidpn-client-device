@@ -21,7 +21,7 @@ public class MyAdminReceiver extends DeviceAdminReceiver {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-        Log.e(LogUtil.makeLogTag(MyAdminReceiver.class), intent.getAction().toString());
+        Log.i(LogUtil.makeLogTag(MyAdminReceiver.class), intent.getAction().toString());
     }
 
 //    @Override

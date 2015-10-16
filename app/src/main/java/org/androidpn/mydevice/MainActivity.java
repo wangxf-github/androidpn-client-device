@@ -39,6 +39,8 @@ import org.androidpn.utils.LogUtils;
 
 import java.util.HashMap;
 
+import mylocation.GpsLocation;
+
 
 public class MainActivity extends BaseDeviceFunction {
 
@@ -141,22 +143,23 @@ public class MainActivity extends BaseDeviceFunction {
 //                DataListener.setDataListener(new HashMap().put("key",deviceInfoIQ.getBatteryStatus()));
 //                        LogUtils.takeLog(MainActivity.class, s + ".......");
 
-                DeviceInfoIQ deviceInfoIQ = deviceManager.getOverallDeviceInfoInstance();
-                deviceInfoIQ.setReqFlag("location");
-                deviceInfoIQ.setDeviceCollection("isRoot;deviceOS;romSize;displaySize");
-                deviceInfoIQ.setDeviceLimition("");
-                deviceInfoIQ.setHardwareSecurity("isRoot;deviceOS;imsiNo");
-                String flag = deviceInfoIQ.getReqFlag();
-                if("strategy".equals(flag)){
-                    DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
-                    cmdOperate.doMethods(MainActivity.this,deviceInfoIQ,infoIQ, CmdType.COLLECTION);
-                    cmdOperate.doMethods(MainActivity.this,deviceInfoIQ,infoIQ, CmdType.LIMITION);
-
-                }else  {
-                    DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
-                    int cmdInt = CmdShine.cmdToInt(flag);
-                    cmdOperate.doMethods(MainActivity.this, deviceInfoIQ, infoIQ, cmdInt);
-                }
+//                DeviceInfoIQ deviceInfoIQ = deviceManager.getOverallDeviceInfoInstance();
+//                deviceInfoIQ.setReqFlag("location");
+//                deviceInfoIQ.setDeviceCollection("isRoot;deviceOS;romSize;displaySize");
+//                deviceInfoIQ.setDeviceLimition("");
+//                deviceInfoIQ.setHardwareSecurity("isRoot;deviceOS;imsiNo");
+//                String flag = deviceInfoIQ.getReqFlag();
+//                if("strategy".equals(flag)){
+//                    DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
+//                    cmdOperate.doMethods(MainActivity.this,deviceInfoIQ,infoIQ, CmdType.COLLECTION);
+//                    cmdOperate.doMethods(MainActivity.this,deviceInfoIQ,infoIQ, CmdType.LIMITION);
+//
+//                }else  {
+//                    DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
+//                    int cmdInt = CmdShine.cmdToInt(flag);
+//                    cmdOperate.doMethods(MainActivity.this, deviceInfoIQ, infoIQ, cmdInt);
+//                }
+                new GpsLocation(MainActivity.this);
 
             }
 

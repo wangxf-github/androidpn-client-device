@@ -35,7 +35,7 @@ public class BatteryReceiver extends BroadcastReceiver {
             message.obj =map;
             message.what= DeviceManager.BATTERY_INFO;
             handler.sendMessage(message);
-            Log.e(LogUtil.makeLogTag(BatteryReceiver.class),"i am comming ....");
+            Log.i(LogUtil.makeLogTag(BatteryReceiver.class),"i am comming ....");
         }
     }
 };

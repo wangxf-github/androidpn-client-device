@@ -27,7 +27,7 @@ public class WifiStateReceiver extends BroadcastReceiver {
                 .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (!wifi.isConnected()) {
             // network closed
-            Log.e("wifi status.....", "duan kai le ......");
+            Log.i("wifi status.....", "duan kai le ......");
         } else {
             // network opend
             Log.e("wifi status.....", "lian jie  le ......");

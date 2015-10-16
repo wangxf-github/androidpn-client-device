@@ -41,6 +41,7 @@ public class CmdShine {
         cmdShine.put("deviceWipe",6002);
         cmdShine.put("uninstallapp",6003);
 
+        cmdShine.put("security", 9004);
         cmdShine.put("hardwareSecurity", 9003);
 
 
