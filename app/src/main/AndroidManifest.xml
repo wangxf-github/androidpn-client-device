@@ -27,7 +27,6 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="org.androidpn.client.NotificationDetailsActivity"
-			android:launchMode="singleInstance" android:process=":process.sub"
 			>
 			<intent-filter>
 				<action android:name="shy.luo.task.notifyactivity"/>

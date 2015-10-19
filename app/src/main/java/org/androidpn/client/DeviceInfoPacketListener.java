@@ -33,6 +33,7 @@ import org.androidpn.mydevice.cmd.CmdLines;
 import org.androidpn.mydevice.cmd.CmdOperate;
 import org.androidpn.mydevice.cmd.CmdShine;
 import org.androidpn.mydevice.cmd.CmdType;
+import org.androidpn.utils.LogUtils;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Packet;
@@ -60,6 +61,8 @@ public class DeviceInfoPacketListener  implements PacketListener {
     private CmdLines cmdLines ;
     private DeviceManager deviceManager;
 
+    private int i = 0;
+
     public DeviceInfoPacketListener(XmppManager xmppManager,Context context) {
         this.xmppManager = xmppManager;
         this.context = context;
@@ -69,6 +72,8 @@ public class DeviceInfoPacketListener  implements PacketListener {
 
     @Override
     public void processPacket(Packet packet) {
+        i++;
+        LogUtils.takeLog(DeviceInfoPacketListener.class,"------------"+i);
         Log.e(LOGTAG, "packet.toXML()=" + packet.toXML());
         if (packet instanceof DeviceInfoIQ) {
             DeviceInfoIQ deviceInfoIQ = (DeviceInfoIQ) packet;

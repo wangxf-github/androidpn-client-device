@@ -11,14 +11,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.zs.devicemanager.R;
 
 import org.androidpn.client.ClientService;
+import org.androidpn.client.Constants;
 import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.client.LogUtil;
 import org.androidpn.demoapp.ScreenLockActivity;
@@ -38,6 +42,7 @@ import org.androidpn.mydevice.receiver.WifiStateReceiver;
 import org.androidpn.utils.LogUtils;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import mylocation.GpsLocation;
 
@@ -65,12 +70,39 @@ public class MainActivity extends BaseDeviceFunction {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.action_settings);
+//        toolbar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String sa = getRan();
+//                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
+//                intent.putExtra(Constants.NOTIFICATION_ID,sa );
+//                intent.putExtra(Constants.NOTIFICATION_API_KEY,
+//                        sa);
+//                intent
+//                        .putExtra(Constants.NOTIFICATION_TITLE,
+//                                sa);
+//                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
+//                        sa);
+//                intent.putExtra(Constants.NOTIFICATION_URI, sa);
+//                //                intent.setData(Uri.parse((new StringBuilder(
+//                //                        "notif://notification.androidpn.org/")).append(
+//                //                        notificationApiKey).append("/").append(
+//                //                        System.currentTimeMillis()).toString()));
+//
+//                MainActivity.this.sendBroadcast(intent);
+//            }
+//        });
 
-//        Intent intent = new Intent(MainActivity.this, ClientService.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startService(intent);
+        Intent intent = new Intent(MainActivity.this, ClientService.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startService(intent);
 
     }
+
+
+
+
     public void testObserver(){
         Watched girl = new ConcreteWatched();
 
@@ -113,6 +145,14 @@ public class MainActivity extends BaseDeviceFunction {
 //        password = (EditText) findViewById(R.id.password);
     }
 
+    Random random = new Random();
+
+    public String  getRan(){
+        int max=20;
+        int min=10;
+        int s = random.nextInt(max)%(max-min+1) + min;
+        return s+"";
+    }
 
     public void viewListener() {
         Log.e("qwe", "333333333");
@@ -159,8 +199,27 @@ public class MainActivity extends BaseDeviceFunction {
 //                    int cmdInt = CmdShine.cmdToInt(flag);
 //                    cmdOperate.doMethods(MainActivity.this, deviceInfoIQ, infoIQ, cmdInt);
 //                }
-                new GpsLocation(MainActivity.this);
+//                new GpsLocation(MainActivity.this);
 
+
+
+                String sa = getRan();
+                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
+                intent.putExtra(Constants.NOTIFICATION_ID,sa );
+                intent.putExtra(Constants.NOTIFICATION_API_KEY,
+                        sa);
+                intent
+                        .putExtra(Constants.NOTIFICATION_TITLE,
+                                sa);
+                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
+                        sa);
+                intent.putExtra(Constants.NOTIFICATION_URI, sa);
+                //                intent.setData(Uri.parse((new StringBuilder(
+                //                        "notif://notification.androidpn.org/")).append(
+                //                        notificationApiKey).append("/").append(
+                //                        System.currentTimeMillis()).toString()));
+
+                MainActivity.this.sendBroadcast(intent);
             }
 
         });
@@ -231,6 +290,11 @@ public class MainActivity extends BaseDeviceFunction {
 //        });
 
 //    }
+
+
+
+
+
 
     public void getDevice(){
         deviceGetter.getAvailRamMemory(ac);

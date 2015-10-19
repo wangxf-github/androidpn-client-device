@@ -62,10 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.androidpn.client.NotificationDetailsActivity"
-            android:launchMode="singleInstance"
-            android:process=":process.sub" >
+        <activity android:name="org.androidpn.client.NotificationDetailsActivity" >
             <intent-filter>
                 <action android:name="shy.luo.task.notifyactivity" />
 

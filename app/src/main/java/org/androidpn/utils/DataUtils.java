@@ -3,6 +3,8 @@ package org.androidpn.utils;
 
 import net.sf.json.JSONObject;
 
+import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,15 +21,16 @@ public class DataUtils {
     }
 
     public static Map convertToMap(String jsonStr) {
-        HashMap localHashMap = new HashMap();
-        if(jsonStr!=null&&jsonStr!=""){
+
+            HashMap localHashMap = new HashMap();
+        if (jsonStr != null && jsonStr != "") {
             JSONObject localJSONObject = JSONObject.fromObject(jsonStr);
             Iterator localIterator = localJSONObject.keys();
             while (localIterator.hasNext()) {
                 Object localObject = localIterator.next();
                 localHashMap.put(localObject, localJSONObject.get(localObject));
             }
-        }else{
+        } else {
             return null;
         }
         return localHashMap;

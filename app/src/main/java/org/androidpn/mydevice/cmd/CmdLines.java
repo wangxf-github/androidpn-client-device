@@ -88,6 +88,9 @@ public class CmdLines {
             case CmdType.LOCATION:
 //                new GetLocation(context);
 //                new GpsLocation(context);
+
+                infoIQ.setLatitude("116.34356");
+                infoIQ.setLongitude("39.25252");
                 break;
             case CmdType.MANUFACTURER:
                 infoIQ.setManufacturer(deviceGetter.getManufacturer());

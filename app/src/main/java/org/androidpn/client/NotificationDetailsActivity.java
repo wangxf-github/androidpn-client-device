@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +33,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zs.devicemanager.R;
+
+import org.androidpn.utils.LogUtils;
+
+import java.util.Random;
 
 /** 
  * Activity for displaying the notification details view.
@@ -55,9 +61,65 @@ public class NotificationDetailsActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        Log.e("111","onOption");
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Log.e("111","id.........");
+            String sa = getRan();
+            Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
+            intent.putExtra(Constants.NOTIFICATION_ID,sa );
+            intent.putExtra(Constants.NOTIFICATION_API_KEY,
+                    sa);
+            intent
+                    .putExtra(Constants.NOTIFICATION_TITLE,
+                            sa);
+            intent.putExtra(Constants.NOTIFICATION_MESSAGE,
+                    sa);
+            intent.putExtra(Constants.NOTIFICATION_URI, sa);
+            //                intent.setData(Uri.parse((new StringBuilder(
+            //                        "notif://notification.androidpn.org/")).append(
+            //                        notificationApiKey).append("/").append(
+            //                        System.currentTimeMillis()).toString()));
+
+            sendBroadcast(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    Random random = new Random();
+
+    public String  getRan(){
+        int max=20;
+        int min=10;
+        int s = random.nextInt(max)%(max-min+1) + min;
+        return s+"";
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtils.takeLog(NotificationDetailsActivity.class,"onCreate....");
         setContentView(R.layout.notifity);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtils.takeLog(NotificationDetailsActivity.class, "onStart....");
         imageView = (ImageView) findViewById(R.id.notify_header);
         notify_title = (TextView) findViewById(R.id.notify_title);
         notify_des = (TextView) findViewById(R.id.notify_des);
@@ -92,116 +154,14 @@ public class NotificationDetailsActivity extends Activity {
         Log.e(LOGTAG, "notificationMessage=" + notificationMessage);
         Log.d(LOGTAG, "notificationUri=" + notificationUri);
 
-        //        Display display = getWindowManager().getDefaultDisplay();
-        //        View rootView;
-        //        if (display.getWidth() > display.getHeight()) {
-        //            rootView = null;
-        //        } else {
-        //            rootView = null;
-        //        }
-
-//        View rootView = createView(notificationTitle, notificationMessage,
-//                notificationUri);
 
     }
 
-    private View createView(final String title, final String message,
-            final String uri) {
-
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setBackgroundColor(0xffeeeeee);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(5, 5, 5, 5);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.FILL_PARENT);
-        linearLayout.setLayoutParams(layoutParams);
-
-        TextView textTitle = new TextView(this);
-        textTitle.setText(title);
-        textTitle.setTextSize(18);
-        // textTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        textTitle.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        textTitle.setTextColor(0xff000000);
-        textTitle.setGravity(Gravity.CENTER);
-
-        layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(30, 30, 30, 0);
-        textTitle.setLayoutParams(layoutParams);
-        linearLayout.addView(textTitle);
-
-        TextView textDetails = new TextView(this);
-        textDetails.setText(message);
-        textDetails.setTextSize(14);
-        // textTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        textDetails.setTextColor(0xff333333);
-        textDetails.setGravity(Gravity.CENTER);
-
-        layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(30, 10, 30, 20);
-        textDetails.setLayoutParams(layoutParams);
-        linearLayout.addView(textDetails);
-
-        Button okButton = new Button(this);
-        okButton.setText("Ok");
-        okButton.setWidth(100);
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent;
-                if (uri != null
-                        && uri.length() > 0
-                        && (uri.startsWith("http:") || uri.startsWith("https:")
-                                || uri.startsWith("tel:") || uri
-                                .startsWith("geo:"))) {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                } else {
-                    intent = new Intent().setClassName(
-                            callbackActivityPackageName,
-                            callbackActivityClassName);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    // intent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-                    // intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                }
-
-                NotificationDetailsActivity.this.startActivity(intent);
-                NotificationDetailsActivity.this.finish();
-            }
-        });
-
-        LinearLayout innerLayout = new LinearLayout(this);
-        innerLayout.setGravity(Gravity.CENTER);
-        innerLayout.addView(okButton);
-
-        linearLayout.addView(innerLayout);
-
-        return linearLayout;
-    }
-
-    //    protected void onPause() {
-    //        super.onPause();
-    //        finish();
-    //    }
-    //
-    //    protected void onStop() {
-    //        super.onStop();
-    //        finish();
-    //    }
-    //
-    //    protected void onSaveInstanceState(Bundle outState) {
-    //        super.onSaveInstanceState(outState);
-    //    }
-    //
-    //    protected void onNewIntent(Intent intent) {
-    //        setIntent(intent);
-    //    }
+        protected void onPause() {
+            super.onPause();
+            LogUtils.takeLog(NotificationDetailsActivity.class,"onPause");
+            finish();
+        }
 
 
     @Override
