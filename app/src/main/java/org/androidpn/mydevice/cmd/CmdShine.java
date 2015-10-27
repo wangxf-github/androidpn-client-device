@@ -34,9 +34,11 @@ public class CmdShine {
         cmdShine.put("simFlow",4017);
         cmdShine.put("wifiFlow",4018);
         cmdShine.put("manufacturer", 4019);
+        cmdShine.put("camera",4020);
+        cmdShine.put("phoneModel",4021);
 
 
-        cmdShine.put("location",5003);
+        cmdShine.put("location",9005);
         cmdShine.put("screenLock",6001);
         cmdShine.put("deviceWipe",6002);
         cmdShine.put("uninstallapp",6003);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
@@ -13,12 +14,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-
                 android:id="@+id/notify_header"
                 android:src="@drawable/pander"/>
             <TextView
@@ -36,23 +36,45 @@
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
-            android:layout_margin="20dp"
+            android:layout_margin="30dp"
             android:textColor="#000000"
             android:textSize="18dp"
             android:id="@+id/notify_des"
-            android:text="dsgsadgasgadsfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdsads"
+            android:text="dsgsadgafffffffffffffffffffffffffffffffdsads"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
         <TextView
             android:layout_width="match_parent"
-            android:layout_margin="20dp"
+            android:layout_margin="30dp"
             android:autoLink="all"
             android:textColor="#000000"
             android:textSize="18dp"
             android:id="@+id/notify_url"
-            android:text="dsgsadgasgadsfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdsads"
+            android:text="dsgsadgasgffffffffffffffffffffffffffffffffffffffffffffdsads"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
-    </LinearLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="41dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="消息发送时间:"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/msgCTime"
+            android:textSize="20dp"
+            android:text="as"/>
+    </LinearLayout>
+
+
+    </RelativeLayout>

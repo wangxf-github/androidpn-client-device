@@ -19,14 +19,16 @@ public final class R {
         public static final int screen=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f080007;
-        public static final int but=0x7f080006;
+        public static final int action_settings=0x7f080009;
+        public static final int but=0x7f080008;
         public static final int button=0x7f080000;
-        public static final int notify_des=0x7f080003;
-        public static final int notify_header=0x7f080001;
-        public static final int notify_title=0x7f080002;
-        public static final int notify_url=0x7f080004;
-        public static final int pas=0x7f080005;
+        public static final int msgCTime=0x7f080006;
+        public static final int notify_des=0x7f080004;
+        public static final int notify_header=0x7f080002;
+        public static final int notify_title=0x7f080003;
+        public static final int notify_url=0x7f080005;
+        public static final int pas=0x7f080007;
+        public static final int textId=0x7f080001;
     }
     public static final class layout {
         public static final int main=0x7f030000;

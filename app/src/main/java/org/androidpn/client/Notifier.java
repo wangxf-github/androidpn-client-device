@@ -56,14 +56,15 @@ public class Notifier{
     }
 
     public void notify(String notificationId, String apiKey, String title,
-            String message, String uri) {
+            String message, String uri,String notificationCreateTime) {
         Log.d(LOGTAG, "notify()...");
 
-        Log.d(LOGTAG, "notificationId=" + notificationId);
-        Log.d(LOGTAG, "notificationApiKey=" + apiKey);
-        Log.d(LOGTAG, "notificationTitle=" + title);
-        Log.d(LOGTAG, "notificationMessage=" + message);
-        Log.d(LOGTAG, "notificationUri=" + uri);
+        Log.i(LOGTAG, "notificationId=" + notificationId);
+        Log.i(LOGTAG, "notificationApiKey=" + apiKey);
+        Log.i(LOGTAG, "notificationTitle=" + title);
+        Log.i(LOGTAG, "notificationMessage=" + message);
+        Log.i(LOGTAG, "notificationUri=" + uri);
+        Log.i(LOGTAG, "notificationCreateTime=" + notificationCreateTime);
 
         if (isNotificationEnabled()) {
             // Show the toast
@@ -94,6 +95,7 @@ public class Notifier{
             intent.putExtra(Constants.NOTIFICATION_TITLE, title);
             intent.putExtra(Constants.NOTIFICATION_MESSAGE, message);
             intent.putExtra(Constants.NOTIFICATION_URI, uri);
+            intent.putExtra(Constants.NOTIFICATION_CREATE_TIME, notificationCreateTime);
             intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -105,7 +107,6 @@ public class Notifier{
 
             notification.setLatestEventInfo(context, title, message,
                     contentIntent);
-            Log.e("noti...", title+"---------"+message);
             notificationManager.notify(sss, notification);
 
 

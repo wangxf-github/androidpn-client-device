@@ -9,6 +9,7 @@ import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.client.DeviceInfoPacketListener;
 import org.androidpn.client.XmppManager;
 import org.androidpn.mydevice.BaseDeviceFunction;
+import org.androidpn.mydevice.DeviceGetter;
 import org.androidpn.mydevice.DeviceManager;
 import org.androidpn.mydevice.DeviceSecurity;
 import org.androidpn.mydevice.receiver.MyAdminReceiver;
@@ -39,6 +40,7 @@ public class CmdOperate extends BaseDeviceFunction{
                                 DeviceInfoIQ infoIQ,int tag){
         DeviceManager deviceManager = DeviceManager.getDeviceManagerInstance();
         DeviceSecurity deviceSecurity = deviceManager.getDeviceSecurityInstance();
+        DeviceGetter deviceGetter = deviceManager.getDeviceGetterInstance();
         CmdLines cmdLines = deviceManager.getDeviceCmdLine();
         XmppManager xmppManager = DeviceInfoPacketListener.getXmppManager();
         String[] cmdsArrey = null;
@@ -75,14 +77,6 @@ public class CmdOperate extends BaseDeviceFunction{
                 }
 
                 break;
-            case CmdType.HARDWARESECURITY:
-                infoIQ.setReqFlag("hardwareSecurity");
-                cmds = deviceInfoIQ.getHardwareSecurity();
-                if(cmds==null||cmds==""){
-                    break;
-                }
-                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
-                break;
             case CmdType.SECURITY:
                 infoIQ.setReqFlag("hardwareSecurity");
                 cmds = deviceInfoIQ.getHardwareSecurity();
@@ -91,14 +85,10 @@ public class CmdOperate extends BaseDeviceFunction{
                 }
                 cmdsArrey= DataUtils.convertStrToArray(cmds,";");
                 break;
-            case CmdType.APPINFOS:
-                cmds = "appInfos";
-                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
-                break;
-            case CmdType.LOCATION:
-                cmds = "location";
-                cmdsArrey= DataUtils.convertStrToArray(cmds,";");
-                break;
+            default:
+                cmdLines.doMethod(context,deviceInfoIQ,infoIQ,tag);
+                xmppManager.getConnection().sendPacket(infoIQ);
+                LogUtils.takeLog(CmdOperate.class, infoIQ.toString());
         }
         infoIQ.setType(IQ.Type.SET);
         if(cmdsArrey!=null){
@@ -108,14 +98,14 @@ public class CmdOperate extends BaseDeviceFunction{
                     ) {
                 cmdLines.doMethod(context,deviceInfoIQ,infoIQ,s);
             }
-            if(cmds.equals("location")){
-
-            }else {
-                xmppManager.getConnection().sendPacket(infoIQ);
-                LogUtils.takeLog(CmdOperate.class, infoIQ.toString());
+            if(cmds.contains("batteryStatus")){
+                    deviceGetter.destoryInitData(context);
             }
+                    xmppManager.getConnection().sendPacket(infoIQ);
+                    LogUtils.takeLog(CmdOperate.class, infoIQ.toString());
 
-        }
+
+            }
     }
 
     /**

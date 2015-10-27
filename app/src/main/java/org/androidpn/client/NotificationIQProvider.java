@@ -51,6 +51,9 @@ public class NotificationIQProvider implements IQProvider {
                 if ("uri".equals(parser.getName())) {
                     notification.setUri(parser.nextText());
                 }
+                if ("createTime".equals(parser.getName())) {
+                    notification.setCreateTime(parser.nextText());
+                }
             } else if (eventType == 3
                     && "notification".equals(parser.getName())) {
                 done = true;

@@ -381,12 +381,12 @@ public class XmppManager {
         public void run() {
             Log.i(LOGTAG, "RegisterTask.run()...");
      //       Log.e("username.....", username);
-//            if (!xmppManager.isRegistered()) {
-                if (true) {
+            if (!xmppManager.isRegistered()) {
+//                if (true) {
 //                final String newUsername = getIMEI(context);
 //                final String newPassword = getIMEI(context);
-                final String newUsername = "862428021516471";
-                final String newPassword = "862428021516471";
+                final String newUsername = "11111111";
+                final String newPassword = "11111111";
                 Log.e("username.....",newUsername);
                 Registration registration = new Registration();
 

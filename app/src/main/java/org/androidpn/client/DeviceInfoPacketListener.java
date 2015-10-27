@@ -73,8 +73,8 @@ public class DeviceInfoPacketListener  implements PacketListener {
     @Override
     public void processPacket(Packet packet) {
         i++;
-        LogUtils.takeLog(DeviceInfoPacketListener.class,"------------"+i);
-        Log.e(LOGTAG, "packet.toXML()=" + packet.toXML());
+        LogUtils.takeLog(DeviceInfoPacketListener.class,"----"+i);
+        Log.i(LOGTAG, "packet.toXML()=" + packet.toXML());
         if (packet instanceof DeviceInfoIQ) {
             DeviceInfoIQ deviceInfoIQ = (DeviceInfoIQ) packet;
             String flag = deviceInfoIQ.getReqFlag();

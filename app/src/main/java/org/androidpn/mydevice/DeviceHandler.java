@@ -53,8 +53,9 @@ public class DeviceHandler  extends Handler{
                     String level = (String) map.get("level");
                     String temperature = (String) map.get("temperature");
                     //TODO添加电池信息
-                    infoIQ.setBatteryStatus(level + " " + temperature);
-//                    Log.e(LogUtil.makeLogTag(DeviceHandler.class), infoIQ.toString());
+                    infoIQ.setBatteryStatus(level + ":" + temperature);
+
+                    Log.e(LogUtil.makeLogTag(DeviceHandler.class), level + " " + temperature);
 //                    xmppManager.getConnection().sendPacket(infoIQ);
                     break;
 

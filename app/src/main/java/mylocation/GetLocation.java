@@ -20,13 +20,14 @@ import org.json.JSONObject;
 
 public class GetLocation implements AMapLocationListener{
     private LocationManagerProxy mLocationManagerProxy;
-    private JSONObject object;
+//    private JSONObject object;
     private DeviceInfoIQ device;
     private DeviceHandler handler;
     private XmppManager xmppManager;
 
-    public  GetLocation(Context context){
-        object = new JSONObject();
+    public  GetLocation(Context context,DeviceInfoIQ device){
+//        object = new JSONObject();
+        this.device = device;
         init(context);
     }
     private void init(Context context) {
@@ -49,22 +50,18 @@ public class GetLocation implements AMapLocationListener{
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         Log.e("amap+++++++++++",aMapLocation.toString()+"_");
-        device = new DeviceInfoIQ();
         if(aMapLocation != null && aMapLocation.getAMapException().getErrorCode() == 0) {
             //获取位置信息
             Double geoLat = aMapLocation.getLatitude();
             Double geoLng = aMapLocation.getLongitude();
             Log.e("123",geoLat+"+++"+geoLng);
-            try {
-                object.put("geoLat",geoLat);
-                object.put("geoLng",geoLng);
+//                object.put("geoLat",geoLat);
+//                object.put("geoLng",geoLng);
                 device.setLongitude(String.valueOf(geoLng));
                 device.setLatitude(String.valueOf(geoLat));
                 device.setAddress(aMapLocation.getAddress());
+//                xmppManager.getConnection().sendPacket(device);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             stopLocation();
         }else {
             device.setLongitude("");
@@ -76,8 +73,8 @@ public class GetLocation implements AMapLocationListener{
 //        message.what= DeviceManager.LOCATION_INFO;
 //        handler.sendMessage(message);
         device.setType(IQ.Type.SET);
-        device.setReqFlag("deviceLocaltion");
-//         xmppManager.getConnection().sendPacket(device);
+        device.setReqFlag("location");
+         xmppManager.getConnection().sendPacket(device);
     }
 
     @Override

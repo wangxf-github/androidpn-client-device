@@ -23,7 +23,10 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import org.androidpn.client.DeviceInfoIQ;
 import org.androidpn.mydevice.receiver.BatteryReceiver;
+import org.androidpn.mydevice.receiver.MobileStatesReceiver;
+import org.androidpn.mydevice.receiver.WifiStateReceiver;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,7 +42,9 @@ import java.util.UUID;
  */
 public class DeviceGetter {
 
-    DeviceHandler handler = new DeviceHandler();
+    BatteryReceiver batteryReceiver = new BatteryReceiver();
+    DeviceManager deviceManager =DeviceManager.getDeviceManagerInstance();
+
     public DeviceGetter() {
     }
 
@@ -146,11 +151,11 @@ public class DeviceGetter {
     /**
      * 获取android当前运行内存大小
      */
-    public void getAvailRamMemory(final Context context) {
+    public String  getRamMemory(final Context context) {
 
-        new Thread(){
-            @Override
-            public void run() {
+//        new Thread(){
+//            @Override
+//            public void run() {
 
                 ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
                 ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
@@ -158,13 +163,14 @@ public class DeviceGetter {
                 //mi.availMem; 当前系统的可用内存
 //                Log.e("ram", String.valueOf(mi.availMem));
 //                mi.totalMem;
-                Message message = new Message();
-                message.what=DeviceManager.AvailRamMemory_INFO;
-                message.obj = String.valueOf(mi.availMem);
-                handler.sendMessage(message);
+//                Message message = new Message();
+//                message.what=DeviceManager.AvailRamMemory_INFO;
+//                message.obj = String.valueOf(mi.totalMem);
+//                handler.sendMessage(message);
 
-            }
-        }.start();
+//            }
+//        }.start();
+         return mi.totalMem+"";
 
     }
     /**
@@ -175,10 +181,9 @@ public class DeviceGetter {
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        display.getSize(size);
         int[] mer = new int[2];
-        mer[0] = size.x;
-        mer[1] = size.y;
+        mer[1] = size.x;
+        mer[0] = size.y;
         return mer;
     }
     /*
@@ -221,12 +226,16 @@ public class DeviceGetter {
     /*
     总sd卡大小
      */
-    public long getAllSDSize() {
+    public long[] getAllSDSize() {
+        long[] size = new long[2];
         File path = Environment.getExternalStorageDirectory();
         StatFs stat = new StatFs(path.getPath());
         long blockSize = stat.getBlockSize();
-        long availableBlocks = stat.getBlockCount();
-        return availableBlocks * blockSize;
+        long totalBlocks = stat.getBlockCount();
+        long avaBlocks = stat.getAvailableBlocks();
+        size[0] = totalBlocks * blockSize;
+        size[1] = avaBlocks*blockSize;
+        return size;
     }
     /*
     获取sd卡序列号
@@ -251,11 +260,10 @@ public class DeviceGetter {
 获取电池信息
  */
     public void getBatteryInfo(Context activity){
-        DeviceManager deviceManager =DeviceManager.getDeviceManagerInstance();
-        BatteryReceiver batteryReceiver = deviceManager.getBatteryReceiver();
+
         String[]  action = {Intent.ACTION_BATTERY_CHANGED};
         deviceManager.registReceivers(activity,batteryReceiver, action);
-        deviceManager.unRegistReceivers(activity,batteryReceiver);
+
     }
 
     /**
@@ -279,7 +287,7 @@ public class DeviceGetter {
         if(imei!=null&&imei!="") {
             return imei;
         }
-        return "";
+        return null;
     }
     /*
     获取UDid
@@ -359,7 +367,7 @@ public class DeviceGetter {
             Log.e("num++",nativePhoneNumber+"");
             return nativePhoneNumber;
         }
-        return "";
+        return null;
     }
 
     /**
@@ -391,7 +399,7 @@ public class DeviceGetter {
             }
         }
 
-        return "";
+        return null;
     }
 
     /*
@@ -403,7 +411,7 @@ public class DeviceGetter {
         if(imsi!=null&&imsi!="") {
             return imsi;
         }
-        return "";
+        return null;
     }
     /*
     判断手机是否漫游
@@ -438,13 +446,14 @@ public class DeviceGetter {
 //            long rx = TrafficStats.getUidRxBytes(uid);//下载的流量 byte
 //            //方法返回值 -1 代表的是应用程序没有产生流量 或者操作系统不支持流量统计
 //        }
-        long[] bytes = new long[2];
+        long[] bytes = new long[3];
         TrafficStats.getMobileTxBytes();//获取手机3g/2g网络上传的总流量
         bytes[0] = TrafficStats.getMobileRxBytes();//手机2g/3g下载的总流量
 
 
         TrafficStats.getTotalTxBytes();//手机全部网络接口 包括wifi，3g、2g上传的总流量
         bytes[1] = TrafficStats.getTotalRxBytes();//手机全部网络接口 包括wifi，3g、2g下载的总流量
+        bytes[2] = bytes[1]-bytes[0];
         return bytes;
     }
 
@@ -465,5 +474,19 @@ public class DeviceGetter {
         return romInfo;
     }
 
+    /*
+    获取收集的额外信息
+     */
+    public void getResultData(DeviceInfoIQ infoIQ){
+        infoIQ.setBatteryStatus(Contacts.batteryInfo);
+    }
+    /*
+    销毁注册数据
+     */
+    public void destoryInitData(Context context){
+        if(batteryReceiver!=null) {
+            deviceManager.unRegistReceivers(context, batteryReceiver);
+        }
+    }
 }
 

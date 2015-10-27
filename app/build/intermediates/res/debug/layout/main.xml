@@ -11,5 +11,12 @@
         android:text="New Button"
         android:id="@+id/button"
         android:layout_gravity="center_horizontal" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="hhhhh"
+        android:id="@+id/textId"/>
 </LinearLayout>
 <!-- From: file:/E:/mdm/androidpn-client-device/app/src/main/res/layout/main.xml -->

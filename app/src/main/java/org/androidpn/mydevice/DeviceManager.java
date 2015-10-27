@@ -128,10 +128,10 @@ public class DeviceManager {
      * 注销receiver
      */
     public void unRegistReceivers(Context activity,BroadcastReceiver receiver){
-
-        activity.unregisterReceiver(receiver);
-        Log.e("reveiver", "I am unresgist");
-
+        if(receiver!=null) {
+            activity.unregisterReceiver(receiver);
+            Log.e("reveiver", "I am unresgist");
+        }
     }
 
     /**

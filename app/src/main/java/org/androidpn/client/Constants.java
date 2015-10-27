@@ -72,6 +72,8 @@ public class Constants {
 
     public static final String NOTIFICATION_URI = "NOTIFICATION_URI";
 
+    public static final String NOTIFICATION_CREATE_TIME = "NOTIFICATION_CREATE_TIME";
+
     // INTENT ACTIONS
 
     public static final String ACTION_SHOW_NOTIFICATION = "org.androidpn.client.SHOW_NOTIFICATION";

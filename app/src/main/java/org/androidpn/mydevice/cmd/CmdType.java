@@ -25,7 +25,8 @@ public class CmdType {
         public  static final int SIMFLOW = 4017;
         public  static final int WIFIFLOW = 4018;
         public  static final int MANUFACTURER = 4019;
-        public  static final int LOCATION = 5003;
+        public  static final int CAMERA = 4020;
+        public  static final int PHONEMODEL = 4021;
         public  static final int SCREENLOCK = 6001;
         public  static final int DEVICEWIPE = 6002;
         public static final int UNSTALLAPK = 6003;
@@ -38,6 +39,7 @@ public class CmdType {
         public  static final int HARDWARESECURITY = 9003;
 
         public static final int SECURITY = 9004;
+        public  static final int LOCATION = 9005;
 
         //空指令
         public static final int NOCMD = 4444;

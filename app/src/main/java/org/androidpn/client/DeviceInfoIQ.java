@@ -43,11 +43,15 @@ public class DeviceInfoIQ extends IQ {
     /**
      * 摄像头信息
      */
-    private String Camera;
+    private String  camera;
     /**
      * 应用包名
      */
     private String packageName;
+    /**
+     * 总流量
+     */
+    private String totalFlow;
     /*
     经度
      */
@@ -78,7 +82,7 @@ public class DeviceInfoIQ extends IQ {
     private String manufacturer;
 
     /**规格型号*/
-    private String specification;
+    private String phoneModel;
 
     /**处理器*/
     private String processor;
@@ -182,6 +186,9 @@ public class DeviceInfoIQ extends IQ {
         if (password != null) {
             buf.append("<password>").append(password).append("</password>");
         }
+        if (totalFlow != null) {
+            buf.append("<totalFlow>").append(totalFlow).append("</totalFlow>");
+        }
         if (deviceCollection != null) {
             buf.append("<deviceCollection>").append(deviceCollection).append("</deviceCollection>");
         }if (deviceLimition != null) {
@@ -205,8 +212,8 @@ public class DeviceInfoIQ extends IQ {
             buf.append("<manufacturer>").append(manufacturer).append("</manufacturer>");
         }
 
-        if (specification != null) {
-            buf.append("<specification>").append(specification).append("</specification>");
+        if (phoneModel != null) {
+            buf.append("<phoneModel>").append(phoneModel).append("</phoneModel>");
         }
 
         if (processor != null) {
@@ -228,11 +235,9 @@ public class DeviceInfoIQ extends IQ {
         if (displaySize != null) {
             buf.append("<displaySize>").append(displaySize).append("</displaySize>");
         }
-
-        if (isHasCamera != null) {
-            buf.append("<isHasCamera>").append(isHasCamera).append("</isHasCamera>");
+        if (camera != null) {
+            buf.append("<camera>").append(camera).append("</camera>");
         }
-
         if (blueToothMac != null) {
             buf.append("<blueToothMac>").append(blueToothMac).append("</blueToothMac>");
         }
@@ -325,6 +330,22 @@ public class DeviceInfoIQ extends IQ {
         return buf.toString();
     }
 
+    public String getTotalFlow() {
+        return totalFlow;
+    }
+
+    public void setTotalFlow(String totalFlow) {
+        this.totalFlow = totalFlow;
+    }
+
+    public String getPhoneModel() {
+        return phoneModel;
+    }
+
+    public void setPhoneModel(String phoneModel) {
+        this.phoneModel = phoneModel;
+    }
+
     public String getHardwareSecurity() {
         return hardwareSecurity;
     }
@@ -358,11 +379,11 @@ public class DeviceInfoIQ extends IQ {
     }
 
     public String getCamera() {
-        return Camera;
+        return camera;
     }
 
     public void setCamera(String camera) {
-        Camera = camera;
+        this.camera = camera;
     }
 
     public String getIsWiped() {
@@ -439,13 +460,13 @@ public class DeviceInfoIQ extends IQ {
     }
 
 
-    public String getSpecification(){
-        return specification;
+    public String getphoneModel(){
+        return phoneModel;
     }
 
 
-    public void setSpecification(String specification){
-        this.specification = specification;
+    public void setphoneModel(String phoneModel){
+        this.phoneModel = phoneModel;
     }
 
 
@@ -686,8 +707,9 @@ public class DeviceInfoIQ extends IQ {
                 ", latitude='" + latitude + '\'' +
                 ", address='" + address + '\'' +
                 ", reqFlag='" + reqFlag + '\'' +
+                ", camera='" + camera + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
-                ", specification='" + specification + '\'' +
+                ", phoneModel='" + phoneModel + '\'' +
                 ", processor='" + processor + '\'' +
                 ", ramSize='" + ramSize + '\'' +
                 ", romSize='" + romSize + '\'' +

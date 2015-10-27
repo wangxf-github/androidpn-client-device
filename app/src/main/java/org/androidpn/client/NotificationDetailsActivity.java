@@ -56,6 +56,7 @@ public class NotificationDetailsActivity extends Activity {
     TextView notify_title;
     TextView notify_des;
     TextView notify_url;
+    TextView notify_createTime;
 
     public NotificationDetailsActivity() {
     }
@@ -124,6 +125,7 @@ public class NotificationDetailsActivity extends Activity {
         notify_title = (TextView) findViewById(R.id.notify_title);
         notify_des = (TextView) findViewById(R.id.notify_des);
         notify_url = (TextView) findViewById(R.id.notify_url);
+        notify_createTime = (TextView) findViewById(R.id.msgCTime);
         SharedPreferences sharedPrefs = this.getSharedPreferences(
                 Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         callbackActivityPackageName = sharedPrefs.getString(
@@ -142,26 +144,30 @@ public class NotificationDetailsActivity extends Activity {
                 .getStringExtra(Constants.NOTIFICATION_MESSAGE);
         String notificationUri = intent
                 .getStringExtra(Constants.NOTIFICATION_URI);
+        String notificationCreateTime = intent
+                .getStringExtra(Constants.NOTIFICATION_CREATE_TIME);
 
         notify_title.setText(notificationTitle);
         notify_des.setText(notificationMessage);
         notify_url.setText(notificationUri);
         imageView.setImageResource(R.drawable.pander);
+        notify_createTime.setText(notificationCreateTime);
 
         Log.d(LOGTAG, "notificationId=" + notificationId);
         Log.d(LOGTAG, "notificationApiKey=" + notificationApiKey);
-        Log.e(LOGTAG, "notificationTitle=" + notificationTitle);
-        Log.e(LOGTAG, "notificationMessage=" + notificationMessage);
+        Log.i(LOGTAG, "notificationTitle=" + notificationTitle);
+        Log.i(LOGTAG, "notificationMessage=" + notificationMessage);
+        Log.i(LOGTAG, "notificationCreateTime=" + notificationCreateTime);
         Log.d(LOGTAG, "notificationUri=" + notificationUri);
 
 
     }
 
-        protected void onPause() {
-            super.onPause();
-            LogUtils.takeLog(NotificationDetailsActivity.class,"onPause");
-            finish();
-        }
+//        protected void onPause() {
+//            super.onPause();
+//            LogUtils.takeLog(NotificationDetailsActivity.class,"onPause");
+//            finish();
+//        }
 
 
     @Override

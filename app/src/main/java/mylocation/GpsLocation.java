@@ -27,10 +27,11 @@ public class GpsLocation{
     private DeviceInfoIQ device;
     private Context context;
 
-    public GpsLocation(){}
-    public GpsLocation(Context contexts){
-        this.context = contexts;
 
+    public GpsLocation(){}
+    public GpsLocation(Context contexts,DeviceInfoIQ deviceInfoIQ){
+        this.context = contexts;
+        this.device = deviceInfoIQ;
         xmppManager= DeviceInfoPacketListener.getXmppManager();
         lm=(LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         //判断GPS是否正常启动
@@ -69,17 +70,16 @@ public class GpsLocation{
          * 位置信息变化时触发
          */
         public void onLocationChanged(Location location) {
-            device = new DeviceInfoIQ();
             LogUtils.takeLog(GpsLocation.class,location.toString());
             if (location != null) {
                 device.setLatitude(location.getLatitude() + "");
                 device.setLongitude(location.getLongitude() + "");
                 device.setReqFlag("deviceLocaltion");
-                Toast.makeText(context, location.getLongitude() + "---------" + location.getLatitude(), Toast.LENGTH_SHORT).show();
+                LogUtils.takeLog(GpsLocation.class, location.getLongitude() + "---------" + location.getLatitude());
 //                xmppManager.getConnection().sendPacket(device);
                 stopLocation();
             } else {
-                Toast.makeText(context,"无法获取地理信息",Toast.LENGTH_SHORT).show();
+                LogUtils.takeLog(GpsLocation.class,"无法获取地理信息");
             }
             lm.removeUpdates(locationListener);
             Log.e(TAG, "时间：" + location.getTime());
@@ -151,7 +151,7 @@ public class GpsLocation{
                 //定位启动
                 case GpsStatus.GPS_EVENT_STARTED:
                     Log.i(TAG, "定位启动");
-                    Toast.makeText(context,"启动",Toast.LENGTH_SHORT).show();
+                    LogUtils.takeLog(GpsLocation.class, "启动");
                     break;
                 //定位结束
                 case GpsStatus.GPS_EVENT_STOPPED:

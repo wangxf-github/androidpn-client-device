@@ -16,9 +16,11 @@ import org.androidpn.client.XmppManager;
 import org.androidpn.demoapp.ScreenLockActivity;
 import org.androidpn.mydevice.AppInfo;
 import org.androidpn.mydevice.BaseDeviceFunction;
+import org.androidpn.mydevice.Contacts;
 import org.androidpn.mydevice.DeviceGetter;
 import org.androidpn.mydevice.DeviceManager;
 import org.androidpn.mydevice.DeviceSecurity;
+import org.androidpn.mydevice.receiver.BatteryReceiver;
 import org.androidpn.mydevice.receiver.MyAdminReceiver;
 import org.jivesoftware.smack.packet.IQ;
 
@@ -60,10 +62,13 @@ public class CmdLines {
                 infoIQ.setProcessor(deviceGetter.getCpuName());
                 break;
             case CmdType.DEVICEMOBILENO:
-                infoIQ.setDeviceMobileNo(deviceGetter.getPhoneModel());
+                infoIQ.setDeviceMobileNo(deviceGetter.getNativePhoneNumber(context));
                 break;
             case CmdType.DEVICEOS:
-                infoIQ.setDeviceOS(deviceGetter.getVersion()[3] + " " + deviceGetter.getVersion()[1]);
+                infoIQ.setDeviceOS(deviceGetter.getVersion()[1]);
+                break;
+            case CmdType.PHONEMODEL:
+                infoIQ.setPhoneModel(deviceGetter.getPhoneModel());
                 break;
             case CmdType.DEVICEWIPE:
                 CmdOperate.doWipe(context);
@@ -77,6 +82,11 @@ public class CmdLines {
             case CmdType.ISLOCK:
                 infoIQ.setIsLock(deviceGetter.getScreenLock(context) + "");
                 break;
+            case CmdType.CAMERA:
+                boolean camera = deviceGetter.getCamera();
+                Log.e("camera",camera+"");
+                infoIQ.setCamera(deviceGetter.getCamera()+"");
+                break;
             case CmdType.ISROAMING:
                 infoIQ.setIsRoaming(deviceGetter.getPhoneRoamState(context) + "");
                 break;
@@ -86,11 +96,13 @@ public class CmdLines {
 //                infoIQ.setIsRoot("true");
                 break;
             case CmdType.LOCATION:
-//                new GetLocation(context);
+                new GetLocation(context,infoIQ);
 //                new GpsLocation(context);
-
-                infoIQ.setLatitude("116.34356");
-                infoIQ.setLongitude("39.25252");
+//                infoIQ.setType(IQ.Type.SET);
+//                infoIQ.setLatitude("116.34356");
+//                infoIQ.setLongitude("39.25252");
+//                infoIQ.setReqFlag("location");
+//                Log.e("1111111111","location");
                 break;
             case CmdType.MANUFACTURER:
                 infoIQ.setManufacturer(deviceGetter.getManufacturer());
@@ -99,19 +111,23 @@ public class CmdLines {
                 infoIQ.setMobileOperator(deviceGetter.getProvidersName(context));
                 break;
             case CmdType.RAMSIZE:
-                deviceGetter.getAvailRamMemory(context);
+                infoIQ.setRamSize(deviceGetter.getRamMemory(context));
                 break;
             case CmdType.ROMSIZE:
-                long[] rom = deviceGetter.getRomSize();
-                infoIQ.setRomSize(rom[0]+";"+rom[1]);
+//                long[] rom = deviceGetter.getRomSize();
+                long[] size = deviceGetter.getAllSDSize();
+                infoIQ.setRomSize(size[0]+";"+size[1]);
                 break;
             case CmdType.SCREENLOCK:
                 CmdOperate.doScreenLock(deviceInfoIQ, context);
                 break;
             case CmdType.SIMFLOW:
-                infoIQ.setSimFlow(deviceGetter.getTotalBytes() + "");
+                long[] ss = deviceGetter.getTotalBytes();
+                infoIQ.setSimFlow(ss[0] + "");
                 break;
             case CmdType.WIFIFLOW:
+                long[] sss = deviceGetter.getTotalBytes();
+                infoIQ.setWifiFlow( sss[2]+ "");
                 break;
             case CmdType.WIFIMAC:
                 infoIQ.setWifiMac(deviceGetter.getLocalMacAddress(context));
@@ -121,9 +137,13 @@ public class CmdLines {
             case CmdType.APPINFOS:
                 ArrayList arrayList = (ArrayList) deviceSecurity.getApp(context);
                 infoIQ.setAppInfos(arrayList);
+                Log.i("app", arrayList.toString());
             default:
 
+                break;
         }
+//      deviceGetter.getResultData(infoIQ);
 
     }
+
 }

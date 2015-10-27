@@ -34,6 +34,8 @@ public class NotificationIQ extends IQ {
 
     private String uri;
 
+    private String createTime;
+
     public NotificationIQ() {
     }
 
@@ -47,6 +49,14 @@ public class NotificationIQ extends IQ {
         }
         buf.append("</").append("notification").append("> ");
         return buf.toString();
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public String getId() {

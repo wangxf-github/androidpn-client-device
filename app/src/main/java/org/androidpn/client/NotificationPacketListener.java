@@ -42,7 +42,7 @@ public class NotificationPacketListener extends BaseDeviceFunction implements Pa
     @Override
     public void processPacket(Packet packet) {
         Log.d(LOGTAG, "NotificationPacketListener.processPacket()...");
-        Log.d(LOGTAG, "packet.toXML()=" + packet.toXML());
+        Log.i(LOGTAG, "packet.toXML()=" + packet.toXML());
 
         if (packet instanceof NotificationIQ) {
             NotificationIQ notification = (NotificationIQ) packet;
@@ -53,7 +53,7 @@ public class NotificationPacketListener extends BaseDeviceFunction implements Pa
                 String notificationApiKey = notification.getApiKey();
                 String notificationTitle = notification.getTitle();
                 String notificationMessage = notification.getMessage();
-                //                String notificationTicker = notification.getTicker();
+                String notificationCreateTime = notification.getCreateTime();
                 String notificationUri = notification.getUri();
 
                 Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
@@ -66,6 +66,7 @@ public class NotificationPacketListener extends BaseDeviceFunction implements Pa
                 intent.putExtra(Constants.NOTIFICATION_MESSAGE,
                         notificationMessage);
                 intent.putExtra(Constants.NOTIFICATION_URI, notificationUri);
+                intent.putExtra(Constants.NOTIFICATION_CREATE_TIME, notificationCreateTime);
                 //                intent.setData(Uri.parse((new StringBuilder(
                 //                        "notif://notification.androidpn.org/")).append(
                 //                        notificationApiKey).append("/").append(

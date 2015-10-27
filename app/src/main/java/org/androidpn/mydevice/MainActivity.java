@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.zs.devicemanager.R;
@@ -29,21 +30,18 @@ import org.androidpn.demoapp.ScreenLockActivity;
 import org.androidpn.mydevice.cmd.CmdOperate;
 import org.androidpn.mydevice.cmd.CmdShine;
 import org.androidpn.mydevice.cmd.CmdType;
-import org.androidpn.mydevice.listener.DataListener;
-import org.androidpn.mydevice.observer.ConcreteWatched;
-import org.androidpn.mydevice.observer.ConcreteWatcher;
-import org.androidpn.mydevice.observer.Watched;
-import org.androidpn.mydevice.observer.Watcher;
 import org.androidpn.mydevice.receiver.BatteryReceiver;
 import org.androidpn.mydevice.receiver.BootReceiver;
 import org.androidpn.mydevice.receiver.MobileStatesReceiver;
 import org.androidpn.mydevice.receiver.MyAdminReceiver;
 import org.androidpn.mydevice.receiver.WifiStateReceiver;
 import org.androidpn.utils.LogUtils;
+import org.apache.log4j.chainsaw.Main;
 
 import java.util.HashMap;
 import java.util.Random;
 
+import mylocation.GetLocation;
 import mylocation.GpsLocation;
 
 
@@ -100,24 +98,6 @@ public class MainActivity extends BaseDeviceFunction {
 
     }
 
-
-
-
-    public void testObserver(){
-        Watched girl = new ConcreteWatched();
-
-        Watcher watcher1 = new ConcreteWatcher();
-        Watcher watcher2 = new ConcreteWatcher();
-        Watcher watcher3 = new ConcreteWatcher();
-
-        girl.addWatcher(watcher1);
-        girl.addWatcher(watcher2);
-        girl.addWatcher(watcher3);
-
-        girl.notifyWatchers("开心");
-    }
-
-
     public void initData() {
         Intent intent = new Intent();
         intent.setAction(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
@@ -141,7 +121,7 @@ public class MainActivity extends BaseDeviceFunction {
         setContentView(R.layout.main);
         button = (Button) findViewById(R.id.button);
      //   button_zhan = (Button) findViewById(R.id.button_zhan);
-//        textView = (TextView) findViewById(R.id.tv_info);
+        textView = (TextView) findViewById(R.id.textId);
 //        password = (EditText) findViewById(R.id.password);
     }
 
@@ -199,27 +179,29 @@ public class MainActivity extends BaseDeviceFunction {
 //                    int cmdInt = CmdShine.cmdToInt(flag);
 //                    cmdOperate.doMethods(MainActivity.this, deviceInfoIQ, infoIQ, cmdInt);
 //                }
-//                new GpsLocation(MainActivity.this);
+//                new GetLocation(MainActivity.this,new DeviceInfoIQ());
+//                Log.e("eeeeeeee",deviceGetter.getDisplayMetrics(MainActivity.this)[1]+"---"+deviceGetter.getDisplayMetrics(MainActivity.this)[0]);
 
 
+//                String sa = getRan();
+//                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
+//                intent.putExtra(Constants.NOTIFICATION_ID,sa );
+//                intent.putExtra(Constants.NOTIFICATION_API_KEY,
+//                        sa);
+//                intent
+//                        .putExtra(Constants.NOTIFICATION_TITLE,
+//                                sa);
+//                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
+//                        sa);
+//                intent.putExtra(Constants.NOTIFICATION_URI, sa);
+//                //                intent.setData(Uri.parse((new StringBuilder(
+//                //                        "notif://notification.androidpn.org/")).append(
+//                //                        notificationApiKey).append("/").append(
+//                //                        System.currentTimeMillis()).toString()));
+//
+//                MainActivity.this.sendBroadcast(intent);
+                textView.setText(deviceGetter.isRoot()+"");
 
-                String sa = getRan();
-                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
-                intent.putExtra(Constants.NOTIFICATION_ID,sa );
-                intent.putExtra(Constants.NOTIFICATION_API_KEY,
-                        sa);
-                intent
-                        .putExtra(Constants.NOTIFICATION_TITLE,
-                                sa);
-                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
-                        sa);
-                intent.putExtra(Constants.NOTIFICATION_URI, sa);
-                //                intent.setData(Uri.parse((new StringBuilder(
-                //                        "notif://notification.androidpn.org/")).append(
-                //                        notificationApiKey).append("/").append(
-                //                        System.currentTimeMillis()).toString()));
-
-                MainActivity.this.sendBroadcast(intent);
             }
 
         });
@@ -235,6 +217,7 @@ public class MainActivity extends BaseDeviceFunction {
 
 
     }
+
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -297,8 +280,8 @@ public class MainActivity extends BaseDeviceFunction {
 
 
     public void getDevice(){
-        deviceGetter.getAvailRamMemory(ac);
-        deviceGetter.getAvailRamMemory(MainActivity.this);
+//        deviceGetter.getAvailRamMemory(ac);
+//        deviceGetter.getAvailRamMemory(MainActivity.this);
         deviceInfo.setIEMI(deviceGetter.getIMEI(MainActivity.this));
         deviceInfo.setPhoneModle(deviceGetter.getPhoneModel());
         deviceInfo.setManufacturer(deviceGetter.getManufacturer());
@@ -309,7 +292,7 @@ public class MainActivity extends BaseDeviceFunction {
         deviceInfo.setSoftWateVersion(deviceGetter.getVersion()[1]);
         deviceInfo.setScreenHeight(deviceGetter.getDisplayMetrics(MainActivity.this)[0]);
         deviceInfo.setScreenWidth(deviceGetter.getDisplayMetrics(MainActivity.this)[1]);
-        deviceInfo.setAllSDSize(deviceGetter.getAllSDSize());
+//        deviceInfo.setAllSDSize(deviceGetter.getAllSDSize());
         deviceInfo.setAvailableSDSize(deviceGetter.getAvailaleSDSize());
         deviceInfo.setIsHasCamera(deviceGetter.getCamera());
         deviceInfo.setBluetoothMAC(deviceGetter.getBluetoothMac());

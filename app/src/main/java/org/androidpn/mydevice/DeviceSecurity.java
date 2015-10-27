@@ -15,6 +15,9 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import org.androidpn.mydevice.receiver.MobileStatesReceiver;
+import org.androidpn.mydevice.receiver.WifiStateReceiver;
+
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -27,7 +30,9 @@ import java.util.Map;
  */
 public class DeviceSecurity{
 
-
+    DeviceManager deviceManager = DeviceManager.getDeviceManagerInstance();
+    WifiStateReceiver wifiStateReceiver = new WifiStateReceiver();
+    MobileStatesReceiver mobileStatesReceiver = new MobileStatesReceiver();
 
     /**
      * 获取手机上的app
@@ -47,7 +52,6 @@ public class DeviceSecurity{
                 tmpInfo.setPackageName(pi.packageName);
                 tmpInfo.setVersionCode(pi.versionCode + "");
                 tmpInfo.setFirstInstallTime(pi.firstInstallTime + "");
-                tmpInfo.setAppIcon(pi.applicationInfo.loadIcon(context.getPackageManager()));
                 pakages.add(tmpInfo);
             } else {
         //系统应用　　　　　　　　
@@ -220,7 +224,7 @@ public class DeviceSecurity{
      * @param packageName
      */
     public void unInstallApk(String packageName,Context context){
-        Uri uri = Uri.parse("package:"+packageName);//获取删除包名的URI
+        Uri uri = Uri.parse("package:" + packageName);//获取删除包名的URI
         Intent i = new Intent();
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setAction(Intent.ACTION_DELETE);//设置我们要执行的卸载动作
@@ -228,5 +232,23 @@ public class DeviceSecurity{
         context.startActivity(i);
     }
 
+    //关闭wifi网络
+    public void disableWifi(Context context){
+        String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
+        deviceManager.registReceivers(context, wifiStateReceiver, action);
+    }
+    //关闭sim网络
+    public void disableMobile(Context context){
+        String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
+        deviceManager.registReceivers(context,mobileStatesReceiver,action);
+    }
+    //开启wifi网络
+    public void openWifi(Context context){
+        deviceManager.unRegistReceivers(context, wifiStateReceiver);
+    }
+    //开启sim网络
+    public void openMobile(Context context){
+        deviceManager.unRegistReceivers(context, mobileStatesReceiver);
+    }
 }
 
