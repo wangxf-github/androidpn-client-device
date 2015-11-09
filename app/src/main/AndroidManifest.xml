@@ -20,13 +20,13 @@
 				<!--&lt;!&ndash;<category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
 			<!--</intent-filter>-->
 		<!--</activity>-->
-		<activity android:name="org.androidpn.mydevice.MainActivity" android:label="@string/app_name">
+		<activity android:name=".view.TestActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="org.androidpn.client.NotificationDetailsActivity"
+		<activity android:name=".notify.NotificationDetailsActivity"
 			>
 			<intent-filter>
 				<action android:name="shy.luo.task.notifyactivity"/>
@@ -35,18 +35,13 @@
 
 		</activity>
 
-		<activity android:name="org.androidpn.client.NotificationSettingsActivity"
+		<activity android:name=".notify.NotificationSettingsActivity"
 			android:label="Notification Settings">
 		</activity>
-		<activity android:name="org.androidpn.demoapp.ScreenLockActivity" android:label="@string/app_name"
-			android:launchMode="singleTask" android:process=":shy.luo.process.screen">
-			<intent-filter>
-				<action android:name="com.TEST" />
-				<category android:name="android.intent.category.DEFAULT"/>
-			</intent-filter>
-		</activity>
+		<activity android:name=".notify.NotifyDeskTopActivity"
+			android:theme="@android:style/Theme.Wallpaper.NoTitleBar"/>
 		<service android:enabled="true"
-			android:name="org.androidpn.client.NotificationService"
+			android:name=".notify.NotificationService"
 			android:label="NotificationService">
 			<intent-filter android:priority="1000">
 				<action android:name="org.androidpn.client.NotificationService" />
@@ -54,13 +49,14 @@
 		</service>
 
 		<service
-			android:name="org.androidpn.client.ClientService">
+			android:enabled="true"
+			android:name="org.androidpn.connection.ClientService">
 			<intent-filter android:priority="1000" >
 				<action android:name="com.dbjtech.myservice" />
 			</intent-filter>
 		</service>
 
-		<receiver android:name="org.androidpn.mydevice.receiver.MyAdminReceiver" >
+		<receiver android:name=".device.receiver.MyAdminReceiver" >
 			<meta-data
 				android:name="android.app.device_admin"
 				android:resource="@xml/my_admin" />
@@ -68,7 +64,7 @@
 				<action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
 			</intent-filter>
 		</receiver>
-		<receiver android:enabled="true" android:name="org.androidpn.mydevice.receiver.ReBootReceiver"
+		<receiver android:enabled="true" android:name=".device.receiver.ReBootReceiver"
 
 			android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
 
@@ -81,7 +77,7 @@
 			</intent-filter>
 
 		</receiver>
-		<receiver android:name="org.androidpn.mydevice.receiver.BootReceiver"
+		<receiver android:name=".device.receiver.BootReceiver"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.PACKAGE_ADDED" />

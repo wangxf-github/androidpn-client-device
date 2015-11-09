@@ -54,7 +54,7 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
         <activity
-            android:name="org.androidpn.mydevice.MainActivity"
+            android:name="com.zs.devicemanager.view.TestActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.androidpn.client.NotificationDetailsActivity" >
+        <activity android:name="com.zs.devicemanager.notify.NotificationDetailsActivity" >
             <intent-filter>
                 <action android:name="shy.luo.task.notifyactivity" />
 
@@ -70,36 +70,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.androidpn.client.NotificationSettingsActivity"
+            android:name="com.zs.devicemanager.notify.NotificationSettingsActivity"
             android:label="Notification Settings" >
         </activity>
         <activity
-            android:name="org.androidpn.demoapp.ScreenLockActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:process=":shy.luo.process.screen" >
-            <intent-filter>
-                <action android:name="com.TEST" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:name="com.zs.devicemanager.notify.NotifyDeskTopActivity"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" />
 
         <service
-            android:name="org.androidpn.client.NotificationService"
+            android:name="com.zs.devicemanager.notify.NotificationService"
             android:enabled="true"
             android:label="NotificationService" >
             <intent-filter android:priority="1000" >
                 <action android:name="org.androidpn.client.NotificationService" />
             </intent-filter>
         </service>
-        <service android:name="org.androidpn.client.ClientService" >
+        <service
+            android:name="org.androidpn.connection.ClientService"
+            android:enabled="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.dbjtech.myservice" />
             </intent-filter>
         </service>
 
-        <receiver android:name="org.androidpn.mydevice.receiver.MyAdminReceiver" >
+        <receiver android:name="com.zs.devicemanager.device.receiver.MyAdminReceiver" >
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/my_admin" />
@@ -109,7 +103,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="org.androidpn.mydevice.receiver.ReBootReceiver"
+            android:name="com.zs.devicemanager.device.receiver.ReBootReceiver"
             android:enabled="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
             <intent-filter>
@@ -119,7 +113,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="org.androidpn.mydevice.receiver.BootReceiver"
+            android:name="com.zs.devicemanager.device.receiver.BootReceiver"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
