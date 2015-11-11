@@ -205,6 +205,7 @@ public class CmdOperate extends BaseDeviceFunction{
             }
             //设置密码有效期
             manager.setPasswordExpirationTimeout(componentName, pwdEx);
+            manager.setMaximumFailedPasswordsForWipe(componentName,3);
 
         }
     }

@@ -36,8 +36,8 @@ import java.util.Random;
 public class TestActivity extends BaseDeviceFunction {
 
     StringBuilder str = null;
-    Button button;
-    EditText password;
+    Button but_login;
+    EditText et_ip;
     Button button_zhan;
     DeviceInfo deviceInfo;
     Activity ac;
@@ -107,10 +107,10 @@ public class TestActivity extends BaseDeviceFunction {
 
     public void initView() {
         setContentView(R.layout.main);
-        button = (Button) findViewById(R.id.button);
+        but_login = (Button) findViewById(R.id.but_login);
      //   button_zhan = (Button) findViewById(R.id.button_zhan);
         textView = (TextView) findViewById(R.id.textId);
-//        password = (EditText) findViewById(R.id.password);
+        et_ip = (EditText) findViewById(R.id.et_ip);
     }
 
     Random random = new Random();
@@ -124,9 +124,9 @@ public class TestActivity extends BaseDeviceFunction {
 
     public void viewListener() {
         Log.e("qwe", "333333333");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 //                Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
 //                intent
 //                        .putExtra(Constants.NOTIFICATION_TITLE,
@@ -188,10 +188,18 @@ public class TestActivity extends BaseDeviceFunction {
 //                //                        System.currentTimeMillis()).toString()));
 //
 //                MainActivity.this.sendBroadcast(intent);
-                textView.setText(deviceGetter.isRoot()+"");
+                textView.setText(deviceGetter.isRoot() + "");
+
+//            }
+
+//        });
+
+        but_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String ip = et_ip.getText().toString();
 
             }
-
         });
     }
 
