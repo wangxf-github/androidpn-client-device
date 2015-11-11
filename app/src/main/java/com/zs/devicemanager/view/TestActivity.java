@@ -6,6 +6,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zs.devicemanager.R;
 
@@ -23,6 +25,7 @@ import com.zs.devicemanager.device.DeviceGetter;
 import com.zs.devicemanager.device.DeviceManager;
 import com.zs.devicemanager.device.DeviceSecurity;
 import com.zs.devicemanager.device.cmd.CmdOperate;
+import com.zs.devicemanager.model.Constants;
 import com.zs.devicemanager.model.DeviceInfo;
 import com.zs.devicemanager.device.receiver.BatteryReceiver;
 import com.zs.devicemanager.device.receiver.BootReceiver;
@@ -30,6 +33,7 @@ import com.zs.devicemanager.device.receiver.MobileStatesReceiver;
 import com.zs.devicemanager.device.receiver.MyAdminReceiver;
 import com.zs.devicemanager.device.receiver.WifiStateReceiver;
 
+import java.util.Properties;
 import java.util.Random;
 
 
@@ -80,9 +84,9 @@ public class TestActivity extends BaseDeviceFunction {
 //            }
 //        });
 
-        Intent intent = new Intent(TestActivity.this, ClientService.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startService(intent);
+//        Intent intent = new Intent(TestActivity.this, ClientService.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startService(intent);
 
     }
 
@@ -188,7 +192,7 @@ public class TestActivity extends BaseDeviceFunction {
 //                //                        System.currentTimeMillis()).toString()));
 //
 //                MainActivity.this.sendBroadcast(intent);
-                textView.setText(deviceGetter.isRoot() + "");
+//                textView.setText(deviceGetter.isRoot() + "");
 
 //            }
 
@@ -198,6 +202,23 @@ public class TestActivity extends BaseDeviceFunction {
             @Override
             public void onClick(View v) {
                 String ip = et_ip.getText().toString();
+                SharedPreferences sharedPrefs = getSharedPreferences(
+                        Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                editor.putString(Constants.XMPP_HOST, ip);
+
+                editor.commit();
+                Intent intent = new Intent(TestActivity.this, ClientService.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startService(intent);
+
+
+                Toast.makeText(TestActivity.this,"登陆成功！！！",Toast.LENGTH_LONG).show();
+
+                finish();
+
+
 
             }
         });
@@ -331,6 +352,21 @@ public class TestActivity extends BaseDeviceFunction {
         intent.putExtras(bundle);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private Properties loadProperties() {
+
+
+        Properties props = new Properties();
+        try {
+            int id = this.getResources().getIdentifier("androidpn", "raw",
+                    this.getPackageName());
+            props.load(this.getResources().openRawResource(id));
+        } catch (Exception e) {
+            Log.e("loadproterties", "Could not find the properties file.", e);
+            // e.printStackTrace();
+        }
+        return props;
     }
 
 }

@@ -1,30 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        android:background="@drawable/round_style"
+        android:id="@+id/relativeLayout"
+        android:layout_marginTop="140dp"
+        android:layout_centerHorizontal="true"
+>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center_horizontal"
-        android:text=""
-        android:id="@+id/textId"/>
-    <EditText
-        android:gravity="center"
-        android:layout_gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_ip"
-        android:hint="请输入ip地址"
-        android:textSize="22dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            android:id="@+id/textId"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login in"
+            android:id="@+id/but_login"
+            android:textColor="#000000"
+            android:textSize="32dp"
+            android:background="@drawable/but_round_style"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/et_ip"
+            android:layout_centerHorizontal="true"
+            android:padding="8dp"
+            android:layout_marginTop="86dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login in"
-        android:id="@+id/but_login"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        <EditText
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/et_ip"
+            android:hint="请输入ip地址"
+            android:textSize="22dp"
+            android:layout_below="@+id/textId"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="60dp" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

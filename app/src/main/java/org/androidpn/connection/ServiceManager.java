@@ -86,7 +86,7 @@ public final class ServiceManager {
         Editor editor = sharedPrefs.edit();
         editor.putString(Constants.API_KEY, apiKey);
         editor.putString(Constants.VERSION, version);
-        editor.putString(Constants.XMPP_HOST, xmppHost);
+//        editor.putString(Constants.XMPP_HOST, xmppHost);
         editor.putInt(Constants.XMPP_PORT, Integer.parseInt(xmppPort));
         editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
                 callbackActivityPackageName);

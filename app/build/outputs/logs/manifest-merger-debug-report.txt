@@ -30,11 +30,13 @@ ADDED from AndroidManifest.xml:10:2
 	android:persistent
 		ADDED from AndroidManifest.xml:10:81
 activity#com.zs.devicemanager.view.TestActivity
-ADDED from AndroidManifest.xml:23:3
+ADDED from AndroidManifest.xml:22:3
 	android:label
-		ADDED from AndroidManifest.xml:23:47
+		ADDED from AndroidManifest.xml:22:47
+	android:theme
+		ADDED from AndroidManifest.xml:23:4
 	android:name
-		ADDED from AndroidManifest.xml:23:13
+		ADDED from AndroidManifest.xml:22:13
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:24:4
 action#android.intent.action.MAIN
