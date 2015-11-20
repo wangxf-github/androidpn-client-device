@@ -6,10 +6,25 @@ import android.graphics.drawable.Drawable;
  * Created by S on 2015/8/15.
  */
 public class AppInfo {
+    /*
+    app名称
+     */
     private String appName;
+    /*
+    app包名，卸载时使用
+     */
     private String packageName;
+    /*
+    app版本
+     */
     private String versionCode;
+    /*
+    app图标
+     */
     private Drawable appIcon;
+    /*
+    app安装时间
+     */
     private String firstInstallTime;
 
     public AppInfo(){}

@@ -14,6 +14,7 @@ import com.zs.devicemanager.location.GetLocation;
 
 /**
  * Created by Saber on 2015/10/9.
+ * 单条命令执行
  */
 public class CmdLines {
 

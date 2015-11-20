@@ -373,8 +373,6 @@ public class DeviceGetter {
      * 需要加入权限<uses-permission
      * android:name="android.permission.READ_PHONE_STATE"/> <BR>
      * Date:2012-3-12 <BR>
-     *
-     * @author CODYY)peijiangping
      */
     public String getProvidersName(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager)context

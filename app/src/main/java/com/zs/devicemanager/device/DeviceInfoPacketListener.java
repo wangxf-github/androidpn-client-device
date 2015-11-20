@@ -66,12 +66,14 @@ public class DeviceInfoPacketListener  implements PacketListener {
             String flag = deviceInfoIQ.getReqFlag();
             if (deviceInfoIQ.getChildElementXML().contains("androidpn:iq:deviceinfo"))
             {
+                //策略指令
                     if("strategy".equals(flag)){
                         DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
                         cmdOperate.doMethods(context,deviceInfoIQ,infoIQ, CmdType.COLLECTION);
                         cmdOperate.doMethods(context,deviceInfoIQ,infoIQ, CmdType.LIMITION);
 
                     }else  {
+                        //单个指令
                             DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
                             int cmdInt = CmdShine.cmdToInt(flag);
                             cmdOperate.doMethods(context, deviceInfoIQ, infoIQ, cmdInt);

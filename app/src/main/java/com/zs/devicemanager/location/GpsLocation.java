@@ -20,6 +20,9 @@ package com.zs.devicemanager.location;
         import org.androidpn.connection.XmppManager;
         import com.zs.devicemanager.utils.LogUtils;
 
+/**
+ * 纯gps定位，无网络时使用，需要有gps信号
+ */
 public class GpsLocation{
     private LocationManager lm;
     private static final String TAG="GpsActivity";

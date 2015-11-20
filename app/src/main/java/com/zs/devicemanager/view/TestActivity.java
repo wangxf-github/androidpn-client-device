@@ -139,7 +139,7 @@ public class TestActivity extends BaseDeviceFunction {
 
 //                String cmd = "deviceMobileNo;deviceOS;imei;imsiNo;isRoaming;mobileOperator;romSize;simFlow;wifiFlow;wifiMac";
 //                DeviceInfoIQ deviceInfo = new DeviceInfoIQ();
-                CmdOperate cmdOperate = deviceManager.getDeviceCmdOperate();
+//                CmdOperate cmdOperate = deviceManager.getDeviceCmdOperate();
 ////                deviceManager.getDeviceCmdOperate().doStrategyMethod(MainActivity.this, deviceInfo, new DeviceInfoIQ(), cmd, CmdType.COLLECTION);
 ////                deviceSecurity.unInstallApk("com.autonavi.minimap",MainActivity.this);
 //                deviceInfo.setHardwareSecurity("isRoot;imsiNo;deviceOS");
@@ -188,7 +188,7 @@ public class TestActivity extends BaseDeviceFunction {
 //                //                        System.currentTimeMillis()).toString()));
 //
 //                MainActivity.this.sendBroadcast(intent);
-                textView.setText(deviceGetter.isRoot() + "");
+//                textView.setText(deviceGetter.isRoot() + "");
 
 //            }
 

@@ -62,6 +62,7 @@ public class DeviceSecurity{
 
     /**
      * 静默卸载
+     * 设备未root，暂不使用
      */
     public static boolean clientUninstall(String packageName) {
         PrintWriter PrintWriter = null;
@@ -231,21 +232,21 @@ public class DeviceSecurity{
         context.startActivity(i);
     }
 
-    //关闭wifi网络
+    //开启wifi网络限制
     public void disableWifi(Context context){
         String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
         deviceManager.registReceivers(context, wifiStateReceiver, action);
     }
-    //关闭sim网络
+    //开启sim网络限制
     public void disableMobile(Context context){
         String[] action = {ConnectivityManager.CONNECTIVITY_ACTION};
         deviceManager.registReceivers(context,mobileStatesReceiver,action);
     }
-    //开启wifi网络
+    //关闭wifi网络
     public void openWifi(Context context){
         deviceManager.unRegistReceivers(context, wifiStateReceiver);
     }
-    //开启sim网络
+    //关闭sim网络
     public void openMobile(Context context){
         deviceManager.unRegistReceivers(context, mobileStatesReceiver);
     }

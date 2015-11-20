@@ -13,6 +13,7 @@ import org.androidpn.connection.ClientService;
 public class ReBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        //重启开启服务
         Intent intents = new Intent(context, ClientService.class);
         context.startService(intents);
         Log.i("comming","ReBootReceiver...");

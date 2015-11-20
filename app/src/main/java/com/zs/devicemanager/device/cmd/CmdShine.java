@@ -12,8 +12,12 @@ public class CmdShine {
 
     public static Map<String,Integer> cmdShine = new HashMap<String,Integer>();
 
+    /**
+     * 把服务端传过来的指令和本地指令集进行匹配
+     */
     public static void initData()
     {
+        //上报信息指令集
         cmdShine.put("batteryStatus",4001);
         cmdShine.put("ramSize",4002);
        cmdShine.put("processor",4003);
@@ -37,7 +41,7 @@ public class CmdShine {
         cmdShine.put("phoneModel",4021);
 
 
-
+        //限制类信息指令集
         cmdShine.put("screenLock",6001);
         cmdShine.put("deviceWipe",6002);
         cmdShine.put("uninstallapp",6003);
@@ -52,7 +56,7 @@ public class CmdShine {
     }
 
     /**
-     * 把命令映射成int类型
+     * 把命令映射成整型
      * @param cmds
      * @return
      */
@@ -76,7 +80,7 @@ public class CmdShine {
     }
 
     /**
-     * 单个命令转换成int
+     * 单个命令映射为整型
      * @param cmd
      * @return
      */

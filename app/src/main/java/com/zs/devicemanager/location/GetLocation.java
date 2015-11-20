@@ -16,6 +16,9 @@ import org.androidpn.connection.XmppManager;
 import com.zs.devicemanager.device.DeviceHandler;
 import org.jivesoftware.smack.packet.IQ;
 
+/**
+ * 混合定位，包含wifi，gps，基站，有网络或者gps都可
+ */
 public class GetLocation implements AMapLocationListener{
     private LocationManagerProxy mLocationManagerProxy;
 //    private JSONObject object;

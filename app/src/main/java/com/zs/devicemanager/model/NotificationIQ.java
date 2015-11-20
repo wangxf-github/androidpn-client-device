@@ -28,12 +28,21 @@ public class NotificationIQ extends IQ {
 
     private String apiKey;
 
+    /*
+    标题
+     */
     private String title;
-
+    /*
+    信息内容
+     */
     private String message;
-
+    /*
+    网络地址
+     */
     private String uri;
-
+    /*
+    消息创建时间
+     */
     private String createTime;
 
     public NotificationIQ() {

@@ -21,8 +21,6 @@ import java.util.List;
 
 /** 
  * This class represents a notifcatin IQ packet.
- *
- * @author Sehwan Noh (devnoh@gmail.com)
 
  */
 public class DeviceInfoIQ extends IQ {

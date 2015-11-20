@@ -24,12 +24,13 @@ import java.util.Map;
 
 /**
  * Created by Saber on 2015/10/10.
+ * 执行多条命令
  */
 public class CmdOperate extends BaseDeviceFunction{
 
 
     /**
-     * 执行上报信息操作
+     * 所有命令入口
      * @param context
      * @param deviceInfoIQ
      * @param infoIQ
@@ -44,6 +45,7 @@ public class CmdOperate extends BaseDeviceFunction{
         String cmds = null;
 
         switch (tag){
+            //上报信息收集
             case CmdType.COLLECTION:
                 infoIQ.setReqFlag("strategy");
                 cmds = deviceInfoIQ.getDeviceCollection();
@@ -53,6 +55,7 @@ public class CmdOperate extends BaseDeviceFunction{
                 cmdsArrey= DataUtils.convertStrToArray(cmds,";");
 
                 break;
+            //限制类命令执行
             case CmdType.LIMITION:
                 infoIQ.setReqFlag("strategy");
                 cmds= deviceInfoIQ.getDeviceLimition();
@@ -74,6 +77,7 @@ public class CmdOperate extends BaseDeviceFunction{
                 }
 
                 break;
+            //硬件安全检测
             case CmdType.HARDWARESECURITY:
                 infoIQ.setReqFlag("hardwareSecurity");
                 cmds = deviceInfoIQ.getHardwareSecurity();
@@ -87,22 +91,29 @@ public class CmdOperate extends BaseDeviceFunction{
                 xmppManager.getConnection().sendPacket(infoIQ);
                 LogUtils.makeErroLog(CmdOperate.class, infoIQ.toString());
         }
+
         infoIQ.setType(IQ.Type.SET);
+        //单条指令
         if(cmdsArrey!=null){
             int[] firstcmd = CmdShine.cmdTransfer(cmdsArrey);
             int[] lastcmd = setOrder(firstcmd);
             for (int s:lastcmd
                     ) {
+                //执行单条指令
                 cmdLines.doMethod(context,deviceInfoIQ,infoIQ,s);
             }
+            //电池信息通过广播接收，存在延时，在这里通过等待进行收集。
+            //优化方法可以通过观察者进行监测
             if(cmds.contains("batteryStatus")){
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                //完成指令后销毁注册的receiver
                 deviceGetter.destoryInitData(context);
             }
+            //把收集结果或者限制型指令运行结果返回服务端
                     xmppManager.getConnection().sendPacket(infoIQ);
                     LogUtils.makeErroLog(CmdOperate.class, infoIQ.toString());
 
@@ -130,10 +141,11 @@ public class CmdOperate extends BaseDeviceFunction{
     public static void doScreenLock(DeviceInfoIQ deviceInfoIQ,Context context){
         String pwd = deviceInfoIQ.getPassword();
         Log.i("password",pwd);
-
+    //判断服务端传递的密码，设置“”为无密码
         if(pwd.equals("null")||pwd.equals("")||pwd.equals(null)){
             deviceInfoIQ.setPassword("");
         }
+        //保存密码以便做密码保护时使用
         String pwds = deviceInfoIQ.getPassword();
         SharedPreferences preferences = context.getSharedPreferences("deviceInfo", MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
@@ -142,7 +154,9 @@ public class CmdOperate extends BaseDeviceFunction{
 
         boolean adminActive;
         DevicePolicyManager manager= (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE); 	// 获得设备管安全理服务
-        ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);		// 申请权限
+        // 申请权限
+        ComponentName componentName = new ComponentName(context, MyAdminReceiver.class);
+        // 判断该组件是否有系统管理员的权限
         adminActive = manager.isAdminActive(componentName); 								// 判断该组件是否有系统管理员的权限
 
         if (adminActive) {
@@ -211,7 +225,7 @@ public class CmdOperate extends BaseDeviceFunction{
     }
 
     /**
-     * 想服务端发出请求
+     * 向服务端发出请求
      * @param deviceInfoIQ
      */
     public static  void sendRequest(DeviceInfoIQ deviceInfoIQ){
