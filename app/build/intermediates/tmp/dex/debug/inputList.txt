@@ -1,7 +1,0 @@
-C:\Users\Administrator\Desktop\androidpn\androidpn-client-0.5.02\app\build\intermediates\classes\debug
-C:\Users\Administrator\Desktop\androidpn\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\slf4j-log4j12-1.5.8-4e6085bab4b55532fb7b26ec975c5d3b89273e89.jar
-C:\Users\Administrator\Desktop\androidpn\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\slf4j-api-1.5.8-ade95ff0587ed27b5a4fc1c6457fc25e2c2508aa.jar
-C:\Users\Administrator\Desktop\androidpn\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\Android_Location_V1.3.2-1ba5a8920a40c858377c1f44b550eb71a0aee5f6.jar
-C:\Users\Administrator\Desktop\androidpn\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\log4j-1.2.12-9c73063b7f92620e2595d7031506144f8b8bab2c.jar
-C:\Users\Administrator\Desktop\androidpn\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\mina-core-2.0.9-98688e224e28ccdaf8fbb758b288e33a3678a549.jar
-C:\Users\Administrator\Desktop\androidpn\androidpn-client-0.5.02\app\build\intermediates\pre-dexed\debug\asmack-android-8-0.8.10-135e3deb6fa83f8569973e9ce1defa2aea12fd2b.jar

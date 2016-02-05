@@ -22,6 +22,7 @@ import com.zs.devicemanager.device.cmd.CmdLines;
 import com.zs.devicemanager.device.cmd.CmdOperate;
 import com.zs.devicemanager.device.cmd.CmdShine;
 import com.zs.devicemanager.device.cmd.CmdType;
+import com.zs.devicemanager.model.Constants;
 import com.zs.devicemanager.model.DeviceInfoIQ;
 import com.zs.devicemanager.utils.LogUtils;
 
@@ -58,15 +59,15 @@ public class DeviceInfoPacketListener  implements PacketListener {
 
     @Override
     public void processPacket(Packet packet) {
-        i++;
-        LogUtils.makeInfoLog(DeviceInfoPacketListener.class,"----"+i);
+//        i++;
+//        LogUtils.makeInfoLog(DeviceInfoPacketListener.class,"----"+i);
         Log.e(LOGTAG, "packet.toXML()=" + packet.toXML());
         if (packet instanceof DeviceInfoIQ) {
             DeviceInfoIQ deviceInfoIQ = (DeviceInfoIQ) packet;
             String flag = deviceInfoIQ.getReqFlag();
             if (deviceInfoIQ.getChildElementXML().contains("androidpn:iq:deviceinfo"))
             {
-                    if("strategy".equals(flag)){
+                    if(Constants.STRATEGY.equals(flag)){
                         DeviceInfoIQ infoIQ = deviceManager.getSingleDeviceInfoInstance();
                         cmdOperate.doMethods(context,deviceInfoIQ,infoIQ, CmdType.COLLECTION);
                         cmdOperate.doMethods(context,deviceInfoIQ,infoIQ, CmdType.LIMITION);

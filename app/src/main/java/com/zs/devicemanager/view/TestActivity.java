@@ -209,9 +209,9 @@ public class TestActivity extends BaseDeviceFunction {
                 editor.putString(Constants.XMPP_HOST, ip);
 
                 editor.commit();
-                Intent intent = new Intent(TestActivity.this, ClientService.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startService(intent);
+//                Intent intent = new Intent(TestActivity.this, ClientService.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startService(intent);
 
 
                 Toast.makeText(TestActivity.this,"登陆成功！！！",Toast.LENGTH_LONG).show();

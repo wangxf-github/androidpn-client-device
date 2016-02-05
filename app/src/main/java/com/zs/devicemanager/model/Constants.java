@@ -85,6 +85,9 @@ public class Constants {
     //设备信息
     public static String batteryInfo;
 
+    //策略收集
+    public static String STRATEGY="strategy";
+
     //推送消息
     public static  String sampleMesage ="10011" ;
 

@@ -38,6 +38,7 @@
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
 
     <application
+        android:name="com.zs.application.MainApplication"
         android:icon="@drawable/pander"
         android:label="@string/app_name"
         android:persistent="true" >
@@ -53,6 +54,9 @@
         <!-- &lt;!&ndash;<category android:name="android.intent.category.LAUNCHER" />&ndash;&gt; -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
+        <service android:name="com.ssdj.cloudroom.service.DaemonService" />
+        <service android:name="com.ssdj.cloudroom.service.PushService" />
+
         <activity
             android:name="com.zs.devicemanager.view.TestActivity"
             android:label="@string/app_name"
@@ -72,8 +76,7 @@
         </activity>
         <activity
             android:name="com.zs.devicemanager.notify.NotificationSettingsActivity"
-            android:label="Notification Settings" >
-        </activity>
+            android:label="Notification Settings" />
         <activity
             android:name="com.zs.devicemanager.notify.NotifyDeskTopActivity"
             android:theme="@android:style/Theme.Wallpaper.NoTitleBar" />
@@ -131,4 +134,29 @@
             android:value="510a7e0c180db7d36b746a76cfcb7582" />
     </application>
 
-</manifest>
+</manifest> <!-- <?xml version="1.0" encoding="utf-8"?> -->
+<!-- <manifest xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!-- package="com.example.test" -->
+<!-- android:versionCode="1" -->
+<!-- android:versionName="1.0" > -->
+<!-- <uses-sdk -->
+<!-- android:minSdkVersion="8" -->
+<!-- android:targetSdkVersion="18" /> -->
+<!-- <application -->
+<!-- android:name="com.example.test.MainApplication" -->
+<!-- android:allowBackup="true" -->
+<!-- android:icon="@drawable/ic_launcher" -->
+<!-- android:label="@string/app_name" -->
+<!-- android:theme="@style/AppTheme" > -->
+<!-- <activity -->
+<!-- android:name="com.example.test.FaXianActivity" -->
+<!-- android:label="@string/app_name" > -->
+<!-- <intent-filter> -->
+<!-- <action android:name="android.intent.action.MAIN" /> -->
+<!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+<!-- </intent-filter> -->
+<!-- </activity> -->
+<!-- <service android:name="com.ssdj.cloudroom.service.DaemonService" /> -->
+<!-- <service android:name="com.ssdj.cloudroom.service.PushService" /> -->
+<!-- </application> -->
+<!-- </manifest> -->
